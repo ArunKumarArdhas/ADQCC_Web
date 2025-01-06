@@ -9,263 +9,263 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ADQCC_New
 build_property.RootNamespace = ADQCC_New
-build_property.ProjectDir = C:\Users\Ardhas\Source\Repos\ADQCC_Web\
+build_property.ProjectDir = C:\Users\Ardhas\source\repos\ADQCC_Web\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Ardhas\Source\Repos\ADQCC_Web
+build_property.MSBuildProjectDirectory = C:\Users\Ardhas\source\repos\ADQCC_Web
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Account/Login.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Account/LoginAccount.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Account/LoginAccount.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbkFjY291bnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/AgencyMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/AgencyMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXEFnZW5jeU1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/DisasterMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/DisasterMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXERpc2FzdGVyTWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/DrillManagementMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/DrillManagementMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXERyaWxsTWFuYWdlbWVudE1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/EnvironmentMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/EnvironmentMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXEVudmlyb25tZW50TWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/IncidentCategoryMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/IncidentCategoryMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXEluY2lkZW50Q2F0ZWdvcnlNYXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/IncidentMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/IncidentMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXEluY2lkZW50TWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/MaterialMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/MaterialMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXE1hdGVyaWFsTWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/MechanismMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/MechanismMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXE1lY2hhbmlzbU1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/NatureMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/NatureMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXE5hdHVyZU1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/RootCauseMethodMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/RootCauseMethodMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXFJvb3RDYXVzZU1ldGhvZE1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/RootCausePersonalMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/RootCausePersonalMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXFJvb3RDYXVzZVBlcnNvbmFsTWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/RootCauseSystemMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/RootCauseSystemMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXFJvb3RDYXVzZVN5c3RlbU1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/UnSafeActMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/UnSafeActMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXFVuU2FmZUFjdE1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmergencyMaster/UnSafeConditionMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmergencyMaster/UnSafeConditionMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5TWFzdGVyXFVuU2FmZUNvbmRpdGlvbk1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Emergency/EmergencyTeam.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Emergency/EmergencyTeam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5XEVtZXJnZW5jeVRlYW0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Emergency/EmergencyTeamActivate.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Emergency/EmergencyTeamActivate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5XEVtZXJnZW5jeVRlYW1BY3RpdmF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Emergency/EmergencyTeamMembers.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Emergency/EmergencyTeamMembers.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5XEVtZXJnZW5jeVRlYW1NZW1iZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Emergency/EMR_ADD_TASK.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Emergency/EMR_ADD_TASK.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5XEVNUl9BRERfVEFTSy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Emergency/_GetEmrTeamActivate.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Emergency/_GetEmrTeamActivate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1lcmdlbmN5XF9HZXRFbXJUZWFtQWN0aXZhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmployeeDetails/Index.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmployeeDetails/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVEZXRhaWxzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/EmployeeDetails/_GetEmployeeList.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/EmployeeDetails/_GetEmployeeList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVEZXRhaWxzXF9HZXRFbXBsb3llZUxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Home/Index.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Home/Privacy.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/CategorybaseInvestigation.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/CategorybaseInvestigation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcQ2F0ZWdvcnliYXNlSW52ZXN0aWdhdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/CorrectiveActionInvest.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/CorrectiveActionInvest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcQ29ycmVjdGl2ZUFjdGlvbkludmVzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/EHSAlertEmployee.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/EHSAlertEmployee.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcRUhTQWxlcnRFbXBsb3llZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/IncidentDetails.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/IncidentDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcSW5jaWRlbnREZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/IncidentInvestigation.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/IncidentInvestigation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcSW5jaWRlbnRJbnZlc3RpZ2F0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GetCorrectiveInvestList.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GetCorrectiveInvestList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dldENvcnJlY3RpdmVJbnZlc3RMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GetEHSAlertEmployee.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GetEHSAlertEmployee.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dldEVIU0FsZXJ0RW1wbG95ZWUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GetIncidentInvestigationList.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GetIncidentInvestigationList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dldEluY2lkZW50SW52ZXN0aWdhdGlvbkxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GetIncidentList.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GetIncidentList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dldEluY2lkZW50TGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_COST_ANALYSIS.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_COST_ANALYSIS.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9DT1NUX0FOQUxZU0lTLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_INVE_BODYLOCATION_LIST.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_INVE_BODYLOCATION_LIST.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9JTlZFX0JPRFlMT0NBVElPTl9MSVNULmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_INVE_IM_CASUE_LIST.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_INVE_IM_CASUE_LIST.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9JTlZFX0lNX0NBU1VFX0xJU1QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_INVE_IM_UC_LIST.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_INVE_IM_UC_LIST.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9JTlZFX0lNX1VDX0xJU1QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_INVE_MECHANISMOFINJURY_LIST.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_INVE_MECHANISMOFINJURY_LIST.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9JTlZFX01FQ0hBTklTTU9GSU5KVVJZX0xJU1QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_INVE_NATUREOFINJURY_LIST.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_INVE_NATUREOFINJURY_LIST.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9JTlZFX05BVFVSRU9GSU5KVVJZX0xJU1QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_INVE_ROOT_PF_LIST.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_INVE_ROOT_PF_LIST.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9JTlZFX1JPT1RfUEZfTElTVC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_INVE_ROOT_SF_LIST.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_INVE_ROOT_SF_LIST.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9JTlZFX1JPT1RfU0ZfTElTVC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Incident/_GET_INVE_SOURCEOFINJURY_LIST.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Incident/_GET_INVE_SOURCEOFINJURY_LIST.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5jaWRlbnRcX0dFVF9JTlZFX1NPVVJDRU9GSU5KVVJZX0xJU1QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Masters/BuildingMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Masters/BuildingMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzdGVyc1xCdWlsZGluZ01hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Masters/DepartmentMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Masters/DepartmentMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzdGVyc1xEZXBhcnRtZW50TWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Masters/Designation.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Masters/Designation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzdGVyc1xEZXNpZ25hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Masters/EmergencyTypeMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Masters/EmergencyTypeMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzdGVyc1xFbWVyZ2VuY3lUeXBlTWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Masters/LocationMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Masters/LocationMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzdGVyc1xMb2NhdGlvbk1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Masters/SectionLabMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Masters/SectionLabMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzdGVyc1xTZWN0aW9uTGFiTWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Masters/Sector.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Masters/Sector.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzdGVyc1xTZWN0b3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Masters/SectorType.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Masters/SectorType.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFzdGVyc1xTZWN0b3JUeXBlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/RiskManagement/AdditionalMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/RiskManagement/AdditionalMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza01hbmFnZW1lbnRcQWRkaXRpb25hbE1hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/RiskManagement/DetailsMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/RiskManagement/DetailsMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza01hbmFnZW1lbnRcRGV0YWlsc01hc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/RiskManagement/HazardMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/RiskManagement/HazardMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza01hbmFnZW1lbnRcSGF6YXJkTWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/RiskManagement/PersonMaster.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/RiskManagement/PersonMaster.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza01hbmFnZW1lbnRcUGVyc29uTWFzdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/RiskManagement/RMRISKOTHERRISK.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/RiskManagement/RMRISKOTHERRISK.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmlza01hbmFnZW1lbnRcUk1SSVNLT1RIRVJSSVNLLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Shared/Error.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Shared/_PartialMenu_Arabic.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Shared/_PartialMenu_Arabic.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QYXJ0aWFsTWVudV9BcmFiaWMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Shared/_PartialMenu_English.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Shared/_PartialMenu_English.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9QYXJ0aWFsTWVudV9FbmdsaXNoLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/_ViewImports.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/_ViewStart.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Ardhas/Source/Repos/ADQCC_Web/Views/Shared/_Layout.cshtml]
+[C:/Users/Ardhas/source/repos/ADQCC_Web/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-9s6wf5ruh0
