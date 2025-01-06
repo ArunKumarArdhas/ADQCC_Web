@@ -1,0 +1,472 @@
+﻿@model IReadOnlyCollection<ADQCC_New.Models.Masters.SECTION_LAB_MASTER>;
+@{
+    ViewData["Title"] = "SectionLabMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+<div class="page-content">
+    <div class="row" id="AddNewSectionlab" style="display:none">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (Model != null)
+                            {
+                                @* if (loginclass.LANG_ID == "bo")
+                                {
+                                    <div class="row">
+                                        <h6 class="mb-0 text-uppercase col-lg-9 ">SECTION / LAB</h6>
+                                        <h6 class="mb-0 text-uppercase col-lg-3">
+                                            القسم / المعمل
+                                        </h6>
+                                    </div>
+
+                                }
+                                else
+                                { *@
+                                    <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.SECTIONLAB</h6>
+                                @* } *@
+                            }
+                        </div>
+                        <div class="col-lg-3">
+                            <button style="float: right;" id="bckSectionlab" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="p-4 border rounded">
+                        <form id="AddModule_div" asp-controller="Masters" asp-action="AddSectionLab" method="post">
+                        @* <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8"> *@
+                            <div class="row">
+                                <div class="col-md-4" style="display:none;">
+                                    <input type="hidden" id="seclab_id" name="sec_id" value="0" />
+                                    <label>@ADQCC_New.LocalResource.Resource.Section_LabID<span class="red">*</span></label>
+                                    <input type="text" name="sec_id" value="" id="View_seclab_id" class="form-control" disabled style="background-color:#eee;" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label>@ADQCC_New.LocalResource.Resource.SectorName <span class="red">*</span></label>
+                                    <select class="form-control " id="sec_type_id">
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label> @ADQCC_New.LocalResource.Resource.DepartmentName <span class="red">*</span></label>
+                                    <select class="form-control " id="dep_id">
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>@ADQCC_New.LocalResource.Resource.Section_LabName <span class="red">*</span></label>
+                                    <input type="text" name="seclab_name" minlen="1" maxlength="1000" data-toggle="tooltip" title="Alphabets Only" value="" class="form-control alpha" id="seclab_name" autocomplete="off" />
+                                </div>
+                                <div class="col-md-6" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.Section_Lab_NameAR<span class="red">*</span></label>
+                                    <input type="text" name="seclab_name_ar" value="" class="form-control" id="seclab_name_ar" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="submit" class="btn btn-primary" id="btn_AddSectionlab">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            @*<div style="margin-top: 20px;">
+
+            </div>*@
+
+            <div class="box box-primary">
+                <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+                <br />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (loginclass.LANG_ID == "bo")
+                                    {
+                                        <div class="row">
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-9">SECTION / LAB </h5>
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-3">القسم / المعمل</h5>
+                                        </div>
+
+                                    }
+                                    else
+                                    { *@
+                                        <h3 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.SECTIONLAB</h3>
+                                    @* } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="addseclab" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.AddSection_Lab</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table id="table1" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        @if (Model != null)
+                                        {
+                                            @* switch (loginclass.LANG_ID)
+                                            {
+                                                case "ar":
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Section_LabID</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Type</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.DepartmentName</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Section_Lab_NameAR</th>
+                                                        @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>*@
+                                                        @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Date</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+                                                    break;
+                                                case "en":
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Section_LabID</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Type</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.DepartmentName</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Section_LabName</th>*@
+                                                        @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>*@
+                                                        @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Date</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+                                                    break;
+                                                default: *@
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">ID<span class="pull-right">هوية شخصية</span></th>
+                                                        <th align="left" valign="middle">Type<span class="pull-right">نوع</span></th>
+                                                        <th align="left" valign="middle">Department Name<span class="pull-right">اسم القسم</span></th>
+                                                        <th align="left" valign="middle">Section / Lab Name<span class="pull-right">اسم القسم / المعمل</span></th>
+                                                        <th align="left" valign="middle">Section /Lab /Name AR<span class="pull-right">اسم القسم / المعمل عربي</span></th>
+                                                        @*<th align="left" valign="middle">Status<span class="pull-right">حالة</span></th>*@
+                                                        <th align="left" valign="middle">Date<span class="pull-right">تاريخ</span></th>
+                                                        <th align="left" valign="middle">Action<span class="pull-right">عمل</span></th>
+                                                    </tr>
+                                                    @* break;
+                                            } *@
+                                        }
+                                    </thead>
+                                    @* <tbody id="GetSectionMaster">
+                                    </tbody> *@
+                                    <tbody>
+                                        @if (Model!.Count() != 0)
+                                        {
+                                            foreach (var item in Model!)
+                                            {
+                                                <tr class="">
+                                                    <td align="left" onclick="DEP_VIEW(@item.SEC_LAB_ID)" valign="middle">@item.UNIQUE_ID</td>
+                                                    <td align="left" onclick="DEP_VIEW(@item.SEC_LAB_ID)" valign="middle">@item.SEC_LAB_TYPE</td>
+                                                    <td align="left" onclick="DEP_VIEW(@item.SEC_LAB_ID)" valign="middle">@item.DEP_NAME</td>
+                                                    <td align="left" onclick="DEP_VIEW(@item.SEC_LAB_ID)" valign="middle">@item.SEC_LAB_NAME</td>
+                                                    <td align="left" onclick="DEP_VIEW(@item.SEC_LAB_ID)" valign="middle">@item.SEC_LAB_NAME_AR</td>
+                                                    @*<td align="left" onclick="DEP_VIEW(@item.SEC_LAB_ID)" valign="middle">@item.STATUS</td>*@
+                                                    <td align="left" onclick="DEP_VIEW(@item.SEC_LAB_ID)" valign="middle">@item.CREATED_DATE</td>
+                                                    <td>
+                                                        <a href="#" title="Edit" onclick="DEP_EDIT(@item.SEC_LAB_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                                                        <a href="#" title="View" onclick="DEP_VIEW(@item.SEC_LAB_ID)"><img src="~/Content/assets/img/gridicons/view.png" /> </a>
+                                                        <a href="#" title="Delete" onclick="DEP_DELETE(@item.SEC_LAB_ID)"><img src="~/Content/assets/img/gridicons/delete.png" /></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#AddNewSectionlab").hide();
+        $("#ListView").show();
+        GET_SECTIONLAB_LIST();
+        GET_SECTOR_NAME_LIST();
+        alert("Section Lab");
+        $("#addseclab").on('click', function () {
+            alert("AddNew");
+            $("#AddNewSectionlab").show();
+            $("#ListView").hide(100);
+            ClearFileds();
+        });
+
+        $("#bckSectionlab").on('click', function () {
+            $("#btn_AddSectionlab").show();
+            $("#AddSectionlab").hide(100);
+            $("#ListView").show(100);
+            ClearFileds();
+            $("#sec_type_id").removeAttr('disabled', 'disabled');
+            $("#seclab_name").removeAttr('disabled', 'disabled');
+            $("#seclab_name_ar").removeAttr('disabled', 'disabled');
+            $("#dep_id").removeAttr('disabled', 'disabled');
+        });
+        // $("#sec_type_id").on('change', function () {
+        //     GET_DEPARTMENT_NAME_LIST($(this).val())
+        // });
+        $("#btnclear").on('click', function () {
+            ClearFileds();
+        });
+        
+        // $("#btn_addsectionlab").on('click', function () {
+        //     ;
+        //     var varseclab_id = $("#seclab_id").val();
+        //     var varsec_type_id = $("#sec_type_id").val();
+        //     var vardep_id = $("#dep_id").val();
+        //     var varseclab_name = $("#seclab_name").val();
+        //     var varseclab_name_ar = $("#seclab_name_ar").val();
+
+        //     if (varsec_type_id == "0") {
+        //         toastr.Error("@ADQCC_New.LocalResource.Resource.toastselectsectorname", "@ADQCC_New.LocalResource.Resource.Error");
+        //         $("#sec_type_id").focus();
+        //         return false;
+        //     }
+
+        //     if (vardep_id == "0") {
+        //         toastr.Error("@ADQCC_New.LocalResource.Resource.toastdepartment", "@ADQCC_New.LocalResource.Resource.Error");
+        //         $("#dep_id").focus();
+        //         return false;
+        //     }
+
+        //     if (varseclab_name == "") {
+        //         toastr.Error("@ADQCC_New.LocalResource.Resource.toastsection", "@ADQCC_New.LocalResource.Resource.Error");
+        //         $("#seclab_name").focus();
+        //         return false;
+        //     }
+
+        //     if (varseclab_name_ar == "") {
+        //         toastr.Error("@ADQCC_New.LocalResource.Resource.toastEntertheSectionandLabNameAR", "@ADQCC_New.LocalResource.Resource.Error");
+        //         $("#seclab_name_ar").focus();
+        //         return false;
+        //     }
+        //     if (varseclab_id == "") {
+        //         varseclab_id = "0";
+        //     }
+        //     var model = {
+        //         sec_lab_id: varseclab_id,
+        //         sec_lab_type: varsec_type_id,
+        //         dep_id: vardep_id,
+        //         sec_lab_name: varseclab_name,
+        //         sec_lab_name_ar: varseclab_name_ar,
+        //     }
+        //     $.ajax({
+        //         url: 'html.raw(url.action("addsectionlab", "masters"))',
+        //         type: "post",
+        //         cache: false,
+        //         data: json.stringify(model),
+        //         contenttype: "application/json; charset=utf-8",
+        //         datatype: "json",
+
+        //         success: function (data) {
+        //             if (data.status_code == "200") {
+        //                 toastr.success(data.message, "@ADQCC_New.LocalResource.Resource.Success");
+        //                 clearfileds();
+        //                 get_sectionlab_list();
+        //             }
+        //             else {
+        //                 toastr.Error(data.message, "@ADQCC_New.LocalResource.Resource.Error");
+        //             }
+        //         },
+        //     });
+        // });
+    });
+
+    function GET_SECTIONLAB_LIST() {
+        $("#table1").dataTable().fnDestroy();
+        $("#AddSectionlab").hide();
+        $("#ListView").show();
+        $.post("Url.Action("_GetSectionLabMaster", "Masters")", function (data) {
+            $("#GetSectionMaster").html('');
+            $("#GetSectionMaster").html(data);
+        });
+    }
+
+    function ClearFileds() {
+        $("#sec_type_id").val("0");
+        $("#dep_id").val('');
+        $("#seclab_name").val('');
+        $("#seclab_name_ar").val('');
+        $("#View_seclab_id").val('');
+    }
+
+    function DEP_DELETE(ROWID) {
+        var DELETE = confirm("Are you sure you want to delete");
+        if (DELETE == true) {
+            $.post("@Url.Action("_DeleteSectionLab", "Masters")", { SEC_LAB_ID: ROWID }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                    window.location.reload();
+                    // GET_DEPARTMENT_LIST();
+                    // $("#table1").dataTable();
+                }
+                else {
+                    toastr.Error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            });
+        }
+    }
+
+    function DEP_EDIT(ROWID) {
+        $("#btn_AddSectionlab").show();
+        $.post("@Url.Action("_EditSectionLab", "Masters")", { SEC_LAB_ID: ROWID }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                $("#AddSectionlab").show(100);
+                $("#ListView").hide(100);
+                $("#seclab_id").val(data.SEC_LAB_ID);
+                $("#View_seclab_id").val(data.UNIQUE_ID);
+                $("#sec_type_id").val(data.SEC_LAB_TYPE);
+                $("#seclab_name").val(data.SEC_LAB_NAME);
+                $("#seclab_name_ar").val(data.SEC_LAB_NAME_AR);
+                //GET_DEPARTMENT_NAME_LIST(data.SEC_LAB_TYPE);
+                //alert(data.DEP_ID)
+                GET_DEPARTMENT_NAME_MASTER(data.SEC_LAB_TYPE, "#dep_id", data.DEP_ID);
+            }
+            else {
+                toastr.Error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+    function DEP_VIEW(ROWID) {
+        $("#btn_AddSectionlab").hide();
+        $.post("@Url.Action("_EditSectionLab", "Masters")", { SEC_LAB_ID: ROWID }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                $("#AddSectionlab").show(100);
+                $("#ListView").hide(100);
+
+                $("#View_seclab_id").val(data.UNIQUE_ID);
+                $("#sec_type_id").val(data.SEC_LAB_TYPE).attr('disabled', 'disabled');
+
+                $("#seclab_name").val(data.SEC_LAB_NAME).attr('disabled', 'disabled');
+                $("#seclab_name_ar").val(data.SEC_LAB_NAME_AR).attr('disabled', 'disabled');
+                GET_DEPARTMENT_NAME_MASTER(data.SEC_LAB_TYPE, "#dep_id", data.DEP_ID);
+                $("#dep_id").attr('disabled', 'disabled');
+            }
+            else {
+                toastr.Error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+    function GET_SECTOR_NAME_LIST() {
+        $.post("@Url.Action("_GetSectorMasterSelect_Dep", "Masters")", function (data) {
+            var items = '';
+            var i = 0;
+            var item = data;
+            var count = data.length;
+            items += "<option value='0'>--@ADQCC_New.LocalResource.Resource.SelectSectorName--</option>";
+            $.each(item, function (i, Type) {
+                if (data.length >= 1) {
+                    items += "<option value='" + item[i].SEC_ID + "'>" + item[i].SEC_NAME_EN + "</option>";
+                }
+                else {
+                }
+            });
+            $('#sec_type_id').html(items);
+        });
+    }
+    function GET_DEPARTMENT_NAME_LIST(ROWID) {
+        $.post("@Url.Action("_GetDepartmentMasterSelect_Lab", "Masters")", { SEC_ID: ROWID }, function (data) {
+            $("#dep_id").empty();
+            $("#dep_id").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectDepartment--</option>");
+            $(data).each(function (i, e) {
+                $("#dep_id").append("<option value=" + e.DEP_ID + ">" + e.DEP_NAME + "</option>");
+            });
+        });
+    }
+    function GET_DEPARTMENT_NAME_MASTER(RefTransID, controlid, selectedValue) {
+        ;
+        $(controlid).html("");
+        $.post("@Url.Action("_GetDepartmentMasterSelect_Lab", "Masters")", { SEC_ID: RefTransID }, function (data) {
+            if (data != null) {
+                $(controlid).append("<option value='0'>--@ADQCC_New.LocalResource.Resource.SelectDepartment--</option>");
+                $.each(data, function (index, item) {
+                    $(controlid).append(new Option(item.DEP_NAME, item.DEP_ID));
+                });
+                if (selectedValue != null)
+                    $(controlid).val(selectedValue);
+            }
+        }).always(function () {
+
+        });
+    }
+    function FunctionHelp() {
+        ;
+        window.open('@Url.Action("SectionHelpDoc", "Masters")');
+    }
+    function CheckArabicOnly(field) {
+        var sNewVal = "";
+        var sFieldVal = field.value;
+
+        for (var i = 0; i < sFieldVal.length; i++) {
+            var ch = sFieldVal.charAt(i),
+                c = ch.charCodeAt(0);
+
+            if (field.keyCode = '38') {
+            }
+            else if (field.keyCode = '40') {
+                // down arrow
+            }
+            else if (field.keyCode = '37') {
+            }
+            else if (field.keyCode = '39') {
+                // right arrow
+            }
+
+            if (c < 1536 || c > 1791) {
+                // Discard
+            }
+            else {
+                sNewVal += ch;
+            }
+        }
+        field.value = sNewVal;
+    }
+</script>

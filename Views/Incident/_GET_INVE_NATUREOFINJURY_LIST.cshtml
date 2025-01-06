@@ -1,0 +1,96 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    Layout = null;
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+
+@* <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+ *@
+
+@if (loginclass.LANG_ID == "ar")
+{
+    <style>
+        .oterbx {
+            width: 100px;
+            margin-left: 80px;
+            height: 20px;
+        }
+    </style>
+}
+else
+{
+    <style>
+        .oterbx {
+            margin-top: -23px;
+            width: 100px;
+            margin-left: 80px;
+            height: 20px;
+        }
+    </style>
+}
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="col-md-12">
+            <input class="form-check-input" type="checkbox" id="IM_@item.NATURE_INJURY_ID" value="@item.NATURE_INJURY_ID">
+            @if (loginclass.LANG_ID == "ar")
+            {
+                <b>
+                    @item.NATURE_INJURY_NAME_AR
+                </b>
+            }
+            else
+            {
+                <b>
+                    @item.NATURE_INJURY_NAME
+                </b>
+            }
+
+            <br>
+        </div>
+    }
+    <div class="col-md-12">
+        <input class="form-check-input" type="checkbox" id="chkOtherNATURE_INJURY" value="0">
+        @if (loginclass.LANG_ID == "ar")
+        {
+            <b>
+                اخرى
+            </b>
+        }
+        else
+        {
+            <b>
+                Others
+            </b>
+        }
+        <input type="text" class="form-control oterbx" id="OTHER_NATURE_INJURY_NAME" autocomplete="off" style="display:none;">
+    </div>
+    <br>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#chkOtherNATURE_INJURY").click(function () {
+            if ($(this).is(":checked")) {
+                $("#OTHER_NATURE_INJURY_NAME").show();
+            } else {
+                $("#OTHER_NATURE_INJURY_NAME").hide();
+            }
+        });
+    });
+
+
+
+</script>
+
+
+

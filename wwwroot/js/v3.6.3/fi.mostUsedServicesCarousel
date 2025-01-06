@@ -1,0 +1,42 @@
+﻿FI.script.requireAndDefine('jquery', 'jquery.mousewheel', 'owl.carousel').requires('jquery', 'jquery.mousewheel', 'owl.carousel').define('fi.mostUsedServicesCarousel', function () {
+    (function ($, fi) {
+        'use strict';
+
+        $(document).ready(function () {
+
+            $('#mostUsed').find('.service-list-slide').owlCarousel({
+                loop: false,
+                margin: 0,
+                nav: false,
+                items: 1,
+                rtl: (FI.languageId == 1 ? false : true),
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true
+            })
+
+            $('.services').find('.nav-tabs').find('[data-toggle=tab]').click(function (ev) {
+                ev.preventDefault();
+
+                var id = $(this).attr("href");
+                setTimeout(function () {
+
+                    $(id).find('.service-list-slide').owlCarousel({
+                        loop: false,
+                        margin: 0,
+                        nav: false,
+                        items: 1,
+                        dots: true,
+                        rtl: (FI.languageId == 1 ? false : true),
+                        autoplay: true,
+                        autoplayTimeout: 5000,
+                        autoplayHoverPause: true
+                    })
+                }, 500);
+
+            })
+
+        });
+    }(jQuery, FI));
+});

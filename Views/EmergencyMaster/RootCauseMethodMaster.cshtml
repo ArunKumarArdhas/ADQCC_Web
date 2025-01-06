@@ -1,0 +1,356 @@
+﻿@model IReadOnlyCollection<ADQCC_New.Models.Emergency.ROOT_CAUSE_METHOD_MASTER>;
+@{
+    ViewData["Title"] = "RootCauseMethod";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+<div class="page-content">
+    <div class="row " id="AddRootMethod" style="display:none">
+		<form id="AddModule_div" asp-controller="EmergencyMaster" asp-action="AddRootMethod" method="post">
+            <div class="col-md-12 ">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                   @* if (loginclass.LANG_ID == "bo")
+                                { 
+                                    <div class="row">
+                                        <h6 class="mb-0 text-uppercase col-lg-9 ">Add UnSafeAct</h6>
+                                        <h6 class="mb-0 text-uppercase col-lg-3">أضف عمل غير آمن</h6>
+                                    </div>
+                                         } 
+                                     else
+                                { *@
+                                <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.EMRRootCauseMethodmenu</h6>
+                               @* } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="bck_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="p-4 border rounded">
+                            @* <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8"> *@
+                            <div class="row">
+                                <div class="form-group col-md-4" style="display:none;">
+                                    <input type="hidden" id="MethodID" name="RC_METHOD_ID" value="0" />
+                                    <label>@ADQCC_New.LocalResource.Resource.ID <span class="red">*</span></label>
+                                    @* <input type="text" id="View_MethodId" name="CauseId" value="0" class="form-control" disabled="" style="background-color:#eee;" /> *@
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>@ADQCC_New.LocalResource.Resource.RootCauseName <span class="red">*</span></label>
+                                    <input type="text" id="MethodName" minlen="1" maxlength="1000" data-toggle="tooltip" title="Alphabets Only" name="RC_METHOD_NAME" value="" class="form-control alpha" autocomplete="off" />
+                                </div>
+                                <div class="form-group col-md-6" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.RootCauseNameAR <span class="red">*</span></label>
+                                    <input type="text" id="MethodNamear" name="RC_METHOD_NAME_AR" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="submit" id="Add_RootMethod" class="btn btn-primary">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                               </div>
+                          @*  </form> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+           
+            <label style="float: right;color:blue;cursor:pointer" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                  
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                   @* if(Model.LANG_ID == "bo")
+                                { 
+                                    <div class="row">
+                                        <h5 class="box-title main-heading col-lg-9">UnSafeAct </h5>
+                                        <h5 class="box-title main-heading col-lg-3">عمل غير آمن</h5>
+                                    </div>
+                                }
+                                  
+                               else
+                                { *@
+                                <h3 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.EMRRootcauseMethodlabel</h3>
+                              @* } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="Add_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.EMRAddRootCauseMethodbtn</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table id="Methodtable" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        @if (Model != null)
+                                        {
+                                            @* switch (Model.LANG_ID)
+                                        {
+                                        case "ar":
+                                        <tr style="background: #916d2a; color: white;">
+                                        <th align="left" valign="middle">هوية شخصية </th>
+                                        <th align="left" valign="middle">الاسم عربي</th>
+                                        @*<th align="left" valign="middle">حالة </th>*@
+                                            @*<th align="left" valign="middle">اريخ</th>
+                                        <th align="left" valign="middle">عمل</th>
+
+                                        </tr>
+                                        break;
+
+                                        case "en":
+                                        <tr style="background: #916d2a; color: white;">
+                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.CauseID</th>
+                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.CauseName</th>
+                                        @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>*@
+                                            @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Date</th>
+                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+
+                                        </tr>
+
+                                        break;
+                                        default: *@
+                                            <tr style="background: #916d2a; color: white;">
+                                                <th align="left" valign="middle">ID <span class="pull-right">معرف السبب</span> </th>
+                                                <th align="left" valign="middle">RootCause Name<span class="pull-right"> اسم الجذر</span> </th>
+                                                <th align="left" valign="middle">RootCause Name Arabic <span class="pull-right">  اسم الجذر باللغة العربية</span></th>
+                                                @* <th align="left" valign="middle">Status <span class="pull-right">حالة</span> </th>*@
+                                                <th align="left" valign="middle">Date <span class="pull-right">اريخ</span> </th>
+                                                <th align="left" valign="middle">Action <span class="pull-right">عمل</span> </th>
+
+                                            </tr>
+                                            @* break;
+                                        } *@
+                                        }
+                                    </thead>
+                                  
+                                    <tbody>
+                                        @if (Model!.Count() != 0)
+                                        {
+                                            foreach (var item in Model!)
+                                            {
+                                                <tr class="">
+                                                    <td onclick="return View_RootCauseMethod(@item.RC_METHOD_ID)"> @item.UNIQUE_ID</td>
+                                                    <td onclick="return View_RootCauseMethod(@item.RC_METHOD_ID)"> @item.RC_METHOD_NAME</td>
+                                                    <td onclick="return View_RootCauseMethod(@item.RC_METHOD_ID)"> @item.RC_METHOD_NAME_AR</td>
+                                                    <td onclick="return View_RootCauseMethod(@item.RC_METHOD_ID)"> @item.CREATED_DATE</td>
+                                                <td>
+                                                    <a id="Edit_RootCauseMethod" onclick="return Edit_RootCauseMethod(@item.RC_METHOD_ID)" title="Edit"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                                                    <a id="View_RootCauseMethod" title="View" onclick="return View_RootCauseMethod(@item.RC_METHOD_ID)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                                                    <a id="Delete_RootCauseMethod" onclick="return Delete_RootCauseMethod(@item.RC_METHOD_ID)" title="Delete"><img src="~/Content/assets/img/gridicons/delete.png" /></a>
+                                                </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#AddRootMethod").hide();
+        $("#ListView").show();
+        GET_ROOT_CAUSE_METHOD_LIST();
+
+        $("#bck_btn").on('click', function () {
+            $("#AddRootMethod").hide(100);
+            $("#ListView").show(100);
+            $("#MethodID").val('');
+            $("#MethodName").val('');
+            $("#MethodNamear").val('');
+
+            $("#MethodName").removeAttr('disabled', 'disabled');
+            $("#MethodNamear").removeAttr('disabled', 'disabled');
+        });
+       
+
+        $("#btnclear").on('click', function () {
+            ClearFileds();
+        });
+
+         $("#Add_RootMethod").on('click', function () {
+            $("#Add_RootMethod").show();
+            Add_RootMethod();
+            $("#MethodID").val('');
+            $("#MethodName").val('');
+            $("#MethodNamear").val('');
+            $("#ListView").hide(100);
+            $("#AddRootMethod").show(100);
+            $("#MethodID").val('');
+            $("#MethodName").val('');
+            $("#MethodNamear").val('');
+            $("#View_MethodId").val('');
+
+        });
+        
+    });
+
+        $("#Add_btn").on('click', function () {
+            $("#Add_RootMethod").show();
+            $("#ListView").hide(100);
+            $("#AddRootMethod").show(100);
+            $("#MethodID").val('');
+            $("#MethodName").val('');
+            $("#MethodNamear").val('');
+            $("#View_MethodId").val('');
+        });
+
+       
+
+     function GET_ROOT_CAUSE_METHOD_LIST() {
+        $("#Methodtable").dataTable().fnDestroy();
+        $("#AddRootMethod").hide();
+        $("#ListView").show();
+        $.post("@Url.Action("_GetRootCauseMethod", "EmergencyMaster")", function (data) {
+            $("#GetRootCauseMethodList").html('');
+            $("#GetRootCauseMethodList").html(data);
+        });
+
+    }
+
+
+    function Delete_RootCauseMethod(rmcauseid) {
+        var DELETE = confirm("Are you sure you want to delete");
+        if (DELETE == true) {
+          //  $.post("@Url.Action("DeleteRootCauseMethod", "EmergencyMaster")", { RC_METHOD_ID: rmcauseid }, function (data) {
+            $.post("@Url.Action("Method_Delete", "EmergencyMaster")", { RC_METHOD_ID: rmcauseid }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                    GET_ROOT_CAUSE_METHOD_LIST();
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+                GET_ROOT_CAUSE_METHOD_LIST();
+            });
+        }
+    }
+
+    function Edit_RootCauseMethod(rmcauseid) {
+        $("#Add_RootMethod").show();
+      //  $.post("@Url.Action("EditRootCauseMethod", "EmergencyMaster")", { RC_METHOD_ID: rmcauseid }, function (data) {
+        $.post("@Url.Action("Method_GetById", "EmergencyMaster")", { RC_METHOD_ID: rmcauseid }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                $("#AddRootMethod").show(100);
+                $("#ListView").hide(100);
+                $("#MethodID").val(data.RC_METHOD_ID);
+                $("#View_MethodId").val(data.UNIQUE_ID);
+                $("#MethodName").val(data.RC_METHOD_NAME);
+                $("#MethodNamear").val(data.RC_METHOD_NAME_AR);
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function View_RootCauseMethod(rmcauseid) {
+        $("#Add_RootMethod").hide();
+        $.post("@Url.Action("EditRootCauseMethod", "EmergencyMaster")", { RC_METHOD_ID: rmcauseid }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                $("#AddRootMethod").show(100);
+                $("#ListView").hide(100);
+
+                $("#View_MethodId").val(data.UNIQUE_ID);
+                $("#MethodName").val(data.RC_METHOD_NAME).attr('disabled', 'disabled');
+                $("#MethodNamear").val(data.RC_METHOD_NAME_AR).attr('disabled', 'disabled');
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+   function ClearFields() {
+        $("#MethodID").val('');
+        $("#MethodName").val('');
+        $("#MethodNamear").val('');
+       $("#View_MethodId").val('');
+   }
+
+    function CheckArabicOnly(field) {
+        var sNewVal = "";
+        var sFieldVal = field.value;
+
+        for (var i = 0; i < sFieldVal.length; i++) {
+            var ch = sFieldVal.charAt(i),
+                c = ch.charCodeAt(0);
+
+            if (field.keyCode = '38') {
+            }
+            else if (field.keyCode = '40') {
+                // down arrow
+            }
+            else if (field.keyCode = '37') {
+            }
+            else if (field.keyCode = '39') {
+                // right arrow
+            }
+
+            if (c < 1536 || c > 1791) {
+                // Discard
+            }
+            else {
+                sNewVal += ch;
+            }
+        }
+        field.value = sNewVal;
+    }
+</script>

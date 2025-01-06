@@ -1,0 +1,64 @@
+﻿FI.script.requireAndDefine('jquery', 'owl.carousel').requires('jquery', 'owl.carousel', 'tooltip').define('fi.mediacenter', function () {
+    (function ($, fi) {
+        'use strict';
+
+        $(document).ready(function () {
+            $('#allMedia').find(".meida-list-slide").owlCarousel({
+                loop: true,
+                margin: 30,
+                nav: false,
+                items: 3,
+                dots: true,
+                autoplay: true,
+                rtl: (FI.languageId == 1 ? false : true),
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                    },
+                    600: {
+                        items: 2,
+                    },
+                    1000: {
+                        items: 3,
+                    }
+                }
+            })
+
+            $('.media-center').find('.nav-tabs').find('[data-toggle=tab]').click(function (ev) {
+                ev.preventDefault();
+
+                var id = $(this).attr("href");
+
+                setTimeout(function () {
+
+                    $(id).find('.meida-list-slide').owlCarousel({
+                        loop: true,
+                        margin: 30,
+                        nav: false,
+                        items: 3,
+                        dots: true,
+                        rtl: (FI.languageId == 1 ? false : true),
+                        autoplay: true,
+                        autoplayTimeout: 5000,
+                        autoplayHoverPause: true,
+                        responsive: {
+                            0: {
+                                items: 1,
+                            },
+                            600: {
+                                items: 2,
+                            },
+                            1000: {
+                                items: 3,
+                            }
+                        }
+                    })
+                }, 500);
+
+            })
+
+        });
+    }(jQuery, FI));
+});

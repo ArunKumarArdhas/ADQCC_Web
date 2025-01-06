@@ -1,0 +1,420 @@
+﻿@model IReadOnlyCollection<ADQCC_New.Models.Masters.M_LocationModel>;
+@{
+    ViewData["Title"] = "LocationMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+<div class="page-content">
+    <div class="row " id="AddLocation" style="display:none">
+        <form id="AddModule_div" asp-controller="Masters" asp-action="AddLocation" method="post">
+            <div class="col-md-12 ">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (Model.LANG_ID == "bo")
+                                { *@
+                                    <div class="row">
+                                        <h6 class="mb-0 text-uppercase col-lg-9 ">Add Location</h6>
+                                        <h6 class="mb-0 text-uppercase col-lg-3">أضف الموقع</h6>
+                                    </div>
+                                    @* } *@
+                                    @* else
+                                {
+                                <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.ADDLOCATION</h6>
+                                } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="bcklocation" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="p-4 border rounded">
+                            <div class="row">
+                                <div class="col-md-4" style="display:none;">
+                                    <input type="hidden" id="loc_id" name="loc_id" value="0" />
+                                    <label>@ADQCC_New.LocalResource.Resource.LocationID <span class="red">*</span></label>
+                                    <input type="text" name="loc_id" value="" id="View_loc_id" class="form-control" disabled style="background-color:#eee;" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label>@ADQCC_New.LocalResource.Resource.LocationName <span class="red">*</span></label>
+                                    <input type="text" name="loc_name" minlen="1" maxlength="1000" data-toggle="tooltip" title="Alphabets Only" id="loc_name" value="" class="form-control alpha" autocomplete="off" />
+                                </div>
+                                <div class="col-md-6" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.LocationNameAR <span class="red">*</span></label>
+                                    <input type="text" name="loc_name_ar" id="loc_name_ar" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="submit" class="btn btn-primary" id="btn_AddLocation">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (Model.LANG_ID == "bo")
+                                { *@
+                                    <div class="row">
+                                        <h5 class="d-flex align-items-center mb-3 col-lg-9">Location </h5>
+                                        <h5 class="d-flex align-items-center mb-3 col-lg-3">موقع</h5>
+                                    </div>
+
+                                    @* }
+                                else
+                                {
+                                <h3 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.Location</h3>
+                                } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="addnewlocation" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.ADDLOCATION</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table id="table1" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        @if (Model != null)
+                                        {
+                                            @* switch (Model.LANG_ID)
+                                        {
+                                        case "ar":
+                                        <tr style="background: #916d2a; color: white;">
+                                        <th align="left" valign="middle">هوية شخصية </th>
+                                        <th align="left" valign="middle">الاسم عربي</th>
+                                        @*<th align="left" valign="middle">حالة </th>*@
+                                            @*<th align="left" valign="middle">اريخ</th>
+                                        <th align="left" valign="middle">عمل</th>
+
+                                        </tr>
+                                        break;
+
+                                        case "en":
+                                        <tr style="background: #916d2a; color: white;">
+                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.LocationID</th>
+                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.LocationName</th>
+                                        @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>*@
+                                            @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Date</th>
+                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+
+                                        </tr>
+
+                                        break;
+                                        default: *@
+                                            <tr style="background: #916d2a; color: white;">
+                                                <th align="left" valign="middle">Location ID <span class="pull-right">هوية شخصية</span> </th>
+                                                <th align="left" valign="middle">Location Name <span class="pull-right">اسم</span> </th>
+                                                <th align="left" valign="middle">Location Name Arabic <span class="pull-right">الاسم عربي</span></th>
+                                                @* <th align="left" valign="middle">Status <span class="pull-right">حالة</span> </th>*@
+                                                <th align="left" valign="middle">Date <span class="pull-right">اريخ</span> </th>
+                                                <th align="left" valign="middle">Action <span class="pull-right">عمل</span> </th>
+
+                                            </tr>
+                                            @* break;
+                                        } *@
+                                        }
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr class="">
+                                                    <td align="left" onclick="LOC_VIEW(@item.LOC_ID)" valign="middle">@item.UNIQUE_ID</td>
+                                                    <td align="left" onclick="LOC_VIEW(@item.LOC_ID)" valign="middle">@item.LOC_NAME</td>
+                                                    <td align="left" onclick="LOC_VIEW(@item.LOC_ID)" valign="middle">@item.LOC_NAME_AR</td>
+                                                    @*<td align="left" onclick="LOC_VIEW(Model.LOC_ID)" valign="middle">ACTIVE</td>*@
+                                                    <td align="left" onclick="LOC_VIEW(@item.LOC_ID)" valign="middle">@item.CREATED_DATE</td>
+                                                    <td>
+                                                        <a href="#" title="Edit" onclick="LOC_EDIT(@item.LOC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                                                        <a href="#" title="View" onclick="LOC_VIEW(@item.LOC_ID)"><img src="~/Content/assets/img/gridicons/view.png" /> </a>
+                                                        <a href="#" title="Delete" onclick="LOC_DELETE(@item.LOC_ID)"> <img src="~/Content/assets/img/gridicons/delete.png" /></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                    @* <tbody id="GetLocationMaster">
+                                    </tbody> *@
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="Loader" style="display: none;">
+    <img src="@Url.Content("~/Content/dist/img/loader.gif")" al alt="" />
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(function () {
+        alert("Location");
+        $("#AddLocation").hide();
+        $("#ListView").show();
+        GET_LOCATION_LIST();
+
+        $("#addnewlocation").on('click', function () {
+            alert("Location 2");
+            $("#AddLocation").show(100);
+            $("#ListView").hide(100);
+            ClearFileds();
+        });
+
+        // $("#addnewlocation").on('click', function () {
+        //     ClearFileds();
+        //     $("#AddLocation").show(100);
+        //     $("#ListView").hide(100);
+        //     $("#btn_AddLocation").show();
+        // });
+
+        $("#bcklocation").on('click', function () {
+            $("#Loaderbck").show();
+            $("#Loader").show();
+            $("#AddLocation").hide(100);
+            $("#ListView").show(100);
+            $("#loc_name").removeAttr('disabled', 'disabled');
+            $("#loc_name_ar").removeAttr('disabled', 'disabled');
+            ClearFileds();
+        });
+        $("#back").on('click', function () {
+            $("#AddLocation").hide(100);
+            $("#ListView").show(100);
+            $("#HelpView").hide(100);
+        });
+
+        $("#btnclear").on('click', function () {
+            ClearFileds();
+        });
+
+        // $("#btn_AddLocation").on('click', function () {
+        //     ;
+        //     var varloc_id = $("#loc_id").val();
+        //     var varlocName = $("#loc_name").val();
+        //     var varlocName_ar = $("#loc_name_ar").val();
+
+        //     if (varlocName == "") {
+        //         toastr.error("@ADQCC_New.LocalResource.Resource.toastlocation", "@ADQCC_New.LocalResource.Resource.Error");
+        //         $("#loc_name").focus();
+        //         return false;
+        //     }
+
+        //     if (varlocName_ar == "") {
+        //         toastr.error("@ADQCC_New.LocalResource.Resource.toastlocationarabic", "@ADQCC_New.LocalResource.Resource.Error");
+        //         $("#loc_name_ar").focus();
+        //         return false;
+        //     }
+
+        //     if (varloc_id == "") {
+        //         varloc_id = "0";
+        //     }
+
+        //     var model = {
+        //         LOC_ID: varloc_id,
+        //         LOC_NAME: varlocName,
+        //         LOC_NAME_AR: varlocName_ar,
+        //     }
+        //     $.ajax({
+        //         url: '@Html.Raw(@Url.Action("AddLocation", "Masters"))',
+        //         type: "POST",
+        //         cache: false,
+        //         data: JSON.stringify(model),
+        //         contentType: "application/json; charset=utf-8",
+        //         dataType: "json",
+
+        //         success: function (data) {
+        //             if (data.STATUS_CODE == "200") {
+        //                 toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+        //                 ClearFileds();
+        //                 GET_LOCATION_LIST();
+        //             }
+        //             else {
+        //                 toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+        //             }
+        //         },
+        //     });
+        // });
+    });
+
+    // function GET_LOCATION_LIST() {
+    //     alert("GridView");
+    //     $("#Loaderbck").show();
+    //     $("#Loader").show();
+    //     $("#table1").dataTable().fnDestroy();
+    //     $("#AddLocation").hide();
+    //     $("#ListView").show();
+    //     $.post("@Url.Action("_GetLocationMaster", "Masters")", function (data) {
+    //         $("#GetLocationMaster").html('');
+    //         $("#GetLocationMaster").html(data);
+    //     }).always(function () {
+    //         $("#Loaderbck").hide();
+    //         $("#Loader").hide();
+    //     });
+    // }
+
+    function ClearFileds() {
+        $("#View_loc_id").val('');
+        $("#loc_name").val('');
+        $("#loc_name_ar").val('');
+        $("#Loaderbck").hide();
+        $("#Loader").hide();
+    }
+
+    function LOC_DELETE(ROWID) {
+        var DELETE = confirm("Are you sure you want to delete");
+        if (DELETE == true) {
+            $.post("@Url.Action("_DeleteLocation", "Masters")", { LOC_ID: ROWID }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                    GET_LOCATION_LIST();
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            });
+        }
+        else {
+            return false;
+        }
+    }
+
+    function LOC_EDIT(ROWID) {
+        ;
+        $("#Loaderbck").show();
+        $("#Loader").show();
+        $("#btn_AddLocation").show();
+        $.post("@Url.Action("_EditLoaction", "Masters")", { LOC_ID: ROWID }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                $("#AddLocation").show(100);
+                $("#ListView").hide(100);
+                $("#loc_id").val(data.LOC_ID);
+                $("#View_loc_id").val(data.UNIQUE_ID);
+                $("#loc_name").val(data.LOC_NAME);
+                $("#loc_name_ar").val(data.LOC_NAME_AR);
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        }).always(function () {
+            $("#Loaderbck").hide();
+            $("#Loader").hide();
+        });
+    }
+
+    function LOC_VIEW(ROWID) {
+        $("#Loaderbck").show();
+        $("#Loader").show();
+        $("#btn_AddLocation").hide();
+        $.post("@Url.Action("_EditLoaction", "Masters")", { LOC_ID: ROWID }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                $("#AddLocation").show(100);
+                $("#ListView").hide(100);
+
+                $("#View_loc_id").val(data.UNIQUE_ID);
+                $("#loc_name").val(data.LOC_NAME).attr('disabled', 'disabled');
+                $("#loc_name_ar").val(data.LOC_NAME_AR).attr('disabled', 'disabled');
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        }).always(function () {
+            $("#Loaderbck").hide();
+            $("#Loader").hide();
+        });
+    }
+
+    function FunctionHelp() {
+        ;
+        window.open('@Url.Action("LocationHelpDoc", "Masters")');
+    }
+
+    function CheckArabicOnly(field) {
+        var sNewVal = "";
+        var sFieldVal = field.value;
+
+        for (var i = 0; i < sFieldVal.length; i++) {
+            var ch = sFieldVal.charAt(i),
+                c = ch.charCodeAt(0);
+
+            if (field.keyCode = '38') {
+            }
+            else if (field.keyCode = '40') {
+                // down arrow
+            }
+            else if (field.keyCode = '37') {
+            }
+            else if (field.keyCode = '39') {
+                // right arrow
+            }
+
+            if (c < 1536 || c > 1791) {
+                // Discard
+            }
+            else {
+                sNewVal += ch;
+            }
+        }
+        field.value = sNewVal;
+    }
+</script>

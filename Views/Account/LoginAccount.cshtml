@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "LoginAccount";
+    Layout = null;
+}
+<link href="~/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+<link href="@Url.Content("~/assets/fonts/nakheelfont.css")" rel="stylesheet" />
+<script src="@Url.Content("~/assets/pages/datatables/jquery.min.js")"></script>
+<script src="~/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> ZEROHARM |  ABU DHABI QUALITY AND CONFORMITY COUNCIL</title>
+    @*<title>NEOEHS</title>*@
+    <link href="~/assets/_new_dashboard/assets/css/bootstrap.min.css" rel="stylesheet" />
+    @*     <link href="@Url.Content("~/Content/assets/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet"> *@
+    @* <link href="@Url.Content("~/Content/assets/css/login.css")" rel="stylesheet" /> *@
+    <link href="~/assets/css/login.css" rel="stylesheet" />
+    @*     <link href="@Url.Content("~/Content/dist/css/toastr.css")" rel="stylesheet" /> *@
+    @*    <link href="~/dist/css/toastr.css" rel="stylesheet" /> *@
+
+    <link href="@Url.Content("~/dist/css/toastr.css")" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=Sen:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .my-auto {
+            margin-top: 100px !important;
+            /* margin-bottom: auto!important; */
+        }
+    </style>
+</head>
+
+<body style="font-family: 'Poppins', sans-serif;">
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-sm-5 px-0 d-none d-sm-block">
+
+                    <img src="~/assets/images/left2.jpg" alt="login image" class="login-img" />
+
+                </div>
+                <div class="col-sm-6 login-section-wrapper">
+                    <div class="brand-wrapper">
+                    </div>
+                    <div class="login-wrapper my-auto FnLogin">
+                        <h1 class="login-title">Log in</h1>
+
+                        @* <form action="#" id="Frm_Login" method="post"> *@
+                        @Html.AntiForgeryToken()
+                        <div id="OptDiv">
+                            <form asp-action="LoginAsync" asp-controller="Account" id="LoginFRM2" method="post" autocomplete="off">
+                                <div class="form-group mb-4">
+                                    <label for="password">OTP</label>
+                                    <input type="password" name="OTP" id="OTP" class="form-control numbersonly" data-toggle="tooltip" title="Numbers Only" placeholder="OTP">
+                                    <label id="name-error" class="OTP" for="OTP" style="display: none; color: #f71313;">@ADQCC_New.LocalResource.Resource.EnterthePassword</label>
+                                </div>
+                                @* <input name="login1" id="login1" class="btn btn-block login-btn" type="button" value="Login" onclick="validataionLogin()"> *@
+                                <input name="login1" id="login1" class="btn btn-block login-btn" type="submit" value="Login">
+                            </form>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="form-check font-size-15" onclick="FnForgotPassword()">
+                                <label class="form-check-label font-size-15" for="forgot-password">Forgot Password<span class="text-muted">?</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="auth-content my-auto FnForgotpass" style="display:none">
+                        <form>
+                            <div class="form-floating form-floating-custom mb-4">
+                                <input type="text" class="form-control" id="User_Name" placeholder="Enter User Name" autocomplete="off" required minlen="1" name="User_Name">
+                                <label for="input-username">Username</label>
+                                <div class="form-floating-icon"><i data-eva="people-outline"></i></div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-check font-size-15" onclick="Fnback()">
+                                    <label class="form-check-label font-size-15" style="color:black" for="forgot-password">Back<span class="text-muted">?</span></label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-primary w-100 waves-effect waves-light" onclick="Fn_forgotpassword()">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="Loader" style="display: none;">
+        @* <img src="@Url.Content("~/Content/dist/img/loader.gif")" al alt="" /> *@
+        <img src="~/dist/img/loader.gif" />
+    </div>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+@*<script src="@Url.Content("~/Content/dist/js/jquery-3.6.0.min.js")"></script> *@
+
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+@* <script src="@Url.Content("~/Content/dist/js/toastr.min.js")"></script>*@
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+@* <script src="@Url.Content("~/Content/assets/vendor/bootstrap/js/bootstrap.min.js")"></script> *@
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+@*<script src="~/assets/js/form-validation.js"></script>
+<script src="~/Content/assets/js/form-validation.js"></script> *@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+@* <script>
+    function validataionOTP() {
+        alert("OTP");
+        debugger;
+        var Obj = {
+            UserName: $("#Username").val(),
+            Password: $("#Password").val()
+        };
+        //LANG_ID = $('input[name="Language"]:checked').val(); $("#Loaderbck").show(), $("#Loader").show();
+        $.ajax({
+            url: "/Account/LoginOTPAsync",
+            type: "POST",
+            cache: false,
+            data: JSON.stringify(Obj),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data == "200") {
+                    $("#LoginDiv").hide(100);
+                    $("#OptDiv").show(100);
+                    // Swal.fire({
+                    //     position: 'top-end',
+                    //     icon: 'success',
+                    //     title: 'Updated Successfully',
+                    //     showConfirmButton: false,
+                    //     timer: 1500
+                    // }).then(function () {
+                    //     window.location.reload();
+                    // });
+                }
+                else {
+                    // Swal.fire({
+                    //     position: 'top-end',
+                    //     icon: 'Error',
+                    //     title: 'Error',
+                    //     showConfirmButton: false,
+                    //     timer: 1500
+                    // });
+                }
+            },
+        });
+    }
+</script> *@

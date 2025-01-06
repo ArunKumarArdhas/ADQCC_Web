@@ -1,0 +1,800 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    ViewBag.Title = "EmergencyTeamActivate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //var loginclass = (GET_USER_DETAILS)Session["objloginClass"];
+
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+        var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+
+    //var loginclass = HttpContextAccessor.HttpContext!.Session.GetString("objloginClass");
+}
+
+<link href="~/Content/MultiSelect/New/css/fileinput.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+
+@* <script src="/signalr/hubs"></script> *@
+@* <script src="/Scripts/moment.min.js"></script> *@
+
+
+<style>
+    .kv-file-remove {
+        display: none !important;
+    }
+
+    .file-preview-image {
+        font: 16px Impact, Charcoal, sans-serif !important;
+        width: 100% !important;
+    }
+
+    .file-preview {
+        width: 100% !important;
+    }
+
+    .btn-default {
+        background-color: #f5f5f5;
+        color: #000;
+        border-color: #ddd;
+    }
+
+    .fileinput-remove {
+        display: none !important;
+    }
+
+    .persDet {
+        border-left: 1px solid #f39c12 !important;
+        border-right: 1px solid #f39c12 !important;
+        border-bottom: 1px solid #f39c12 !important;
+    }
+</style>
+
+
+<style>
+    .dataTables_length {
+        direction: ltr !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+
+<div class="page-content">
+    <div class="row" id="AddEmrType" style="display:none;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (loginclass != null)
+                            {
+                                if (loginclass.LANG_ID == "bo")
+                                {
+                                    <div class="row">
+                                        <h5 class="mb-0 text-uppercase col-lg-8">Temp 2 Emergency Team Activate</h5>
+                                        <h5 class="mb-0 text-uppercase col-lg-4">
+                                            تفعيل فريق الطوارئ
+                                        </h5>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <h5 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.EMREmergencyTeamActivatelabel</h5>
+                                }
+                            }
+                            @if (loginclass.LANG_ID == "ar")
+                            {
+                                <button style="float: right;" id="Backbtn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            }
+                            else
+                            {
+                                <button style="float: left;" id="Backbtn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            }
+                        </div>
+
+                    </div>
+                    <hr />
+                    <div class="p-4 border rounded">
+                        <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8">
+                            <div class="row">
+                                <div class="col-md-4" style="display:none;">
+                                    <label>@ADQCC_New.LocalResource.Resource.EMREmergencyActiveID <span class="red">*</span></label>
+                                    <input type="text" name="EmpActiveId" value="0" id="EmpActiveId" class="form-control" disabled style="background-color:white;" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="EmpTeam" class="control-label">@ADQCC_New.LocalResource.Resource.EmrTeam <span class="red">*</span></label>
+                                    <select name="EmpTeam" class=form-control id="EmpType">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.LEGALSelect--</option>*@
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.Location <span class="red">*</span></label>
+                                    <select name="loc_types" class=form-control id="location">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectLocation--</option>*@
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.Building<span class="red">*</span></label>
+
+                                    <select name="loc_types" class=form-control id="Building">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectBuilding--</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="LEVEL" class="control-label">@ADQCC_New.LocalResource.Resource.EMRFloorLevel<span class="red">*</span></label>
+                                    <select name="LEVEL" class=form-control id="LEVEL" onchange="EmrEmployeeload()">
+                                        <option value="0">--@ADQCC_New.LocalResource.Resource.EMRSelectTeamLevel--</option>
+                                        <option value="8">@ADQCC_New.LocalResource.Resource.All</option>
+                                        <option value="1">@ADQCC_New.LocalResource.Resource.EMRLevel1</option>
+                                        <option value="2">@ADQCC_New.LocalResource.Resource.EMRLevel2</option>
+                                        <option value="3">@ADQCC_New.LocalResource.Resource.EMRLevel3</option>
+                                        <option value="4">@ADQCC_New.LocalResource.Resource.EMRLevel4</option>
+                                        <option value="5">@ADQCC_New.LocalResource.Resource.EMRLevel5</option>
+                                        <option value="6">@ADQCC_New.LocalResource.Resource.EMRLevel6</option>
+                                        <option value="7">@ADQCC_New.LocalResource.Resource.EMRLevel7</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="Shedule" class="control-label">@ADQCC_New.LocalResource.Resource.EMRShedule<span class="red">*</span></label>
+                                    <select name="SectionLab" class="form-control DateType" id="Schedule">
+                                        <option value="0" selected="selected">--@ADQCC_New.LocalResource.Resource.EMRSelecttheschedule--</option>
+                                        <option value="Quater">@ADQCC_New.LocalResource.Resource.EMRQuaterly</option>
+                                        <option value="Half">@ADQCC_New.LocalResource.Resource.EMRHalfYearly</option>
+                                        <option value="Monthly">@ADQCC_New.LocalResource.Resource.INSPMonthly</option>
+                                        <option value="Immediately">@ADQCC_New.LocalResource.Resource.EMRImmediately</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-6" id="DivTable" style="display:none;">
+                                    <label>@ADQCC_New.LocalResource.Resource.TMEmployee <span class="red">*</span></label>
+                                    <div class="table-responsive" style=" overflow-y: scroll; height: 200px;width:400px;">
+
+                                        <table class="table table-bordered" id="tblTM_Employee_View">
+                                            <thead>
+                                                <tr>
+                                                    <td align="left" valign="middle" style="background-color: #cdae7b; color: white;">
+                                                        @ADQCC_New.LocalResource.Resource.EmployeeName
+                                                    </td>
+                                                    <td id="tblStatus" align="left" valign="middle" style="background-color: #cdae7b; color: white;">
+                                                        @ADQCC_New.LocalResource.Resource.Status
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tblTM_Employee_View_D">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            @*<div class="row">
+                                <div class="col-lg-9">
+                                    @if (loginclass != null)
+                                    {
+                                        if (loginclass.LANG_ID == "bo")
+                                        {
+                                            <div class="row">
+                                                <h6 class="mb-0 text-uppercase col-lg-8">SCENARIO AND PROCEDURES NEED TO FOLLOW</h6>
+                                                <h6 class="mb-0 text-uppercase col-lg-4">
+                                                    السيناريو والإجراءات اللازمة لمتابعة
+                                                </h6>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.EMRScenarioNeedtoFollow</h6>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <hr />
+                            <br />
+                            <div class="row" id="MultipleDOC">
+                                <div class="col-lg-6">
+                                    <br />
+                                    <div class="col-md-4">
+                                        <label for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.EMRUploadDocuments</label>
+                                        <br />
+                                    </div>
+
+                                    <div>
+                                        <span class="btn btn-default btn-file" id="spnInputfile" style="width:200%;"></span>
+                                    </div>
+                                    <br />
+                                </div>
+                                <br />
+                                <div class="col-lg-6" id="DivEditkvexplorer" style="display:none;">
+                                    <script src="~/Content/MultiSelect/New/js/fileinput.js"></script>
+                                    <script src="~/Content/MultiSelect/New/js/locales/fr.js"></script>
+                                    <script src="~/Content/MultiSelect/New/js/locales/es.js"></script>
+                                    <script src="~/Content/MultiSelect/New/themes/fas/theme.js"></script>
+                                    <script src="~/Content/MultiSelect/New/themes/explorer-fas/theme.js"></script>
+                                    <div class="col-md-4">
+                                        <label for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.TMFileUpload<span class="red">*</span></label>
+
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <div>
+                                        <input id="kv-explorer" type="file" multiple style="width:200px">
+                                    </div>
+
+                                    <br />
+                                </div>
+                            </div>
+                            <br />*@
+                            <div class="row" style="display:none">
+                                <div class="col-lg-12">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.SectorName<span class="red">*</span></label>
+                                            <select class="form-control" id="sectorname">
+                                                <option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectSectorName--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.Department <span class="red">*</span></label>
+                                        <select class="form-control" id="department">
+                                            <option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectDepartment--</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.Section_LabName<span class="red">*</span></label>
+                                            <select name="loc_types" class=form-control id="section">
+                                                <option value="0">--@ADQCC_New.LocalResource.Resource.SelectSection--</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    @if (loginclass != null)
+                                    {
+                                        if (loginclass.LANG_ID == "bo")
+                                        {
+                                            <div class="row">
+                                                <h6 class="mb-0 text-uppercase col-lg-8">ASSIGN TASK TO TEAM</h6>
+                                                <h6 class="mb-0 text-uppercase col-lg-4">
+                                                    تعيين مهمة للفريق
+                                                </h6>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.EMRAssigntasktoteam</h6>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <hr />
+                            <br />
+                            <div class="box-header with-border">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered" id="TblTaskAssign">
+                                        <thead>
+                                            <tr>
+                                                <td align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRTeamMembers</td>
+                                                <td align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRTask</td>
+                                                <td align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRTaskDescription</td>
+                                                <td align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRReviewDate</td>
+                                                <td align="left" valign="middle" style="background-color: #cdae7b; color: white; display:none" id="ActiontakenTD">@ADQCC_New.LocalResource.Resource.EMRActionTaken</td>
+                                                <td align="left" valign="middle" style="background-color: #cdae7b; color: white; display:none" id="UploadedFileID">@ADQCC_New.LocalResource.Resource.EMRUploadedFile</td>
+                                                @if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Department Manager")
+                                                {
+                                                    <td align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRUploadedFile </td>
+                                                    <td align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRCorrectiveRemark</td>
+                                                }
+                                            </tr>
+                                        </thead>
+                                        <tbody id="TaskAssignBody">
+                                            @*<tr>
+                            <td><select name="Team_Mem" id="T_Team_Mem" class="form-control Team_Mem Team_Mem0"><option value="0" selected="selected">--select Team Member--</option></select></td>
+                            <td><input type="text" name="Remarks" id="T_Remark" class="form-control Remarks Remark0" autocomplete="off" /></td>
+                            <td><input type="text" name="Corrective" id="T_Remarks_Corrective" class="form-control Remarks_Corrective Remarks_Corrective0" autocomplete="off" /></td>
+                            <td><input type="text" name=" ReviewDate" id="T_ReviewDate" class="form-control ReviewDate ReviewDate0 DatePicker" autocomplete="off" onclick="fn_DatetimePicker_Cls('DatePicker')" readonly /></td>
+                        </tr>*@
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" id="showAdditionalDIV" style="display:none">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @if (loginclass.LANG_ID == "ar")
+                                        {
+
+                                            @*<h3 class="box-title main-heading">@ADQCC_New.LocalResource.Resource.EMRAdditionalTask</h3>*@
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-8">@ADQCC_New.LocalResource.Resource.EMRAdditionalTask</h5>
+                                            @*<h3 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.EMRAdditionalTask</h3>*@
+                                            <div class="col-lg-3 pull-left" id="radioShow"><input value="Applicable" type="radio" name="applicable" id="Applicable" /><label for="radio2" style="margin-right: 33px;">@ADQCC_New.LocalResource.Resource.EMRApplicable </label><input type="radio" value="Not Applicable" name="applicable" id="NotApplicable" checked /><label for="radio2">@ADQCC_New.LocalResource.Resource.EMRNotApplicable</label></div>
+
+                                        }
+                                        else
+                                        {
+                                            @*<h3 class="box-title main-heading">@ADQCC_New.LocalResource.Resource.EMRAdditionalTask</h3>*@
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-8">@ADQCC_New.LocalResource.Resource.EMRAdditionalTask</h5>
+                                            <div class="col-lg-3 pull-right" id="radioShow"><input value="Applicable" type="radio" name="applicable" id="Applicable" /><label for="radio2" style="margin-right: 33px;">@ADQCC_New.LocalResource.Resource.EMRApplicable </label><input type="radio" value="Not Applicable" name="applicable" id="NotApplicable" checked /><label for="radio2">@ADQCC_New.LocalResource.Resource.EMRNotApplicable</label></div>
+                                        }
+
+                                        <hr />
+                                    </div>
+                                    <br />
+
+                                    <div class="box-header with-border" id="showtblNewRowCorrective" style="display:none;">
+                                        @*<div class="row">
+                        <div class="col-lg-9">
+                            <h5 class="d-flex align-items-center mb-3 col-lg-8">@ADQCC_New.LocalResource.Resource.EMRAdditionalTask</h5>
+                        </div>
+                        <div class="col-lg-3">
+                            @if (loginclass.LANG_ID == "ar")
+                            {
+                                <button style="float: left;" class="btn btn-primary addrow">@ADQCC_New.LocalResource.Resource.InciAddMore</button>
+                            }
+                            else
+                            {
+                                <button style="float: right;" class="btn btn-primary addrow">@ADQCC_New.LocalResource.Resource.InciAddMore</button>
+                            }
+                        </div>
+                    </div>*@
+                                        <div class="">
+                                            @*<h6 class="box-title">@ADQCC_New.LocalResource.Resource.EMRAdditionalTask</h6>*@
+                                            <div class="row">
+                                                <div class="col-lg-9">
+                                                    <h5 class="d-flex align-items-center mb-3 col-lg-8">@ADQCC_New.LocalResource.Resource.EMRAdditionalTask</h5>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    @if (loginclass.LANG_ID == "ar")
+                                                    {
+                                                        <div class="btn btn-danger addrow" style="float: right;">
+                                                            <i class="fas fa-plus-circle">
+                                                            </i> @ADQCC_New.LocalResource.Resource.InciAddMore
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="btn btn-danger addrow" style="float: right;">
+                                                            <i class="fas fa-plus-circle">
+                                                            </i> @ADQCC_New.LocalResource.Resource.InciAddMore
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered" id="tblNewRowCorrective">
+                                                <thead>
+                                                    <tr>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white; display: none">EMP_Active_ID</th>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white;"> @ADQCC_New.LocalResource.Resource.EmrTeam</th>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white;"> @ADQCC_New.LocalResource.Resource.EMRFloorLevel</th>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRTeamMembers</th>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRTask</th>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRTaskDescription</th>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white;">@ADQCC_New.LocalResource.Resource.EMRReviewDate</th>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white;display:none;" id="thAT">@ADQCC_New.LocalResource.Resource.EMRActionTaken</th>
+                                                        <th align="left" valign="middle" style="background-color: #cdae7b; color: white; display: none;" id="thUF">@ADQCC_New.LocalResource.Resource.EMRUploadedFile</th>
+                                                        @*<th align="left" valign="middle" style="background-color: #cdae7b; color: white;">Corrective Remark</th>*@
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblNewRowCorrectivebody">
+                                                    <tr>
+                                                        <td style="display:none"><input type="text" name="Remarks" id="EMP_Active_ID" class="form-control A_EMP_Active_ID A_EMP_Active_ID0" autocomplete="off" /></td>
+                                                        <td><select name="EmpType" class="form-control EmpType" id="EmpType0"></select></td>
+                                                        <td>
+                                                            <select name="LEVEL" class="form-control LEVEL" id="LEVEL" onchange="A_EmrEmployeeload(this,'EmpType0','A_Team_Mem')">
+                                                                <option value="0">--@ADQCC_New.LocalResource.Resource.EMRSelectTeamLevel--</option>
+                                                                <option value="8">@ADQCC_New.LocalResource.Resource.All</option>
+                                                                <option value="1">@ADQCC_New.LocalResource.Resource.EMRLevel1</option>
+                                                                <option value="2">@ADQCC_New.LocalResource.Resource.EMRLevel2</option>
+                                                                <option value="3">@ADQCC_New.LocalResource.Resource.EMRLevel3</option>
+                                                                <option value="4">@ADQCC_New.LocalResource.Resource.EMRLevel4</option>
+                                                                <option value="5">@ADQCC_New.LocalResource.Resource.EMRLevel5</option>
+                                                                <option value="6">@ADQCC_New.LocalResource.Resource.EMRLevel6</option>
+                                                                <option value="7">@ADQCC_New.LocalResource.Resource.EMRLevel7</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><select name="Team_Mem" id="A_Team_Mem" class="form-control A_Team_Mem A_Team_Mem0"><option value="0" selected="selected">--@ADQCC_New.LocalResource.Resource.EMRselectTeamMember--</option></select></td>
+                                                        <td><input type="text" name="Remarks" id="A_Remark" class="form-control A_Remarks A_Remark0" autocomplete="off" /></td>
+                                                        <td><input type="text" name="Corrective" id="A_Remarks_Corrective" class="form-control A_Remarks_Corrective A_Remarks_Corrective0" autocomplete="off" /></td>
+                                                        <td><input type="text" name=" ReviewDate" id="A_ReviewDate" class="form-control A_ReviewDate A_ReviewDate0 DatePicker" autocomplete="off" onclick="fn_DatetimePicker_Cls('DatePicker')" /></td>
+                                                        @*<td><input type="text" name="EHSCorrective" id="A_EHS_Remarks_Corrective" class="form-control A_EHSRemarks_Corrective A_EHSRemarks_Corrective0" autocomplete="off" /></td>*@
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div id="UploadedFiles" style="display:none">
+
+                                <div class="modal fade" id="ModalFiles" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <center>
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="myModalLabel">@ADQCC_New.LocalResource.Resource.EMRUploadedFile</h4>
+                                                    <button type="button" id="UPLOADED_FILES" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group col-lg-12" id="DivViewImage">
+                                                    </div>
+
+                                                    <br />
+
+                                                    <div class="form-group col-lg-12" id="DivViewVideo">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                </div>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            @if (loginclass.DESI_NAME == "HSSE Manager")
+                            {
+                                <div class="row">
+                                    <div class="col-lg-5"></div>
+                                    <div class="col-lg-7" id="DivBtnSubmit">
+                                        <button class="btn btn-primary" id="btnsubmit" style="width: 100px; background-color: #cdae7b;">
+                                            @ADQCC_New.LocalResource.Resource.Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                            @if (loginclass.DESI_NAME == "Department Manager")
+                            {
+                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">@ADQCC_New.LocalResource.Resource.DCRejectForm</h5>
+                                                <button type="button" id="Reject_Resion_Close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>@ADQCC_New.LocalResource.Resource.DCEnteryourrejectreason</p>
+                                                <input type="hidden" id="RejectID" value="0" autocomplete="off" class="form-control">
+
+                                                <input type="text" id="RejectResion" autocomplete="off" class="form-control">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="Reject_Resion_Cancel" class="btn btn-default" data-bs-dismiss="modal">@ADQCC_New.LocalResource.Resource.DCCancel</button>
+                                                <button type="button" id="Reject_Resion_Submit" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" id="Reject_Resion_Close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">@ADQCC_New.LocalResource.Resource.DCRejectForm</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>@ADQCC_New.LocalResource.Resource.DCEnteryourrejectreason</p>
+                                                <input type="hidden" id="RejectID" value="0" autocomplete="off" class="form-control">
+
+                                                <input type="text" id="RejectResion" autocomplete="off" class="form-control">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" id="Reject_Resion_Cancel" class="btn btn-default" data-dismiss="modal">@ADQCC_New.LocalResource.Resource.DCCancel</button>
+                                                <button type="button" id="Reject_Resion_Submit" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+                                <div class="row" id="SECHeadApprovepage" style="text-align:center;">
+                                    <div class="">
+                                        <button class="btn btn-success" onclick="Approve_Fuction('4')" id="SECHead_ManagerApprove" style="width: 100px; background-color: #cdae7b; color: white">
+                                            @ADQCC_New.LocalResource.Resource.DocApprove
+                                        </button>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="width: 100px;">
+                                            @ADQCC_New.LocalResource.Resource.InciReject
+                                        </button>
+                                        @* <button type="button" id="Reject_Resion_Close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
+                                        @*<button class="btn btn-danger pull-left" data-toggle="modal" data-target="#myModal" style="width: 100px; background-color: #cdae7b; color: white">
+                        @ADQCC_New.LocalResource.Resource.InciReject
+                    </button>*@
+                                    </div>
+
+                                </div>
+                            }
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <div type="button" class="btn btn-primary" onclick="Activebtn()" id="ActiveSubmit">
+                                        @ADQCC_New.LocalResource.Resource.EMRActivate
+                                    </div>
+                                </div>
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7" style="display:none;" id="deactivebtn">
+                                    <div type="button" class="btn btn-primary" onclick="Deactivebtn()" id="DeactiveSubmit">
+                                        @ADQCC_New.LocalResource.Resource.EMRDeactivate
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (loginclass != null)
+                                {
+                                    if (loginclass.LANG_ID == "bo")
+                                    {
+                                        <div class="row">
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-8">Temp Emergency Team Activate</h5>
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-4">
+                                                تفعيل فريق الطوارئ
+                                            </h5>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <h3 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.EMREmergencyTeamActivatelabel</h3>
+                                    }
+                                }
+
+                                @if (loginclass.LANG_ID == "ar")
+                                {
+                                    if (@loginclass.DESI_NAME == "HSSE Team")
+                                    {
+                                        <button style="float: right;" id="AddTeamActivate" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.EMRAddTeamActivatebtn</button>
+                                    }
+                                }
+                                else
+                                {
+                                    if (@loginclass.DESI_NAME == "HSSE Team")
+                                    {
+                                        <button style="float: left;" id="AddTeamActivate" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.EMRAddTeamActivatebtn</button>
+                                    }
+                                }
+                            </div>
+                            @*<div class="col-lg-3">
+
+
+                            </div>*@
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="">
+                                <table id="table1" class="table table-striped table-bordered">
+                                    @if (loginclass != null)
+                                    {
+                                        switch (loginclass.LANG_ID)
+                                        {
+                                            case "ar":
+                                                <thead>
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.EMREmergencyActiveID</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.EMREmergencyType</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.CreatedBy</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.TMCreatedDate</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+
+                                                </thead>
+                                                break;
+                                            case "en":
+                                                <thead>
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.EMREmergencyActiveID</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.EMREmergencyType</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.CreatedBy</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.TMCreatedDate</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+                                                </thead>
+                                                break;
+                                            default:
+                                                <thead>
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">Emergency Active ID<span class="pull-right">معرف الفئة</span></th>
+                                                        <th align="left" valign="middle">Emergency Type<span class="pull-right">نوع الطوارئ</span></th>
+                                                        <th align="left" valign="middle">Created By<span class="pull-right">انشأ من قبل</span></th>
+                                                        <th align="left" valign="middle">Created Date<span class="pull-right">تاريخ الإنشاء</span></th>
+                                                        <th align="left" valign="middle">Status<span class="pull-right">حالة</span></th>
+                                                        <th align="left" valign="middle">Action<span class="pull-right">عمل</span></th>
+
+                                                    </tr>
+                                                </thead>
+                                                break;
+                                        }
+
+                                    }
+                                    <tbody id="GetEmrTeamActive">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var GLOBAL_EDIT_ID = "";
+    $(document).ready(function () {
+        GET_EMR_TEAM_ACTIVATE();
+        GET_EMPLOYEE_TYPE();
+        GET_EMPLOYEE_LIST("0", "0", "0");
+
+        $("#AddTeamActivate").on('click', function () {
+            $("#ListView").hide(100);
+            $("#AddEmrType").show(100);
+        });
+
+        $("#Backbtn").on('click', function () {
+            $("#AddEmrType").hide();
+            $("#ListView").show();
+            $("#AddEmrType input, #AddEmrType select").val('');
+        });
+
+        $(document).on('click', '.addrow', function () {
+            const DSi = $("#tblNewRowCorrective tr").length + 1;
+            $("#tblNewRowCorrective").append(createRowMarkup(DSi));
+        });
+
+        $(document).on('click', '#DeleteCorrectiveRow', function () {
+            $(this).closest("tr").remove();
+        });
+
+        $('input[type=radio][name=applicable]').change(function () {
+            $("#showtblNewRowCorrective").toggle(this.value === 'Applicable');
+        });
+    });
+
+    function createRowMarkup(DSi) {
+        return `
+            <tr>
+                <td style="display:none;"><input type="hidden" name="Empactiveid"
+                class="form-control A_Empactive A_Empactive${DSi}" autocomplete="off"/></td>
+                <td><select name="EmpType" class="form-control EmpType EmpType${DSi}" id="EmpType${DSi}"></select></td>
+                <td><input class='btn btn-danger' id='DeleteCorrectiveRow' type='button' value="Remove" /></td>
+            </tr>
+        `;
+    }
+
+    function GET_EMR_TEAM_ACTIVATE() {
+        //debugger;
+        // Destroy the existing DataTable instance if it exists
+        if ($.fn.DataTable.isDataTable("#table1")) {
+            $("#table1").DataTable().destroy();
+        }
+
+        // Hide and show relevant elements
+        $("#AddEmrType").hide();
+        $("#ListView").show();
+
+            // Perform an AJAX POST request
+        $.ajax({
+        url: "@Url.Action("_GetEmrTeamActivate", "Emergency")",
+        type: "POST",
+        success: function (data) {
+            // Update the content of the target element
+            $("#GetEmrTeamActive").html(data);
+        },
+        error: function (xhr, status, error) {
+            console.error("Error occurred while fetching data:", status, error);
+        }
+    });
+
+
+    }
+
+    function GET_EMPLOYEE_TYPE() {
+        // debugger;
+        $.post("@Url.Action("GetEmergencyTeamDrop", "Emergency")", function (data) {
+            // Define the dropdown elements
+            const dropdowns = ["#EmpType", "#EmpType0"];
+
+            // Clear and append default options to both dropdowns
+            dropdowns.forEach(dropdown => {
+                $(dropdown).empty();
+                $(dropdown).append("<option value='0'>--@ADQCC_New.LocalResource.Resource.EMRSelecttheEmergencyTeam--</option>");
+            });
+
+            // Populate dropdowns with data
+            $(data).each(function (i, e) {
+                const option = ('@loginclass.LANG_ID' === "ar")
+                    ? `<option value="${e.EMERG_TYPE_MAS_ID}">${e.EMERG_TYPE_MAS_AR}</option>`
+                    : `<option value="${e.EMERG_TYPE_MAS_ID}">${e.EMERG_TYPE_MAS}</option>`;
+
+                dropdowns.forEach(dropdown => $(dropdown).append(option));
+            });
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("Error fetching employee types:", textStatus, errorThrown);
+            alert("Failed to load employee types GET_EMPLOYEE_TYPE. Please try again.");
+        });
+    }
+
+
+    function GET_EMPLOYEE_LIST(emp_id, emp_name, emp_desi) {
+             $.post("@Url.Action("GetSelectEmployeeLoad", "Emergency")", function (data) {
+                 $("#EMP_NAME").empty();
+                 $("#EMP_NAME").append("<option value='0'>--@ADQCC_New.LocalResource.Resource.EMRSelecttheLeadManager--</option > ");
+
+                 $(data).each(function (i, e) {
+                     if ('@loginclass.LANG_ID' == "ar") {
+                         $("#EMP_NAME").append("<option value=" + e.EMPLOYEE_ID + ">" + e.EMP_NAME_AR + "</option>");
+                     } else
+                     {
+                         $("#EMP_NAME").append("<option value=" + e.EMPLOYEE_ID + ">" + e.EMPLOYEE_NAME + "</option>");
+
+                      }
+
+                });
+            });
+    }
+
+</script>

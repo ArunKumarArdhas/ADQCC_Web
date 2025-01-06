@@ -1,0 +1,1237 @@
+4/1/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+4/1/2024 12:00:00 AM ==> 4/1/2024 5:46:32 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+4/1/2024 12:00:00 AM ==> A public action method 'AddEmployeeDetails' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/AddEmployeeDetails
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+4/1/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+4/1/2024 12:00:00 AM ==> 4/1/2024 6:02:57 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+4/1/2024 12:00:00 AM ==> The controller for path '/InspectionImageStorage/66a749ba-e095-4903-947c-749d871f8ed8.jpeg' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/InspectionImageStorage/66a749ba-e095-4903-947c-749d871f8ed8.jpeg
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+4/1/2024 12:00:00 AM ==> One or more errors occurred.AddEmployeeDetails ==> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+The url where the error occured is https://localhost:44345/EmployeeDetails/AddEmployeeDetails
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+4/1/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+4/1/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/3/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/3/2024 12:00:00 AM ==> A public action method 'LoginOTPAsync' was not found on controller 'ADUQCC_WEB.Controllers.AccountController'.
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/3/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/13/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: The underlying connection was closed: An unexpected error occurred on a receive. ---> System.IO.IOException: Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at System.Net.Sockets.NetworkStream.EndRead(IAsyncResult asyncResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.NetworkStream.EndRead(IAsyncResult asyncResult)
+   at System.Net.Connection.ReadCallback(IAsyncResult asyncResult)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)
+   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> Object reference not set to an instance of an object.ForgotPassword ==>    at ADUQCC_WEB.Controllers.AccountController.<ForgotPassword>d__14.MoveNext() in D:\ADQCC\Web\ADQCC_WEB\Controllers\AccountController.cs:line 230
+The url where the error occured is https://localhost:44345/Account/ForgotPassword
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> Object reference not set to an instance of an object.ForgotPassword ==>    at ADUQCC_WEB.Controllers.AccountController.<ForgotPassword>d__14.MoveNext() in D:\ADQCC\Web\ADQCC_WEB\Controllers\AccountController.cs:line 230
+The url where the error occured is https://localhost:44345/Account/ForgotPassword
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> One or more errors occurred.ForgotPassword ==> System.Threading.Tasks.TaskCanceledException: A task was canceled.   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at ADUQCC_WEB.Controllers.AccountController.<ForgotPassword>d__14.MoveNext()
+The url where the error occured is https://localhost:44345/Account/ForgotPassword
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> One or more errors occurred.ForgotPassword ==> System.Threading.Tasks.TaskCanceledException: A task was canceled.   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at ADUQCC_WEB.Controllers.AccountController.<ForgotPassword>d__14.MoveNext()
+The url where the error occured is https://localhost:44345/Account/ForgotPassword
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> The controller for path '/IncidentVideoStorage/f083844c7-0302.mp4' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentVideoStorage/f083844c7-0302.mp4
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/93386884-dba7-4ac4-be40-91ab8e10075e.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/93386884-dba7-4ac4-be40-91ab8e10075e.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/16/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/ba129aac3-9107.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/ba129aac3-9107.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/17/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/17/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/17/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/17/2024 12:00:00 AM ==> An unexpected SqlNotificationType was received. Details: Type=Change, Source=Client, Info=Error
+The url where the error occured is https://localhost:44345/signalr/connect?transport=longPolling&clientProtocol=2.1&connectionToken=0bqm9jCtfNOoPT5ie0YL1LdpqMjkM9SC0GH9Kgd9KUvFUWQo6adE7hw0pQiSEQNqjUCrsfAzgu%2BqUilvxdAMF44UNWOE%2FT5pcryFcJdOhXn7B0%2FRVVXNIiLtQT%2B6uTOp&connectionData=%5B%7B%22name%22%3A%22mynotificationhub%22%7D%5D
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/17/2024 12:00:00 AM ==> An unexpected SqlNotificationType was received. Details: Type=Change, Source=Client, Info=Error
+The url where the error occured is https://localhost:44345/signalr/abort?transport=longPolling&clientProtocol=2.1&connectionToken=0bqm9jCtfNOoPT5ie0YL1LdpqMjkM9SC0GH9Kgd9KUvFUWQo6adE7hw0pQiSEQNqjUCrsfAzgu%2BqUilvxdAMF44UNWOE%2FT5pcryFcJdOhXn7B0%2FRVVXNIiLtQT%2B6uTOp&connectionData=%5B%7B%22name%22%3A%22mynotificationhub%22%7D%5D
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/17/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/17/2024 12:00:00 AM ==> One or more errors occurred.EMRICActMaster ==> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+The url where the error occured is https://localhost:44345/Account/UpdatePassword
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:63579
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'logim' was not found on controller 'ADUQCC_WEB.Controllers.AccountController'.
+The url where the error occured is https://localhost:44345/account/logim
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:63579
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:63579
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:63579
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/b1b6f110e-b66c.jpeg' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/b1b6f110e-b66c.jpeg
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/b1b6f110e-b66c.jpeg' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/b1b6f110e-b66c.jpeg
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/b1b6f110e-b66c.jpeg' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/b1b6f110e-b66c.jpeg
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/b1b6f110e-b66c.jpeg' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/b1b6f110e-b66c.jpeg
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/b1b6f110e-b66c.jpeg' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/b1b6f110e-b66c.jpeg
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> Maximum request length exceeded.
+The url where the error occured is https://localhost:44345/InvestigationForm/UploadFiles
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> Maximum request length exceeded.
+The url where the error occured is https://localhost:44345/InvestigationForm/UploadFiles
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:63579
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> Maximum request length exceeded.
+The url where the error occured is https://localhost:44345/InvestigationForm/UploadFiles
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/b1b6f110e-b66c.jpeg' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/b1b6f110e-b66c.jpeg
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> startIndex cannot be larger than length of string.
+Parameter name: startIndexUploadFiles ==> 
+The url where the error occured is https://localhost:44345/InvestigationForm/UploadFiles
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> startIndex cannot be larger than length of string.
+Parameter name: startIndexUploadFiles ==> 
+The url where the error occured is https://localhost:44345/InvestigationForm/UploadFiles
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/20/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.InvestigationController'.
+The url where the error occured is https://localhost:44345/Investigation/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> 5/21/2024 9:48:01 AMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> One or more errors occurred._GET_INVE_ROOT_SF_LIST ==> System.Threading.Tasks.TaskCanceledException: A task was canceled.   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at ADUQCC_WEB.Controllers.InvestigationFormController.<_GET_INVE_NATUREOFINJURY_LIST>d__15.MoveNext()
+The url where the error occured is https://localhost:44345/InvestigationForm/_GET_INVE_NATUREOFINJURY_LIST
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> One or more errors occurred._GetEmployeeList==> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+The url where the error occured is https://localhost:44345/Emergency/_GetEmployeeList
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> 5/21/2024 11:43:28 AMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/IncidentImageStorage/Z035b5caa-92fa.png' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/IncidentImageStorage/Z035b5caa-92fa.png
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> 5/21/2024 12:41:46 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> Culture is not supported.
+Parameter name: name
+null is an invalid culture identifier.EmployeeEvaluation ==> 
+The url where the error occured is https://localhost:44345/TrainingManagement/TrainingEmployeeDashboard?LanguageAbbrevation=null
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> 5/21/2024 3:20:05 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> A public action method '@Url.Action("TrainingEmployeeDashboard", "TrainingManagement")' was not found on controller 'ADUQCC_WEB.Controllers.AccountController'.
+The url where the error occured is https://localhost:44345/Account/@Url.Action(%22TrainingEmployeeDashboard%22,%20%22TrainingManagement%22)?LanguageAbbrevation=en
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> The controller for path '/TrainingEmployeeDashboard/TrainingManagement' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/TrainingEmployeeDashboard/TrainingManagement?LanguageAbbrevation=en
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> A public action method 'TrainingEmployeeDashboard' was not found on controller 'ADUQCC_WEB.Controllers.TrainingManagementController'.
+The url where the error occured is https://localhost:44345/TrainingManagement/TrainingEmployeeDashboard?LanguageAbbrevation=en
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> A public action method 'Dashboard' was not found on controller 'ADUQCC_WEB.Controllers.AccountController'.
+The url where the error occured is https://localhost:44345/Account/Dashboard/AdminDashboard/?LanguageAbbrevation=en
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> 5/21/2024 5:15:58 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmergencyController'.
+The url where the error occured is https://localhost:44345/Emergency/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmergencyController'.
+The url where the error occured is https://localhost:44345/Emergency/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmergencyController'.
+The url where the error occured is https://localhost:44345/Emergency/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/21/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmergencyController'.
+The url where the error occured is https://localhost:44345/Emergency/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/22/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/22/2024 12:00:00 AM ==> 5/22/2024 9:38:12 AMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/22/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmergencyController'.
+The url where the error occured is https://localhost:44345/Emergency/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/22/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmergencyController'.
+The url where the error occured is https://localhost:44345/Emergency/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/23/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/23/2024 12:00:00 AM ==> 5/23/2024 4:26:49 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/23/2024 12:00:00 AM ==> The controller for path '/robots.txt' was not found or does not implement IController.
+The url where the error occured is https://localhost:44345/robots.txt
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/23/2024 12:00:00 AM ==> A public action method 'LoginOTPAsync' was not found on controller 'ADUQCC_WEB.Controllers.AccountController'.
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> 5/24/2024 1:21:02 PMGET_WEB_BELL_NOTIFICATIONTimeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> 5/24/2024 1:23:25 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> Unexpected character encountered while parsing value: S. Path '', line 0, position 0._GetEmployeeList==> 
+The url where the error occured is https://localhost:44345/Emergency/_GetEmployeeList
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> Unexpected character encountered while parsing value: S. Path '', line 0, position 0._GetEmployeeList==> 
+The url where the error occured is https://localhost:44345/Emergency/_GetEmployeeList
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> Unterminated string. Expected delimiter: ". Path '[0].EMPLOYEE_NAME', line 1, position 42._GetEmployeeList==> 
+The url where the error occured is https://localhost:44345/Emergency/_GetEmployeeList
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> Unterminated string. Expected delimiter: ". Path '[0].EMPLOYEE_NAME', line 1, position 42._GetEmployeeList==> 
+The url where the error occured is https://localhost:44345/Emergency/_GetEmployeeList
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+5/24/2024 12:00:00 AM ==> Unterminated string. Expected delimiter: ". Path '[0].EMPLOYEE_NAME', line 1, position 42._GetEmployeeList==> 
+The url where the error occured is https://localhost:44345/Emergency/_GetEmployeeList
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+6/7/2024 12:00:00 AM ==> Object reference not set to an instance of an object.EMRICActMaster ==> 
+The url where the error occured is https://localhost:44345/Account/GetPasswordValidation
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/7/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/7/2024 12:00:00 AM ==> 6/7/2024 3:59:28 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/11/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/11/2024 12:00:00 AM ==> 6/11/2024 6:45:38 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/11/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/11/2024 12:00:00 AM ==> 6/11/2024 7:08:46 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/11/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/11/2024 12:00:00 AM ==> 6/11/2024 7:12:34 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Object reference not set to an instance of an object.LoginAsync ==> 
+The url where the error occured is https://localhost:44345/Account/LoginAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> 6/14/2024 4:52:42 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Collection was modified; enumeration operation may not execute._GetEmployeeList ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployeeList
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Collection was modified; enumeration operation may not execute._GetEmployeeList ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployeeList
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Collection was modified; enumeration operation may not execute._GetEmployeeList ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployeeList
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> 6/14/2024 5:22:49 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmployeeList ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployeeList
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmployee_SECTION_HEAD_List ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployee_SECTION_HEAD_List
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmployee_HSSE_List ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployee_HSSE_List
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmployee_EHSList ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployee_EHSList
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> Object reference not set to an instance of an object.GetEmployeeFilter ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/GetEmployeeFilter
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/14/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> Object reference not set to an instance of an object.LoginAsync ==> 
+The url where the error occured is https://localhost:44345/Account/LoginAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/toastr.js.map
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/bootstrap.min.js.map
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/toastr.js.map
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/bootstrap.min.js.map
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+6/18/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: The remote name could not be resolved: 'staging.ardhas.com'
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/19/2024 12:00:00 AM ==> A public action method 'AddEmployeeDetails' was not found on controller 'ADUQCC_WEB.Controllers.EmployeeDetailsController'.
+The url where the error occured is https://localhost:44345/EmployeeDetails/AddEmployeeDetails
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/19/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+6/19/2024 12:00:00 AM ==> 6/19/2024 12:16:46 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/8/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: The underlying connection was closed: An unexpected error occurred on a send. ---> System.IO.IOException: The handshake failed due to an unexpected packet format.
+   at System.Net.TlsStream.EndWrite(IAsyncResult asyncResult)
+   at System.Net.ConnectStream.WriteHeadersCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/8/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: The underlying connection was closed: An unexpected error occurred on a send. ---> System.IO.IOException: The handshake failed due to an unexpected packet format.
+   at System.Net.TlsStream.EndWrite(IAsyncResult asyncResult)
+   at System.Net.ConnectStream.WriteHeadersCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/8/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: The underlying connection was closed: An unexpected error occurred on a send. ---> System.IO.IOException: The handshake failed due to an unexpected packet format.
+   at System.Net.TlsStream.EndWrite(IAsyncResult asyncResult)
+   at System.Net.ConnectStream.WriteHeadersCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/8/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: The underlying connection was closed: An unexpected error occurred on a send. ---> System.IO.IOException: The handshake failed due to an unexpected packet format.
+   at System.Net.TlsStream.EndWrite(IAsyncResult asyncResult)
+   at System.Net.ConnectStream.WriteHeadersCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetRequestStream(IAsyncResult asyncResult, TransportContext& context)
+   at System.Net.Http.HttpClientHandler.GetRequestStreamCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> One or more errors occurred.LoginAsync ==> System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: The underlying connection was closed: An unexpected error occurred on a receive. ---> System.IO.IOException: Unable to read data from the transport connection: An existing connection was forcibly closed by the remote host. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at System.Net.Sockets.NetworkStream.EndRead(IAsyncResult asyncResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Sockets.NetworkStream.EndRead(IAsyncResult asyncResult)
+   at System.Net.Connection.ReadCallback(IAsyncResult asyncResult)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)
+   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---
+The url where the error occured is https://localhost:44345/Account/LoginOTPAsync
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> A public action method 'toastr.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmergencyController'.
+The url where the error occured is https://localhost:44345/Emergency/toastr.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> A public action method 'bootstrap.min.js.map' was not found on controller 'ADUQCC_WEB.Controllers.EmergencyController'.
+The url where the error occured is https://localhost:44345/Emergency/bootstrap.min.js.map
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> 10/9/2024 11:34:22 AMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmergencyTeamDrop ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmergencyTeamDrop
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmrTeamActivate ==> 
+The url where the error occured is https://localhost:44345/Emergency/_GetEmrTeamActivate
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> Object reference not set to an instance of an object.GetSelectEmployeeLoad ==> 
+The url where the error occured is https://localhost:44345/TrainingManagement/GetSelectEmployeeLoad
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> 10/9/2024 11:59:12 AMGET_WEB_BELL_NOTIFICATIONObject reference not set to an instance of an object.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmrTeamActivate ==> 
+The url where the error occured is https://localhost:44345/Emergency/_GetEmrTeamActivate
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> 10/9/2024 12:08:03 PMGET_WEB_BELL_NOTIFICATIONObject reference not set to an instance of an object.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> Object reference not set to an instance of an object.GetSelectEmployeeLoad ==> 
+The url where the error occured is https://localhost:44345/TrainingManagement/GetSelectEmployeeLoad
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmergencyTeamDrop ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmergencyTeamDrop
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmrTeamActivate ==> 
+The url where the error occured is https://localhost:44345/Emergency/_GetEmrTeamActivate
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/9/2024 12:00:00 AM ==> Object reference not set to an instance of an object.GetSelectEmployeeLoad ==> 
+The url where the error occured is https://localhost:44345/TrainingManagement/GetSelectEmployeeLoad
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/15/2024 12:00:00 AM ==> Added SuccessfulAddEmployeeTypeDetails ==> 200
+The url where the error occured is https://localhost:44345/EmployeeDetails/AddEmployeeTypeDetails
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> One or more errors occurred.GetEmergencyTeam ==> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+The url where the error occured is https://localhost:44345/EmployeeDetails/GetEmergencyTeam
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> One or more errors occurred.GetNotification Count ==> System.AggregateException: One or more errors occurred. ---> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at RealtimePushNotification.Models.NotificaionService.<GET_BELL_NOTIFICATION>d__6.MoveNext() in D:\SVN_New\ADQCC\ADQCC_WEB\Notification\SendNotifications.cs:line 104
+---> (Inner Exception #0) System.Threading.Tasks.TaskCanceledException: A task was canceled.<---
+
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 12:33:51 PMGET_WEB_BELL_NOTIFICATIONOne or more errors occurred.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmployee_SECTION_HEAD_List ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployee_SECTION_HEAD_List
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmployee_EHSList ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployee_EHSList
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetDesignationMasterSelect ==> 
+The url where the error occured is https://localhost:44345/Masters/_GetDesignationMasterSelect
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> Object reference not set to an instance of an object.GetEmployeeFilter ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/GetEmployeeFilter
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetDesignationMasterSelect ==> 
+The url where the error occured is https://localhost:44345/Masters/_GetDesignationMasterSelect
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 12:44:12 PMGET_WEB_BELL_NOTIFICATIONObject reference not set to an instance of an object.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetSectorMasterSelect ==> 
+The url where the error occured is https://localhost:44345/Masters/_GetSectorMasterSelect
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 2:51:35 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetEmployeeList ==> 
+The url where the error occured is https://localhost:44345/EmployeeDetails/_GetEmployeeList
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 4:27:21 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 4:47:45 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 4:50:40 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 5:36:23 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 6:11:46 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 6:14:59 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is 127.0.0.1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> When using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.GetNotification Count ==> 
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> 10/24/2024 6:35:45 PMGET_WEB_BELL_NOTIFICATIONWhen using SqlDependency without providing an options value, SqlDependency.Start() must be called prior to execution of a command added to the SqlDependency instance.
+The url where the error occured is https://localhost:44345/Insepection/GET_WEB_BELL_NOTIFICATION
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+The url where the error occured is https://localhost:44345/signalr/connect?transport=longPolling&clientProtocol=2.1&connectionToken=m%2F4SXkrg6vIaoUeZ0acyB22b5MyxTCVvNFvpxXf1mnQSwmtVSIfvSvpzgAJaR1%2BILDzyT%2Fiq4D%2FBwGo6klhMnH3g0E8KDy7%2BDxP147ue6EU%2B6Y9MRc4%2BSR4H5j82VdXZ&connectionData=%5B%7B%22name%22%3A%22mynotificationhub%22%7D%5D
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+The url where the error occured is https://localhost:44345/signalr/abort?transport=longPolling&clientProtocol=2.1&connectionToken=m%2F4SXkrg6vIaoUeZ0acyB22b5MyxTCVvNFvpxXf1mnQSwmtVSIfvSvpzgAJaR1%2BILDzyT%2Fiq4D%2FBwGo6klhMnH3g0E8KDy7%2BDxP147ue6EU%2B6Y9MRc4%2BSR4H5j82VdXZ&connectionData=%5B%7B%22name%22%3A%22mynotificationhub%22%7D%5D
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+10/24/2024 12:00:00 AM ==> Object reference not set to an instance of an object._GetDesignationMasterSelect ==> 
+The url where the error occured is https://localhost:44345/Masters/_GetDesignationMasterSelect
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+11/6/2024 12:00:00 AM ==> Object reference not set to an instance of an object.GetWalkInspectionFinalReport ==> 
+The url where the error occured is https://localhost:44345/Insepection/GetWalkInspectionFinalReport
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================
+11/6/2024 12:00:00 AM ==> Object reference not set to an instance of an object.GetWalkInspectionFinalReport ==> 
+The url where the error occured is https://localhost:44345/Insepection/GetWalkInspectionFinalReport
+The client IP address is ::1
+The client's browser is Chrome
+=================================================================================================

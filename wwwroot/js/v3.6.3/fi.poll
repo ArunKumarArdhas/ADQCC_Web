@@ -1,0 +1,105 @@
+FI.script.requireAndDefine('jquery', 'json2').requires('jquery', 'json2', 'cookie').define('fi.poll', function () {
+	(function (fi, $) {
+		"use strict";
+		
+		/* Make sure FI and Widgets are defined
+         * ===================================*/
+        if (typeof fi.widgets === 'undefined') {
+            fi.widgets = {};
+        }
+		
+		/* Default settings
+         * ============================== */
+		fi.widgets.poll = {
+			submitUrl: 'SubmitVote',
+			resultUrl: 'ViewPollResult'
+		};
+		 
+		var defaultSelector = '[data-toggle="poll"]',
+			Poll = function(element, options) {
+				this.$element = $(element);
+				this.options = $.extend(true, {
+					pollId: this.$element.attr('data-poll-id')
+				}, fi.widgets.poll, options);
+				this.answerUl = this.$element.find('ul.poll');
+				this.$element.find('div.actions input.submit').on('click', $.proxy(this.submit, this));
+				this.$element.find('div.actions input.view').on('click', $.proxy(this.view, this));
+			};
+		
+		Poll.prototype = {
+			constructor: Poll,
+			submit: function(event) {
+				event.preventDefault();
+				var parent = $(event.target).parent();
+				if (parent.hasClass('disabled')) return;
+				parent.addClass('disabled');
+				if (this.answerUl.find('input:checked').length == 0) {
+					parent.removeClass('disabled');
+					return;
+				}
+				this.answerUl.addClass('loading');
+				this.answerUl.find('input').attr('disabled', true);
+				
+				fi.DS.getData(this.options.submitUrl, 
+					{ pollId: this.options.pollId, answerId: this.answerUl.find('input:checked').val() },
+					$.proxy(this.submitCallback, this));
+			},
+			submitCallback: function(data) {
+				if (data.code == 200) {
+					var cn = data.cn;
+					var tk = data.tk;
+					var ex = new Date();
+					ex.setFullYear(ex.getFullYear() + 1, ex.getMonth(), ex.getDate());
+					$.cookie(cn, tk, { expires: ex });
+					this.switchToResult();
+				}
+			},
+			switchToResult: function() {
+				fi.DS.getData(this.options.resultUrl, 
+					{ pollId: this.options.pollId },
+					$.proxy(this.switchToResultCallback, this));
+			},
+			switchToResultCallback: function(data) {
+				if (data.code == 200) {
+					var ul = $('<ul/>').addClass('poll-answers toblock');
+					for (var i = 0; i < data.answers.length; i++) {
+						var a = data.answers[i];
+						var li = $('<li/>');
+						li.append('<label>' + a.title + '</label>');
+						li.append('<div class="result"><span class="value">' + a.percentage + '%</span></div>');
+						li.find('div').append($('<span/>').addClass('bar').css({ width: a.percentage + '%' }));
+						ul.append(li);
+					}
+					this.answerUl.after(ul);
+					this.answerUl.remove();
+					this.$element.find('div.actions').remove();
+					this.$element.parent().trigger('height_changed');
+				}
+			},
+			view: function(event) {
+				event.preventDefault();
+				var parent = $(event.target).parent();
+				if (parent.hasClass('disabled')) return;
+				parent.addClass('disabled');
+				this.answerUl.addClass('loading');
+				this.switchToResult();
+			}
+		};
+
+		$.fn.onlinePoll = function (options) {
+			return this.each(function () {
+				var $this = $(this),
+					data = $this.data('onlinePoll');
+				if (!data) { 
+					$this.data('onlinePoll', (data = new Poll(this, options)));
+				}
+			});
+		};
+		
+		$.fn.onlinePoll.constructor = Poll;
+		
+		$(function() {
+			$(defaultSelector).onlinePoll();
+		});
+	})(FI, jQuery);
+});

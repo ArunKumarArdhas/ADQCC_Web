@@ -1,0 +1,120 @@
+FI.script.requireAndDefine('jquery', 'json2', 'mustache').requires('jquery', 'json2', 'fi.util', 'fi.regularForm').define('fi.orderCheckStatus', function () {
+    !(function (fi, $, _) {
+        'use strict';
+
+        if (typeof fi.widgets === 'undefined') {
+            fi.widgets = {};
+        }
+
+        fi.widgets.OrderCheckStatus = function (element, options) {
+            this.$element = $(element);
+            this.options = $.extend(true, {}, options);
+            this.$orderNumber = this.$element.find('.order-number');
+            this.$entity = this.$element.find('[id$=ddlEntityName]');
+            this.$serviceName = this.$element.find('[id$=ddlServiceName]');
+            this.$submit = this.$element.find('.submit');
+            this.$submit.click($.proxy(this._checkOrderStatus, this));
+            this.$entity.change($.proxy(this._showServiceName, this));
+
+            this.$back = this.$element.find('.back');
+            this.$back.click($.proxy(this._back, this));
+        };
+
+        fi.widgets.OrderCheckStatus.prototype = {
+            constructor: fi.widgets.OrderCheckStatus,
+            _showServiceName: function (ev) {
+                ev.preventDefault();
+
+                if (this.$entity.val() == 'SZHP') {
+                    this.$serviceName.parents('.field-row').removeClass('hidden')
+                } else {
+                    this.$serviceName.parents('.field-row').addClass('hidden')
+                }
+            },
+            _checkOrderStatus: function (ev) {
+                ev.preventDefault();
+
+                if (this.$orderNumber.val() != '') {
+                    //fi.DS.getData('CheckOrderStatus', {
+                    //    languageId: FI.languageId,
+                    //    orderNumber: this.$orderNumber.val()
+                    //}, $.proxy(this._checkSuccessHandler, this));
+
+                    $.ajax({
+                        url: "services/AjaxHandler.asmx/CheckRequestStatus",
+                        data: JSON.stringify({
+                            "entity": this.$entity.val(),
+                            "languageId": FI.languageId,
+                            "refno": this.$orderNumber.val(),
+                            "serviceType": this.$serviceName.val()
+                        }),
+                        success: function (r) {
+                            if (r) {
+                                $('.order-check').hide();
+                                $('.order-result').show();
+                                $('.current-order').text(r.d.refNo);
+                                $('.label-status').children().remove();
+                                $('.label-status').append(r.d.status);
+                            }
+                        },
+                        type: "POST",
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        error: function (xhr) {
+                            console.log(xhr);
+                        }
+                    });
+
+                    //fi.DS.getData('CheckRequestStatus', {
+                    //    entity: this.$entity.val(),
+                    //    serviceType: '',
+                    //    languageId: FI.languageId,
+                    //    refno: this.$orderNumber.val()
+                    //}, $.proxy(this._checkSuccessHandler, this));
+                }
+            },
+            _checkSuccessHandler: function (r) {
+                if (r) {
+                    $('.order-check').hide();
+                    $('.order-result').show();
+                    $('.current-order').text(this.$orderNumber.val());
+                    $('.label-status').children().remove();
+                    $('.label-status').append(r.status);
+                }
+            },
+
+            _back: function (ev) {
+                ev.preventDefault();
+
+                $('.order-check').show();
+                $('.order-result').hide();
+                this.$orderNumber.val("");
+            },
+        };
+
+        $.fn.orderCheckStatus = function (options) {
+            return this.each(function () {
+                var el = $(this),
+                    data = el.data('orderCheckStatus'),
+                    optApi = {
+                        refTable: el.data('itemtype'),
+                        refId: el.data('itemid')
+                    };
+
+                if (data === null || data === undefined) {
+                    data = new fi.widgets.OrderCheckStatus(el, $.extend(true, options, optApi));
+                    el.data('orderCheckStatus', data);
+                }
+
+                if (typeof (options) === 'string' && typeof (data[options]) === 'function') {
+                    data[options].apply(data, args.splice(1));
+                }
+            });
+        };
+
+        $(function () {
+            $('[data-toggle="orderCheckStatus"]').orderCheckStatus();
+        });
+
+    }(FI, jQuery));
+});

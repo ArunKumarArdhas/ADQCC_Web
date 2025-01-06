@@ -1,0 +1,892 @@
+﻿@using ADQCC_New.Models;
+@using Microsoft.AspNetCore.Http;
+@using System.Globalization
+@using System.Threading;
+@using Newtonsoft.Json;
+@using static ADQCC_New.Common.CommonClass;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    GET_USER_DETAILS loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        .dtp {
+            direction: ltr !important;
+        }
+    </style>
+    
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - ADQCC</title>
+    @*<title>@ViewBag.Title - NEOEHS</title>*@
+
+    <link rel="icon" href="@Url.Content("~/Content/assets/img/favicon-32x32.png")" type="image/png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&family=Sen:wght@400;700&display=swap" rel="stylesheet">
+    <link href="@Url.Content("~/Content/assets/_New_Dashboard/Multiselect/virtual-select.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.min.css")" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    @if (loginclass != null)
+    {
+        if (loginclass.LANG_ID == "ar")
+        {
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/simplebar/css/simplebar.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/perfect-scrollbar/css/perfect-scrollbar.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/metismenu/css/metisMenu.min.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/vectormap/jquery-jvectormap-2.0.2.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/css/pace.min.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/css/bootstrap.min.css")" rel="stylesheet">
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/css/bootstrap-extended.css")" rel="stylesheet">
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/css/app.css")" rel="stylesheet">
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/css/icons.css")" rel="stylesheet">
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/css/dark-theme.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/css/semi-dark.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/css/header-colors.css")" rel="stylesheet" />
+            @* <script src="@Url.Content("~/Scripts/jquery-3.6.0.js")"></script> *@
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/js/pace.min.js")"></script>
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/datatable/css/dataTables.bootstrap5.min.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/notifications/css/lobibox.min.css")" rel="stylesheet" />
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/js/bootstrap.bundle.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/notifications/js/notification-custom-script.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/notifications/js/notifications.min.js")"></script>
+
+        }
+        else
+        {
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/simplebar/css/simplebar.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/metismenu/css/metisMenu.min.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/vectormap/jquery-jvectormap-2.0.2.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/css/pace.min.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/css/bootstrap.min.css")" rel="stylesheet">
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/css/bootstrap-extended.css")" rel="stylesheet">
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/css/app.css")" rel="stylesheet">
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/css/icons.css")" rel="stylesheet">
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/css/dark-theme.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/css/semi-dark.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/css/header-colors.css")" rel="stylesheet" />
+@*             <script src="@Url.Content("~/Scripts/jquery-3.6.0.js")"></script>
+ *@            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/js/pace.min.js")"></script>
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/datatable/css/dataTables.bootstrap5.min.css")" rel="stylesheet" />
+            <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/notifications/css/lobibox.min.css")" rel="stylesheet" />
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/js/bootstrap.bundle.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/notifications/js/notification-custom-script.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/notifications/js/notifications.min.js")"></script>
+
+        }
+    }
+    @*---Toastr---*@
+    <link href="@Url.Content("~/Content/dist/css/toastr.css")" rel="stylesheet" />
+
+    <script src="@Url.Content("~/Content/assets/_New_Dashboard/Multiselect/virtual-select.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js")"></script>
+    <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js")"></script>
+    @*<link href="~/Content/assets/_New_Dashboard/assets/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Content/assets/_New_Dashboard/assets/plugins/sweetalert2.min.js"></script>*@
+    <link href="~/Content/assets/_New_Dashboard/assets/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/Content/assets/_New_Dashboard/assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+    @*---latest date time picker*@
+    <script src="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/js/picker.js"></script>
+    <script src="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/js/picker.date.js"></script>
+    <script src="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/js/picker.time.js"></script>
+
+
+    <link href="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/css/classic.css" rel="stylesheet" />
+    <link href="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/css/classic.date.css" rel="stylesheet" />
+    <link href="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/css/classic.time.css" rel="stylesheet" />
+
+
+    @*--Select2--*@
+    <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/select2/css/select2.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/select2/css/select2-bootstrap4.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/select2/js/select2.min.js")"></script>
+</head>
+@*onunload="Del_cookie()"*@
+<body style="font-family: 'Poppins', sans-serif;" onunload="Del_cookie()">
+    <div class="wrapper">
+        @if (loginclass != null)
+        {
+            if (loginclass.LANG_ID == "ar")
+            {
+                <div class="sidebar-wrapper" data-simplebar="true">
+                    <div class="sidebar-header" @*style="background: #015596 !important;"*@>
+                        <div>
+                            @*<img src="~/Content/assets/images/leftlogo.png" style="width: 100%;" />*@
+                            @*NEOEHS*@
+                            @*<img src="~/Content/assets/adsIcons/NEOEHS_Logo.png" style="width: 100%; margin-left: -8px; padding: 7px" />*@
+
+                            <img src="~/Content/assets/images/NewADQCCleftlogo.png" style="width: 85%; margin-left: 20px; padding: 7px " />
+                        </div>
+                        <div class="toggle-icon ms-auto">
+                            <i class='bx bx-first-page' style="color: #cdae3c !important;"></i>
+                        </div>
+                    </div>
+                    @Html.Partial("_PartialMenu_Arabic")
+                </div>
+                <header>
+                    <div class="topbar d-flex align-items-center bg-dark shadow-none border-light-2 border-bottom">
+                        <nav class="navbar navbar-expand" style="background-color:#ffffff;">
+                            <div class="mobile-toggle-menu text-white me-3">
+                                <i class='bx bx-menu'></i>
+                            </div>
+                            @*<div class="top-menu-left d-none d-lg-block">
+                    <ul class="nav">
+                    <li class="nav-item">
+                    <a class="nav-link text-white" href="app-fullcalender.html"><i class='bx bx-calendar'></i></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-white" href="app-to-do.html"><i class='bx bx-check-square'></i></a>
+                    </li>
+                    </ul>
+                    </div>*@
+
+                            @*<img src="~/Content/assets/adsIcons/images/logo/logo.png" />*@
+                            @*<img src="~/Content/assets/adsIcons/logo.png" style="margin-right:225px" />*@
+
+                            @*NEOEHS*@
+                            @*<img src="~/Content/assets/adsIcons/NEOEHS_Logo.png" style="margin-right: 441px; width: 18%;" />*@
+
+                            <img src="~/Content/assets/adsIcons/Zerohamlogo.png" style="margin-right: 355px; width: 18%;" />
+                            <div class="top-menu ms-auto">
+                                <ul class="navbar-nav align-items-center">
+                                    <li class="nav-item dropdown dropdown-large" style="margin-bottom: 6px;">
+                                        <a class="" href="#" role="button">
+                                            <img src="~/Content/assets/adsIcons/images/arabic.png" alt="" class="img-fluid" width="20px;" />
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown dropdown-large">
+                                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class="alert-count" id="NOTI_COUNT"></span>
+                                            <i class='bx bx-bell'></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a href="javascript:;">
+                                                <div class="msg-header">
+                                                    <p class="msg-header-title">إشعارات</p>
+                                                    <p class="msg-header-clear ms-auto"></p>
+                                                </div>
+                                            </a>
+                                            <div class="header-notifications-list" id="NOTI_UL">
+                                            </div>
+                                            <a href="#" onclick="ClearAllMessage()">
+                                                <div class="text-center msg-footer">تعليم الكل كمقروء</div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item dropdown dropdown-large" style="display:none">
+                                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class=""></span>
+                                            <i class=''></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a href="javascript:;">
+                                                <div class="msg-header">
+                                                </div>
+                                            </a>
+                                            <div class="header-message-list">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="user-box dropdown border-light-2">
+                                <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                    @if (loginclass != null)
+                                    {
+                                        if (loginclass.GENDER == "Male")
+                                        {
+                                            <img src="~/Content/dist/img/noimages.png" class="user-img" alt="User Image" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Content/dist/img/noimages.png" class="user-img" alt="User Image" />
+                                        }
+                                        @*<img src="~/Content/_New_Dashboard/assets/images/avatars/avatar-1.png" class="user-img" alt="user avatar">*@
+                                    }
+
+
+                                    @*@if (@loginclass.LANG_ID == "ar")
+                            {
+                            <div class="user-info ps-3">
+                            <p class="user-name mb-0 text-white"> @loginclass.DISPLAY_NAME_AR</p>
+                            <p class="designattion mb-0">@loginclass.DESI_NAME_AR</p>
+                            </div>
+                            }
+                            else
+                            {
+                            <div class="user-info ps-3">
+                            <p class="user-name mb-0 text-white">@loginclass.DISPLAY_NAME</p>
+                            <p class="designattion mb-0">@loginclass.DESI_NAME</p>
+                            </div>
+                            }*@
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("ChangePassword","Account", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-user"></i><span>@ADQCC_New.LocalResource.Resource.Changepassword</span></a>
+                                    </li>
+                                    @*<li>
+                            <a class="dropdown-item" href="javascript:;"><i class="bx bx-cog"></i><span>@ADQCC_New.LocalResource.Resource.Settings</span></a>
+                            </li>
+                            <li>
+                            <a class="dropdown-item" href="javascript:;"><i class='bx bx-home-circle'></i><span>@ADQCC_New.LocalResource.Resource.Dashboard</span></a>
+                            </li>*@
+                                    @*<li>
+                            <a class="dropdown-item" href="javascript:;"><i class='bx bx-dollar-circle'></i><span>Earnings</span></a>
+                            </li>
+                            <li>
+                            <a class="dropdown-item" href="javascript:;"><i class='bx bx-download'></i><span>Downloads</span></a>
+                            </li>*@
+                                    <li>
+                                        <div class="dropdown-divider mb-0"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("Logout","Account")"><i class='bx bx-log-out-circle'></i><span>@ADQCC_New.LocalResource.Resource.Logout</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+                <div class="page-wrapper">
+                    @RenderBody()
+                </div>
+            }
+            else
+            {
+                <div class="sidebar-wrapper" data-simplebar="true">
+                    <div class="sidebar-header" @*style="background: #015596 !important;"*@>
+                        <div>
+                            @*<img src="~/Content/assets/images/leftlogo.png" style="width: 100%;" />*@
+
+                            @*NEOEHS*@
+                            @*<img src="~/Content/assets/adsIcons/NEOEHS_Logo.png" style="width: 100%; margin-left: -8px; padding: 7px" />*@
+
+                            <img src="~/Content/assets/images/NewADQCCleftlogo.png" style="width: 85%; margin-left: 20px; padding: 7px " />
+
+
+                            @*<img src="~/Content/dist/img/hsbctopnew.jpg" style="width: 100%; height: 30px;">*@
+                            @* <img src="~/Content/assets/adsIcons/lefttopqcc.png" style="width: 100%; height: 30px;" />*@
+                        </div>
+                        <div class="toggle-icon ms-auto">
+                            <i class='bx bx-first-page' style="color: #015596 !important;"></i>
+                        </div>
+                    </div>
+
+                   @Html.Partial("_PartialMenu_English"); 
+                </div>
+                <header>
+                    <div class="topbar d-flex align-items-center bg-dark shadow-none border-light-2 border-bottom">
+                        <nav class="navbar navbar-expand" style="background-color: #ffffff; ">
+                            <div class="mobile-toggle-menu text-white me-3">
+                                <i class='bx bx-menu'></i>
+                            </div>
+                            @*<div class="top-menu-left d-none d-lg-block">
+                    <ul class="nav">
+                    <li class="nav-item">
+                    <a class="nav-link text-white" href="app-fullcalender.html"><i class='bx bx-calendar'></i></a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link text-white" href="app-to-do.html"><i class='bx bx-check-square'></i></a>
+                    </li>
+                    </ul>
+                    </div>*@
+
+
+                            @*<img src="~/Content/assets/adsIcons/logo.png" style="margin-left:225px;" />*@
+
+                            @*NEOEHS*@
+                            @*<img src="~/Content/assets/adsIcons/NEOEHS_Logo.png" style="margin-left: 375px; width: 18%;" />*@
+
+                            <img src="~/Content/assets/adsIcons/Zerohamlogo.png" style="margin-left: 327px; width: 18%;" />
+
+                            <div class="top-menu ms-auto">
+                                <ul class="navbar-nav align-items-center">
+                                    <li class="nav-item dropdown dropdown-large" style="margin-bottom: 6px;">
+                                        <a class="" href="#" role="button">
+                                            <img src="~/Content/assets/adsIcons/images/arabic.png" alt="" class="img-fluid" width="20px;" />
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown dropdown-large">
+                                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class="alert-count" id="NOTI_COUNT"></span>
+                                            <i class='bx bx-bell'></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a href="javascript:;">
+                                                <div class="msg-header">
+                                                    <p class="msg-header-title">Notifications</p>
+                                                    <p class="msg-header-clear ms-auto"></p>
+                                                </div>
+                                            </a>
+                                            <div class="header-notifications-list" id="NOTI_UL">
+                                            </div>
+                                            <a href="#" onclick="ClearAllMessage()">
+                                                <div class="text-center msg-footer">Marks all as read</div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item dropdown dropdown-large" style="display:none">
+                                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class=""></span>
+                                            <i class=''></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a href="javascript:;">
+                                                <div class="msg-header">
+                                                </div>
+                                            </a>
+                                            <div class="header-message-list">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="user-box dropdown border-light-2">
+                                <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                    @if (loginclass != null)
+                                    {
+                                        if (loginclass.GENDER == "Male")
+                                        {
+
+                                            @*<img src="~/Content/dist/img/users.png" class="user-img" alt="User Image" />*@
+                                            <img src="~/Content/dist/img/noimages.png" class="user-img" alt="User Image" />
+                                        }
+
+                                        else
+                                        {
+                                            <img src="~/Content/dist/img/noimages.png" class="user-img" alt="User Image" />
+                                        }
+
+                                    }
+
+
+                                    @*@if (@loginclass.LANG_ID == "ar")
+                            {
+                            <div class="user-info ps-3">
+                            <p class="user-name mb-0 text-white"> @loginclass.DISPLAY_NAME_AR</p>
+                            <p class="designattion mb-0">@loginclass.DESI_NAME_AR</p>
+                            </div>
+                            }
+                            else
+                            {
+                            <div class="user-info ps-3">
+                            <p class="user-name mb-0 text-white">@loginclass.DISPLAY_NAME</p>
+                            <p class="designattion mb-0">@loginclass.DESI_NAME</p>
+                            </div>
+                            }*@
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("ChangePassword","Account", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-user"></i><span>@ADQCC_New.LocalResource.Resource.Changepassword</span></a>
+                                    </li>
+                                    @*<li>
+                            <a class="dropdown-item" href="javascript:;"><i class="bx bx-user"></i><span>@ADQCC_New.LocalResource.Resource.Profile</span></a>
+                            </li>
+                            <li>
+                            <a class="dropdown-item" href="javascript:;"><i class="bx bx-cog"></i><span>@ADQCC_New.LocalResource.Resource.Settings</span></a>
+                            </li>
+                            <li>
+                            <a class="dropdown-item" href="javascript:;"><i class='bx bx-home-circle'></i><span>@ADQCC_New.LocalResource.Resource.Dashboard</span></a>
+                            </li>*@
+                                    <li>
+                                        <div class="dropdown-divider mb-0"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("Logout","Account")"><i class='bx bx-log-out-circle'></i><span>@ADQCC_New.LocalResource.Resource.Logout</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+
+                <div class="page-wrapper">
+                    <div class="">
+                        @RenderBody()
+                    </div>
+                </div>
+            }
+        }
+        <div class="search-overlay"></div>
+        <div class="overlay toggle-icon"></div>
+        <!--end overlay-->
+        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top" style="background-color:#896522 "><i class='bx bxs-up-arrow-alt'></i></a>
+        <!--End Back To Top Button-->
+        <footer class="page-footer">
+            <p class="mb-0">
+                @ADQCC_New.LocalResource.Resource.Copyright &copy; @DateTime.Now.Year. @ADQCC_New.LocalResource.Resource.Allrights
+                @ADQCC_New.LocalResource.Resource.reserved.
+            </p>
+        </footer>
+    </div>
+
+
+    @if (loginclass != null)
+    {
+        if (loginclass.LANG_ID == "ar")
+        {
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/datatable/js/jquery.dataTables.min.js")"></script>
+            <script src="@Url.Content("~/Content/dist/js/daterangepicker.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/simplebar/js/simplebar.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/metismenu/js/metisMenu.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/perfect-scrollbar/js/perfect-scrollbar.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/vectormap/jquery-jvectormap-2.0.2.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/plugins/vectormap/jquery-jvectormap-world-mill-en.js")"></script>
+            @*<script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/js/index.js")"></script>*@
+            @*<script>    new PerfectScrollbar('.dashboard-top-countries');    </script>*@
+            <!--app JS-->
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/rtl/js/app.js")"></script>
+
+        }
+        else
+        {
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/datatable/js/jquery.dataTables.min.js")"></script>
+            <script src="@Url.Content("~/Content/dist/js/daterangepicker.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/simplebar/js/simplebar.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/metismenu/js/metisMenu.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js")"></script>
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js")"></script>
+
+            @*<script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/js/index.js")"></script>*@
+            @*<script>
+    new PerfectScrollbar('.dashboard-top-countries');
+    </script>*@
+
+            <!--app JS-->
+            <script src="@Url.Content("~/Content/assets/_New_Dashboard/assets/js/app.js")"></script>
+        }
+    }
+    <script src="@Url.Content("~/Content/dist/js/toastr.min.js")"></script>
+@*     <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.2.min.js")"></script>
+    <script src="@Url.Content("~/signalr/Hubs/")"></script>
+ *@
+</body>
+</html>
+<script>
+    var showFlag = false;
+    var NotiLength = null;
+
+    $(document).ready(function () {
+
+
+        if ("@loginclass.LANG_ID" == "ar") {
+            $('body').attr('dir', 'rtl');
+        }
+        else {
+            $("body").removeAttr("dir");
+        }
+
+        var hub = $.connection.myNotificationHub;
+
+        hub.client.displayStatus = function () {
+
+            GET_BELL_NOTIFICATION();
+        };
+
+
+        $.connection.hub.start();
+
+        UpdateNotificationList();
+
+
+
+        //$('.select2').select2();
+        //var TodayDate = @DateTime.Now.Date;
+        $("#Language").on("change", function () {
+
+            var val = $(this).val();
+            var url = window.location.pathname.split("/");
+            var ctrl_name = url[1];
+            var action_name = url[2];
+            sessionStorage.setItem("LANG_ID", val);
+            $.post("@Url.Action("Index", "Home")", { LanguageAbbrevation: val, pathName: ctrl_name }, function (data) {
+                var url = '/' + ctrl_name + '/' + action_name + '/?LanguageAbbrevation=' + val;
+                window.location.href = url;
+                //$("#Language").val(val);
+            });
+        });
+
+        //$('.DatePicker').datetimepicker({
+        //    //value: TodayDate,
+        //    timepicker: false,
+        //    format: 'd-M-Y',
+        //});
+        //$('.DatePickerP').datetimepicker({
+        //    timepicker: false,
+        //    format: 'd-M-Y',
+        //    maxDate: 0
+
+        //});
+        //$('.TimePicker').datetimepicker({
+        //    datepicker: false,
+        //    step: 5,
+        //    format: 'H:i',
+        //    scrollInput: false,
+        //    closeOnDateSelect: true
+        //});
+        //$('.DatetimePicker').datetimepicker({
+
+        //});
+        //$('.Preventdate').datetimepicker({
+        //    minDate: 0,
+
+        //});
+
+
+        $(".alpha").keypress(function (e) {
+            //if (e.which != 8 && e.which != 32 && e.which != 46 && e.which != 0 && (e.which < 65 || e.which > 90) && (e.which < 92 || e.which > 122) && e.which != 9) {
+            //    $(this).tooltip('show');
+            //    return false;
+            //}
+            if (e.which == 163 || e.which == 164 || e.which == 167 || e.which == 168 || e.which == 180 || e.which == 189 || e.which == 197 || e.which == 198 || e.which == 216 || e.which == 229 || e.which == 230 || e.which == 248 || (e.which >= 33 && e.which <= 64) || (e.which >= 91 && e.which <= 96) || (e.which >= 123 && e.which <= 126)) {
+                $(this).tooltip('show');
+                return false;
+            }
+            else {
+                $(this).tooltip('hide');
+                return true;
+            }
+        });
+
+
+        $(".alphanumerics").keypress(function (e) {
+            //if (e.which != 8 && e.which != 32 && e.which != 46 && e.which != 0 && (e.which < 65 || e.which > 90) && (e.which < 92 || e.which > 122) && (e.which < 48 || e.which > 57)) {
+            //    $(this).tooltip('show');
+            //    return false;
+            //}
+            if (e.which == 163 || e.which == 164 || e.which == 167 || e.which == 168 || e.which == 180 || e.which == 189 || e.which == 197 || e.which == 198 || e.which == 216 || e.which == 229 || e.which == 230 || e.which == 248 || (e.which >= 33 && e.which <= 47) || (e.which >= 58 && e.which <= 64) || (e.which >= 91 && e.which <= 96) || (e.which >= 123 && e.which <= 126)) {
+                $(this).tooltip('show');
+                return false;
+            }
+            else {
+                $(this).tooltip('hide');
+                return true;
+            }
+        });
+
+        $(".alphanumericSpecial").keypress(function (e) {
+            //if (e.which != 45 && e.which != 44 && e.which != 8 && e.which != 32 && e.which != 46 && e.which != 0 && (e.which < 65 || e.which > 90) && (e.which < 92 || e.which > 122) && (e.which < 48 || e.which > 57)) {
+            //    $(this).tooltip('show');
+            //    return false;
+            //}
+            if (e.which == 47 || e.which == 96 || e.which == 163 || e.which == 164 || e.which == 167 || e.which == 168 || e.which == 180 || e.which == 189 || e.which == 197 || e.which == 198 || e.which == 216 || e.which == 229 || e.which == 230 || e.which == 248 || (e.which >= 33 && e.which <= 37) || (e.which >= 40 && e.which <= 43) || (e.which >= 60 && e.which <= 64) || (e.which >= 91 && e.which <= 94) || (e.which >= 123 && e.which <= 126)) {
+                $(this).tooltip('show');
+                return false;
+            }
+            else {
+                $(this).tooltip('hide');
+                return true;
+            }
+        });
+
+        //$(".alphanumericSpecial").on("keypress", function (e) {
+        //
+        //    var arabicAlphabetDigits = '^[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FFa-zA-Z]+[\u0600-\u065F\u066A-\u06EF\u06FA-\u06FFa-zA-Z-_]*$';
+
+        //    if (arabicAlphabetDigits.test(key) != e) {
+        //        $(this).tooltip('show');
+        //        return false;
+        //    }
+        //});
+
+        //$(".alphanumericSpecial").on("keypress", function (e) {
+        //    ;
+        //    if ((e.which <= 33 || e.which <= 47)) {
+        //        $(this).tooltip('show');
+        //        return false;
+        //    }
+        //});
+
+        $(".numbersWithDot").keypress(function (e) {
+
+            if (e.which != 8 && e.which != 0 && e.which != 46 && e.which != 32 && (e.which < 48 || e.which > 57) && e.which != 9 && (e.which < 39 || e.which > 39)) {
+                $(this).tooltip('show');
+                return false;
+            }
+            else {
+                $(this).tooltip('hide');
+                return true;
+            }
+        });
+
+        $(".numbersonly").keypress(function (e) {
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 9 && (e.which < 37 || e.which > 40) && (e.which < 37 || e.which > 40)) {
+                $(this).tooltip('show');
+                return false;
+            }
+            else {
+                $(this).tooltip('hide');
+                return true;
+            }
+        });
+
+        //$(".TextAreaMaxLenth").MaxLength(
+        //    {
+        //        MaxLength: 7500,
+        //        DisplayCharacterCount: false
+        //    });
+        //var maximuLength = 7500;
+        //$('textarea').keyup(function () {
+        //    var textlen = maximuLength - $(this).val().length;
+        //    $('.rchars').text(textlen);
+        //});
+
+
+        //var d = new Date();
+        //var year = d.getFullYear() - 10;
+        //d.setFullYear(year);
+        //$('.BirthDate').datetimepicker({
+        //    timepicker: false,
+        //    format: 'd-M-Y',
+        //    yearStart: 1920,
+        //    yearEnd: year,
+        //    defaultDate: d,
+        //});
+
+
+
+        //$(window).on('beforeunload', function () {
+        //    $.ajax({
+        //        url: '/Account/Clear',
+        //        type: 'POST',
+        //        async: false // Synchronous request to ensure session is cleared before closing
+        //    });
+        //});
+    @*window.addEventListener("beforeunload", function (event) {
+            // Send an AJAX request to notify the server about tab close
+            alert("dd");
+            $.ajax({
+            url: '@Html.Raw(@Url.Action("Dashboard", "Account"))',
+            method: 'POST',
+            async: false, // Ensures the browser waits for the AJAX request to complete before closing the tab
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            });
+            });*@
+        });
+
+    function PROFILE_VIEW(ROWID) {
+        ;
+        window.location.href = '@Url.Action("_ViewEmployeeDetails", "EmployeeDetails")' + '?EMP_ID=' + ROWID;
+    }
+
+    function GET_BELL_NOTIFICATION() {
+        ;
+        var divNotificaion = $('#NOTI_UL');
+        $.ajax({
+            url: '/Insepection/GET_WEB_BELL_NOTIFICATION',
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+
+                data = $.parseJSON(data);
+                if (data.length > 0) {
+
+                    divNotificaion.empty();
+                    //// set Count
+                    $('#NOTI_COUNT').text(data.length);
+                    $("#NOTI_READ_COUNT").text(data.length);
+                    ///Make notification html
+                    for (var i = 0; i < data.length; i++) {
+
+                        var notification = "";
+                        if ('@loginclass.LANG_ID' == 'ar') {
+                            notification = '<input type="hidden" class="Notification_id" value="' + data[i].ANS_NOTIFICATION_ID + '"/><a class="dropdown-item" onclick="HyperLinkRedirect(' + "'" + data[i].ANS_NOTIFICATION_ID + "'" + ',' + "'" + data[i].HYPER_LINK + "'" + ')" href="javascript:;"><div class="d-flex align-items-center"><div class="notify bg-light-warning text-warning"><i class="bx bx-message-detail"></i></div><div class="flex-grow-1"><h6 class="msg-name" style="font-weight:bold;">' + data[i].ANS_CONTENT_TITILE_AR + '<span class="msg-time float-end">' + data[i].NOTIFICATION_DATE_AR + '</span></h6><p class="msg-info">' + data[i].ANS_CONTENT_TITILE_DESCRIPTION_AR + '</p></div></div></a>';
+                        }
+                        else {
+                            notification = '<input type="hidden" class="Notification_id" value="' + data[i].ANS_NOTIFICATION_ID + '"/><a class="dropdown-item" onclick="HyperLinkRedirect(' + "'" + data[i].ANS_NOTIFICATION_ID + "'" + ',' + "'" + data[i].HYPER_LINK + "'" + ')" href="javascript:;"><div class="d-flex align-items-center"><div class="notify bg-light-warning text-warning"><i class="bx bx-message-detail"></i></div><div class="flex-grow-1"><h6 class="msg-name">' + data[i].ANS_CONTENT_TITLE + '<span class="msg-time float-end">' + data[i].NOTIFICATION_DATE + '</span></h6><p class="msg-info">' + data[i].ANS_CONTENT_TITLE_DISCRIPTION + '</p></div></div></a>';
+                        }
+                        divNotificaion.append(notification);
+                    }
+
+
+                    if (NotiLength != data.length) {
+                        //toastr.info(data[0].ANS_CONTENT_TITLE_DISCRIPTION, data[0].ANS_CONTENT_TITLE);
+                        if ('@loginclass.LANG_ID' == 'ar') {
+                            Lobibox.notify('default', {
+                                pauseDelayOnHover: true,
+                                continueDelayOnInactiveTab: false,
+                                position: 'center top',
+                                size: 'mini',
+                                msg: data[0].ANS_CONTENT_TITILE_DESCRIPTION_AR
+                            });
+                        }
+                        else {
+                            Lobibox.notify('default', {
+                                pauseDelayOnHover: true,
+                                continueDelayOnInactiveTab: false,
+                                position: 'center top',
+                                size: 'mini',
+                                msg: data[0].ANS_CONTENT_TITLE_DISCRIPTION
+                            });
+                        }
+
+                        NotiLength = data.length;
+                    }
+                    showFlag = true;
+                }
+            }, error: function (r, e, w) {
+            }
+        });
+
+
+
+    }
+
+    function UpdateReadStatus(value) {
+
+        $.post("@Url.Action("GET_UPDATE_BELL_NOTIFICATION", "DashBoard")", { ANS_NOTIFICATION_ID: value }, function (data) {
+
+            if (data.STATUS_CODE == "200") {
+                UpdateNotificationList();
+            }
+
+        });
+    }
+    function ClearAllMessage() {
+
+        var emp_designation = "@loginclass.DESI_NAME";
+        var emp_id = "@loginclass.EMP_ID";
+        $.post("@Url.Action("UPDATE_READ_STATUS_CLEAR_ALL", "Dashboard")", { login: emp_designation, emp: emp_id }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                UpdateNotificationList();
+            }
+
+        });
+    }
+
+    function UpdateNotificationList() {
+        var divNotificaion1 = $('#NOTI_UL');
+        $.ajax({
+            url: '/Insepection/GET_WEB_BELL_NOTIFICATION',
+            type: 'GET',
+            datatype: 'json',
+            success: function (data) {
+
+                data = $.parseJSON(data);
+                if (data.length > 0) {
+                    divNotificaion1.empty();
+                    //// set Count
+                    $('#NOTI_COUNT').text(data.length);
+                    $("#NOTI_READ_COUNT").text(data.length);
+                    ///Make notification html
+                    for (var i = 0; i < data.length; i++) {
+                        var notification1 = "";
+                        if ('@loginclass.LANG_ID' == 'ar') {
+                            notification1 = '<input type="hidden" class="Notification_id" value="' + data[i].ANS_NOTIFICATION_ID + '"/><a class="dropdown-item" onclick="HyperLinkRedirect(' + "'" + data[i].ANS_NOTIFICATION_ID + "'" + ',' + "'" + data[i].HYPER_LINK + "'" + ')" href="javascript:;"><div class="d-flex align-items-center"><div class="text-warning" style="padding:6px;"><i class="bx bx-message-detail" style="font-size:20px"></i></div><div class="flex-grow-1"><h6 class="msg-name" style="font-weight:bold;">' + data[i].ANS_CONTENT_TITILE_AR + ' <span class="msg-time float-end">' + data[i].NOTIFICATION_DATE_AR + '</span></h6><p class="msg-info">' + data[i].ANS_CONTENT_TITILE_DESCRIPTION_AR + '</p></div></div></a>';
+                        }
+                        else {
+                            notification1 = '<input type="hidden" class="Notification_id" value="' + data[i].ANS_NOTIFICATION_ID + '"/><a class="dropdown-item" onclick="HyperLinkRedirect(' + "'" + data[i].ANS_NOTIFICATION_ID + "'" + ',' + "'" + data[i].HYPER_LINK + "'" + ')" href="javascript:;"><div class="d-flex align-items-center"><div class="text-warning" style="padding:6px;"><i class="bx bx-message-detail" style="font-size:20px"></i></div><div class="flex-grow-1"><h6 class="msg-name">' + data[i].ANS_CONTENT_TITLE + ' <span class="msg-time float-end">' + data[i].NOTIFICATION_DATE + '</span></h6><p class="msg-info">' + data[i].ANS_CONTENT_TITLE_DISCRIPTION + '</p></div></div></a>';
+                        }
+                        divNotificaion1.append(notification1);
+
+                    }
+
+                    NotiLength = data.length;
+                }
+                else {
+                    $('#NOTI_COUNT').text(0);
+                    $("#NOTI_READ_COUNT").text('');
+                    $("#NOTI_UL").empty();
+                }
+            }, error: function (r, e, w) {
+            }
+        });
+
+    }
+
+    function HyperLinkRedirect(value, hyperlink) {
+
+        UpdateReadStatus(value);
+        var url = window.location.origin;
+        window.location.href = url + '/' + hyperlink + "@loginclass.LANG_ID";
+    }
+
+    function CheckArabicOnly(field) {
+        var sNewVal = "";
+        var sFieldVal = field.value;
+
+        for (var i = 0; i < sFieldVal.length; i++) {
+            var ch = sFieldVal.charAt(i),
+                c = ch.charCodeAt(0);
+
+            if (field.keyCode = '38') {
+            }
+            else if (field.keyCode = '40') {
+                // down arrow
+            }
+            else if (field.keyCode = '37') {
+            }
+            else if (field.keyCode = '39') {
+                // right arrow
+            }
+
+            if (c < 1536 || c > 1791) {
+                // Discard
+            }
+            else {
+                sNewVal += ch;
+            }
+        }
+
+        field.value = sNewVal;
+    }
+
+    function CheckArabicCharactersOnly(e) {
+        ;
+        var unicode = e.charCode ? e.charCode : e.keyCode
+        if (unicode != 8) {
+            if (unicode >= 65 && unicode <= 90)
+                return true;
+            else {
+                if ((unicode < 44 || unicode == 47 || unicode == 45) || (unicode > 57) && (unicode < 0x0600 || unicode > 0x06FF)) //if not a number or arabic
+                    return false;
+            }
+        }
+    }
+
+    $(document).keydown(function (event) {
+        ;
+        if (event.keyCode == 123) {
+            return false;
+        }
+        else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+            return false;  //Prevent from ctrl+shift+i
+        }
+    });
+
+    $(document).on("contextmenu", function (e) {
+        e.preventDefault();
+    });
+
+
+    function Del_cookie() {
+        //window.onunload = function (event) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '@Url.Action("ClearSession", "Account")', true);
+        xhr.send();
+        //};
+    }
+
+    $('textarea').keydown(function (e) {
+        if (e.shiftKey || e.ctrlKey || e.altKey) {
+            e.preventDefault();
+        } else {
+            var key = e.keyCode;
+            if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >= 65 && key <= 90) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                e.preventDefault();
+            }
+        }
+    });
+</script>

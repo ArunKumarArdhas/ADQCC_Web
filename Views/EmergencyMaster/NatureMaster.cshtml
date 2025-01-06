@@ -1,0 +1,351 @@
+﻿@model IReadOnlyCollection<ADQCC_New.Models.Emergency. NATURE_INJURY_DETAILS >;
+@{
+    ViewData["Title"] = "NatureInjury";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+<div class="page-content">
+    <div class="row " id="AddEMRNII" style="display:none">
+        <form id="AddModule_div" asp-controller="EmergencyMaster" asp-action="AddEMRNII" method="post">
+            <div class="col-md-12 ">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (loginclass.LANG_ID == "bo")
+                                {
+                                <div class="row">
+                                <h6 class="mb-0 text-uppercase col-lg-9 ">Add UnSafeAct</h6>
+                                <h6 class="mb-0 text-uppercase col-lg-3">أضف عمل غير آمن</h6>
+                                </div>
+                                }
+                                else
+                                { *@
+                                    <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.NATUREOFINJURYILLNESSS</h6>
+                                    @* } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="bck_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="p-4 border rounded">
+                            @* <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8"> *@
+                            <div class="row">
+                                <div class="form-group col-md-4" style="display:none;">
+                                    <input type="hidden" id="InjuryID" name="NATURE_INJURY_ID" value="0" />
+                                    <label>@ADQCC_New.LocalResource.Resource.ID <span class="red">*</span></label>
+                                    @* <input type="text" id="View_InjuryId" name="CauseId" value="0" class="form-control" disabled="" style="background-color:#eee;" /> *@
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>@ADQCC_New.LocalResource.Resource.InjuryName <span class="red">*</span></label>
+                                    <input type="text" id="InjuryName" minlen="1" maxlength="1000" data-toggle="tooltip" title="Alphabets Only" name="NATURE_INJURY_NAME" value="" class="form-control alpha" autocomplete="off" />
+                                </div>
+                                <div class="form-group col-md-6" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.InjuryNameAR <span class="red">*</span></label>
+                                    <input type="text" id="InjuryNamear" name="NATURE_INJURY_NAME_AR" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="submit" id="Add_Nature" class="btn btn-primary">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                            </div>
+                            @*  </form> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+
+            <label style="float: right;color:blue;cursor:pointer" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (Model != null)
+                            {
+                                @* if(Model.LANG_ID == "bo")
+                            {
+                            <div class="row">
+                            <h5 class="box-title main-heading col-lg-9">UnSafeAct </h5>
+                            <h5 class="box-title main-heading col-lg-3">عمل غير آمن</h5>
+                            </div>
+                            }
+
+                            else
+                            { *@
+                                <h3 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.emrAddNatureofInjuryIllness</h3>
+                                @* } *@
+                            }
+                        </div>
+                        <div class="col-lg-3">
+                            <button style="float: right;" id="Add_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.InciNatureofInjuryIllness</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table id="Naturetable" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    @if (Model != null)
+                                    {
+                                        @* switch (Model.LANG_ID)
+                                    {
+                                    case "ar":
+                                    <tr style="background: #916d2a; color: white;">
+                                    <th align="left" valign="middle">هوية شخصية </th>
+                                    <th align="left" valign="middle">الاسم عربي</th>
+                                    @*<th align="left" valign="middle">حالة </th>*@
+                                        @*<th align="left" valign="middle">اريخ</th>
+                                    <th align="left" valign="middle">عمل</th>
+
+                                    </tr>
+                                    break;
+
+                                    case "en":
+                                    <tr style="background: #916d2a; color: white;">
+                                    <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.CauseID</th>
+                                    <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.CauseName</th>
+                                    @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>*@
+                                        @*<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Date</th>
+                                    <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+
+                                    </tr>
+
+                                    break;
+                                    default: *@
+                                        <tr style="background: #916d2a; color: white;">
+                                            <th align="left" valign="middle">ID <span class="pull-right">معرف السبب</span> </th>
+                                            <th align="left" valign="middle">Injury Name <span class="pull-right">اسم السبب</span> </th>
+                                            <th align="left" valign="middle">Injury Name Arabic <span class="pull-right">اسم السبب عربي</span></th>
+                                            @*  <th align="left" valign="middle">Status <span class="pull-right">حالة</span> </th> *@
+                                            <th align="left" valign="middle">Date <span class="pull-right">اريخ</span> </th>
+                                            <th align="left" valign="middle">Action <span class="pull-right">عمل</span> </th>
+
+                                        </tr>
+                                        @* break;
+                                    } *@
+                                    }
+                                </thead>
+
+                                <tbody>
+                                    @if (Model!.Count() != 0)
+                                    {
+                                        foreach (var item in Model!)
+                                        {
+                                            <tr class="">
+                                                <td onclick="return View_NatureInjury(@item.NATURE_INJURY_ID)"> @item.UNIQUE_ID</td>
+                                                <td onclick="return View_NatureInjury(@item.NATURE_INJURY_ID)"> @item.NATURE_INJURY_NAME</td>
+                                                <td onclick="return View_NatureInjury(@item.NATURE_INJURY_ID)"> @item.NATURE_INJURY_NAME_AR</td>
+                                                <td onclick="return View_NatureInjury(@item.NATURE_INJURY_ID)"> @item.CREATED_DATE</td>
+                                                @* <td onclick="return View_UnSafeAct(@item.CAUSE_ID)"> @item.STATUS</td> *@
+                                                <td>
+                                                    <a id="Edit_NatureInjury" onclick="return Edit_NatureInjury(@item.NATURE_INJURY_ID)" title="Edit"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                                                    <a id="View_NatureInjury" title="View" onclick="return View_NatureInjury(@item.NATURE_INJURY_ID)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                                                    <a id="Delete_NatureInjury" onclick="return Delete_NatureInjury(@item.NATURE_INJURY_ID)" title="Delete"><img src="~/Content/assets/img/gridicons/delete.png" /></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+     $(document).ready(function () {
+         $("#AddEMRNII").hide();
+         $("#ListView").show();
+         GET_NATURE_INJURY_DETAILS_LIST();
+
+         $("#bck_btn").on('click', function () {
+             $("#AddEMRNII").hide(100);
+             $("#ListView").show(100);
+             $("#InjuryID").val('');
+             $("#InjuryName").val('');
+             $("#InjuryNamear").val('');
+
+             $("#InjuryName").removeAttr('disabled', 'disabled');
+             $("#InjuryNamear").removeAttr('disabled', 'disabled');
+         });
+
+
+         $("#btnclear").on('click', function () {
+             ClearFileds();
+         });
+
+          $("#Add_Nature").on('click', function () {
+             $("#Add_Nature").show();
+             Add_Nature();
+             $("#InjuryID").val('');
+             $("#InjuryName").val('');
+             $("#InjuryNamear").val('');
+
+         });
+
+        
+
+     });
+
+
+      $("#Add_btn").on('click', function (){
+             $("#ListView").hide(100);
+             $("#AddEMRNII").show(100);
+             $("#InjuryID").val('');
+             $("#InjuryName").val('');
+             $("#InjuryNamear").val('');
+             $("#View_InjuryId").val('');
+
+         });
+
+      function GET_NATURE_INJURY_DETAILS_LIST() {
+         $("#Naturetable").dataTable().fnDestroy();
+         $("#AddEMRNII").hide();
+         $("#ListView").show();
+         $.post("@Url.Action("_GetNatureInjury", "EmergencyMaster")", function (data) {
+             $("#GetNatureInjuryDetailsList").html('');
+             $("#GetNatureInjuryDetailsList").html(data);
+         });
+
+     }
+
+     function Delete_NatureInjury(injuryid) {
+         var DELETE = confirm("Are you sure you want to delete");
+         if (DELETE == true) {
+          //   $.post("@Url.Action("DeleteNatureInjury", "EmergencyMaster")", { NATURE_INJURY_ID: injuryid }, function (data) {
+             $.post("@Url.Action("Nature_Delete", "EmergencyMaster")", { NATURE_INJURY_ID: injuryid }, function (data) {
+                 if (data.STATUS_CODE == "200") {
+                     toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                     GET_NATURE_INJURY_DETAILS_LIST();
+                 }
+                 else {
+                     toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                 }
+               GET_NATURE_INJURY_DETAILS_LIST();
+             });
+         }
+     }
+
+     function Edit_NatureInjury(injuryid) {
+         $("#Add_Nature").show();
+      //   $.post("@Url.Action("EditNatureInjury", "EmergencyMaster")", { NATURE_INJURY_ID: injuryid }, function (data) {
+         $.post("@Url.Action("Nature_GetById", "EmergencyMaster")", { NATURE_INJURY_ID: injuryid }, function (data) {
+             if (data.STATUS_CODE == "200") {
+                 $("#AddEMRNII").show(100);
+                 $("#ListView").hide(100);
+                 $("#InjuryID").val(data.NATURE_INJURY_ID);
+                 $("#View_InjuryId").val(data.UNIQUE_ID);
+                 $("#InjuryName").val(data.NATURE_INJURY_NAME);
+                 $("#InjuryNamear").val(data.NATURE_INJURY_NAME_AR);
+             }
+             else {
+                 toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+             }
+         });
+     }
+
+     function View_NatureInjury(injuryid) {
+         $("#Add_Nature").hide();
+         $.post("@Url.Action("EditNatureInjury", "EmergencyMaster")", { NATURE_INJURY_ID: injuryid }, function (data) {
+             if (data.STATUS_CODE == "200") {
+                 $("#AddEMRNII").show(100);
+                 $("#ListView").hide(100);
+
+                 $("#View_InjuryId").val(data.UNIQUE_ID);
+                 $("#InjuryName").val(data.NATURE_INJURY_NAME).attr('disabled', 'disabled');
+                 $("#InjuryNamear").val(data.NATURE_INJURY_NAME_AR).attr('disabled', 'disabled');
+             }
+             else {
+                 toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+             }
+         });
+     }
+
+    function ClearFields() {
+        $("#InjuryID").val('');
+        $("#InjuryName").val('');
+        $("#InjuryNamear").val('');
+        $("#View_InjuryId").val('');
+    }
+
+     function CheckArabicOnly(field) {
+         var sNewVal = "";
+         var sFieldVal = field.value;
+
+         for (var i = 0; i < sFieldVal.length; i++) {
+             var ch = sFieldVal.charAt(i),
+                 c = ch.charCodeAt(0);
+
+             if (field.keyCode = '38') {
+             }
+             else if (field.keyCode = '40') {
+                 // down arrow
+             }
+             else if (field.keyCode = '37') {
+             }
+             else if (field.keyCode = '39') {
+                 // right arrow
+             }
+
+             if (c < 1536 || c > 1791) {
+                 // Discard
+             }
+             else {
+                 sNewVal += ch;
+             }
+         }
+         field.value = sNewVal;
+     }
+</script>

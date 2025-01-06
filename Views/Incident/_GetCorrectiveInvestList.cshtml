@@ -1,0 +1,253 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    Layout = null;
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+
+@if (loginclass.LANG_ID == "ar")
+{
+
+    foreach (var item in Model)
+    {
+        if (loginclass.DESI_NAME == "HSSE Manager")
+        {
+            if (@item.CORRECTION_STATUS == "2" || @item.CORRECTION_STATUS == "3" || @item.CORRECTION_STATUS == "4")
+            {
+                <tr class="">
+
+                    <td align="right" valign="middle">@item.UNIQUE_ID</td>
+                    <td align="right" valign="middle">@item.EMP_NAME_AR</td>
+                    <td align="right" valign="middle">@item.LOC_NAME_AR</td>
+                    <td align="right" valign="middle">@item.INC_CAT_NAME_AR</td>
+                    <td align="right" valign="middle">@item.INC_DATE</td>
+                    <td align="left" valign="middle">@item.DUE_DATE_AR</td>
+                    @if (@item.CORRECTION_STATUS == "1")
+                    {
+                        <td align="right" valign="middle"><label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">الإجراء التصحيحي معلق</label></td>
+                    }
+                    @if (@item.CORRECTION_STATUS == "2")
+                    {
+                        <td align="right" valign="middle"><label class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">تم رفض المهمة</label></td>
+                    }
+                    @if (@item.CORRECTION_STATUS == "3")
+                    {
+                        <td align="right" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">تمت المهمة</label></td>
+                        <td>
+                            <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE,0)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+
+                    @if (@item.CORRECTION_STATUS == "4")
+                    {
+
+                        <td align="right" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">الموافقة التصحيحية معلقة</label></td>
+                        <td>
+                            <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+
+
+
+
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="">
+
+                <td align="right" valign="middle">@item.UNIQUE_ID</td>
+                @*<td align="right" valign="middle">@item.EMP_NAME_AR</td>*@
+                <td align="right" valign="middle">@item.LOC_NAME_AR</td>
+                <td align="right" valign="middle">@item.INC_CAT_NAME_AR</td>
+                <td align="right" valign="middle">@item.INC_DATE</td>
+                <td align="left" valign="middle">@item.DUE_DATE_AR</td>
+                @if (@item.CORRECTION_STATUS == "1")
+                {
+                    <td align="right" valign="middle"><label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">الإجراء التصحيحي معلق</label></td>
+                }
+                @if (@item.CORRECTION_STATUS == "2")
+                {
+                    <td align="right" valign="middle"><label class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">تم رفض المهمة</label></td>
+                }
+                @if (@item.CORRECTION_STATUS == "3")
+                {
+                    <td align="right" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">تمت المهمة</label></td>
+                }
+
+                @if (@item.CORRECTION_STATUS == "4")
+                {
+                    <td align="right" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">في انتظار الموافقة على الاجراء التصحيحي </label></td>
+                }
+
+                @*<td>
+
+    @if (@item.CORRECTION_STATUS == "3" || @item.CORRECTION_STATUS == "4")
+    {
+    <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+    }
+    else
+    {
+    <a href="#" title="Edit" onclick="INVE_CORR_EDIT(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+    }
+    </td>*@
+                <td>
+                    @if (@item.CORRECTION_STATUS == "3" || @item.CORRECTION_STATUS == "4")
+                    {
+                        <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+
+                    }
+                    else if (@item.CORRECTION_STATUS == "2")
+                    {
+                        <a href="#" title="Edit" onclick="INVE_CORR_EDIT(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    }
+                    else if (@item.CORRECTION_STATUS == "1")
+                    {
+                        <a href="#" title="Edit" onclick="INVE_CORR_ACTIVE_PENDING_EDIT(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    }
+
+                </td>
+            </tr>
+        }
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        if (loginclass.DESI_NAME == "HSSE Manager")
+        {
+            if (@item.CORRECTION_STATUS == "2" || @item.CORRECTION_STATUS == "3" || @item.CORRECTION_STATUS == "4")
+            {
+                <tr class="">
+
+                    <td align="left" valign="middle">@item.UNIQUE_ID</td>
+                    <td align="left" valign="middle">@item.EMP_FIRSTNAME</td>
+                    <td align="left" valign="middle">@item.LOC_NAME</td>
+                    <td align="left" valign="middle">@item.INC_CAT_NAME</td>
+                    <td align="left" valign="middle">@item.INC_DATE</td>
+                    <td align="left" valign="middle">@item.DUE_DATE</td>
+                    @if (@item.CORRECTION_STATUS == "1")
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">Corrective Action Pending</label></td>
+                        <td>
+                            <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE,0)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+                    @if (@item.CORRECTION_STATUS == "2")
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">Task Rejected</label></td>
+                        <td>
+                            <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE,0)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+                    @if (@item.CORRECTION_STATUS == "3")
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">Task Completed</label></td>
+                        <td>
+                            <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE,0)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+
+                    @if (@item.CORRECTION_STATUS == "4")
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">Corrective Approval Pending</label></td>
+                        <td>
+                            <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE,1)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+
+
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="">
+
+                <td align="left" valign="middle">@item.UNIQUE_ID</td>
+                @*<td align="left" valign="middle">@item.EMP_FIRSTNAME</td>*@
+                <td align="left" valign="middle">@item.LOC_NAME</td>
+                <td align="left" valign="middle">@item.INC_CAT_NAME</td>
+                <td align="left" valign="middle">@item.INC_DATE</td>
+                <td align="left" valign="middle">@item.DUE_DATE</td>
+                @if (@item.CORRECTION_STATUS == "1")
+                {
+                    <td align="left" valign="middle"><label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">Corrective Action Pending</label></td>
+                }
+                @if (@item.CORRECTION_STATUS == "2")
+                {
+                    <td align="left" valign="middle"><label class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">Task Rejected</label></td>
+                }
+                @if (@item.CORRECTION_STATUS == "3")
+                {
+                    <td align="left" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">Task Completed</label></td>
+                }
+
+                @if (@item.CORRECTION_STATUS == "4")
+                {
+                    <td align="left" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">Corrective Approval Pending</label></td>
+                }
+
+                @*<td>
+
+    @if (@item.CORRECTION_STATUS == "3" || @item.CORRECTION_STATUS == "4")
+    {
+    <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+    }
+    else
+    {
+    <a href="#" title="Edit" onclick="INVE_CORR_EDIT(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+    }
+    </td>*@
+                <td>
+                    @if (@item.CORRECTION_STATUS == "3" || @item.CORRECTION_STATUS == "4")
+                    {
+                        <a href="#" title="View" onclick="INVE_CORR_VIEW(@item.INC_ID,@item.PERSON_RESPONSIBLE)"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+
+                    }
+                    else if (@item.CORRECTION_STATUS == "2")
+                    {
+                        <a href="#" title="Edit" onclick="INVE_CORR_EDIT(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    }
+                    else if (@item.CORRECTION_STATUS == "1")
+                    {
+                        <a href="#" title="Edit" onclick="INVE_CORR_ACTIVE_PENDING_EDIT(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    }
+
+                </td>
+            </tr>
+        }
+    }
+}
+<script>
+    $(document).ready(function () {
+        $("#table1").DataTable({
+            "order": [[0, "desc"]],
+            "initComplete": function (settings, json) {
+                $("#table1").wrap("<div class='tableFixHead' style='overflow:auto;min-height:auto;max-height:430px; width:100%;position:relative;'></div>");
+            },
+            dom: 'lBfrtip',
+            buttons: ['excel', 'pdf', 'print'],
+        });
+
+    });
+</script>
+
+
+
+
+
+

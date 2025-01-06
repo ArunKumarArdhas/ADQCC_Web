@@ -1,0 +1,2307 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+
+
+@{
+	ViewBag.Title = "Employee Details";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+	string Des = Decrypt(str!);
+	var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+<link href="~/Content/assets/_New_Dashboard/assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+<script src="~/Content/assets/_New_Dashboard/assets/plugins/select2/js/select2.min.js"></script>
+<link href="~/Content/MultiSelect/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/MultiSelect/js/bootstrap-multiselect.js"></script>
+@* <script src="~/Scripts/MastersScripts/MastersBind.js"></script> *@
+
+<link href="~/Content/MultiSelect/New/css/fileinput.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+
+
+<!-- Main content -->
+<style>
+	.badge {
+		display: inline-block;
+		padding: 0.35em 0.65em;
+		font-size: 13px;
+		font-weight: 700;
+		line-height: 1;
+		color: #fff;
+		text-align: center;
+		white-space: nowrap;
+		vertical-align: baseline;
+		border-radius: 0.25rem;
+	}
+
+	.btn-default {
+		background-color: #cdae7b !important;
+		color: #fff !important;
+		border-color: #cdae7b !important;
+	}
+
+	.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+		color: #fff !important;
+		text-decoration: none !important;
+		background-color: #fffefb !important;
+		outline: 0 !important;
+	}
+</style>
+<div id="Loader" style="display: none;">
+	<img src="@Url.Content("~/Content/dist/img/loader.gif")" al alt="" />
+</div>
+
+
+<style>
+	.btn-group, .btn-group-vertical {
+		position: relative;
+		display: inline-flex;
+		vertical-align: middle;
+		float: right !important;
+		margin-top: -62px !important;
+		padding: 32px !important;
+	}
+
+	div.dataTables_wrapper div.dataTables_filter {
+		text-align: right;
+		margin-top: -28px !important;
+	}
+
+	.btn-group, .btn-group-vertical {
+		position: relative;
+		display: inline-flex;
+		vertical-align: middle;
+	}
+
+	.red {
+		color: red
+	}
+</style>
+<div class="page-content">
+
+	<div class="row" id="AddEmployee" style="display:none">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-9">
+							@if (loginclass != null)
+							{
+								if (loginclass.LANG_ID == "bo")
+								{
+									<div class="row">
+										<h6 class="mb-0 text-uppercase col-lg-9 ">ADD EMPLOYEE</h6>
+										<h6 class="mb-0 text-uppercase col-lg-3">أضف موظفًا</h6>
+									</div>
+
+								}
+								else
+								{
+									<h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.AddEmployee</h6>
+								}
+							}
+						</div>
+						<div class="col-lg-3">
+							<button style="float: right;" id="getlistpage" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+						</div>
+					</div>
+					<hr />
+
+					<div class="p-4 border rounded">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="tab-content">
+									<div class="active tab-pane" id="basic">
+
+										<form action="" class="form-horizontal masterForm" id="Frm_Emp_Add_List" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+											@Html.AntiForgeryToken()
+											<input type="hidden" name="" value="" />
+											<div>
+												<div class="row">
+													<div class="col-md-4" style="display:none;">
+														<div class="form-group">
+															<input type="hidden" name="name" value="" id="EMP_STATUS" />
+															<input type="hidden" name="name" value="" id="EMP_USERNAME" />
+															<input type="hidden" name="name" value="" id="EMP_PASSWORD" />
+															<input type="hidden" id="EMP_ID" value="" />
+															<label for="empTypemas" class="control-label">@ADQCC_New.LocalResource.Resource.EmployeeID<span class="red">*</span></label>
+															<input type="text" class="form-control" disabled="disabled" id="VIEW_EMP_ID" value="">
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.EmployeeCategory<span class="red">*</span></label>
+															<select name="loc_types" class=form-control id="EmployeeCategory">
+																<option value="0">--@ADQCC_New.LocalResource.Resource.EmployeeCategory--</option>
+																<option value="QCC_Employee">@ADQCC_New.LocalResource.Resource.EMPQCCEmployee</option>
+																<option value="Contractor">@ADQCC_New.LocalResource.Resource.EMPContractorEmployee</option>
+															</select>
+
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="firstName" class="control-label">@ADQCC_New.LocalResource.Resource.EmployeeName <span class="red">*</span></label>
+															<input type="text" name="firstName" minlen="1" maxlength="150" value="" id="firstName" data-toggle="tooltip" title="Alphabets Only" placeholder="@ADQCC_New.LocalResource.Resource.EmployeeName" class="form-control alpha" autocomplete="off" />
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group" dir="rtl">
+															<label for="firstName" class="control-label">@ADQCC_New.LocalResource.Resource.EmployeeNameAR <span class="red">*</span></label>
+															<input type="text" name="firstName_ar" value="" id="firstName_ar" placeholder="@ADQCC_New.LocalResource.Resource.EmployeeNameAR" class="form-control" onchange="CheckArabicOnly(this);" onkeypress="CheckArabicOnly(this);" onkeyup="CheckArabicOnly(this);" onpaste="CheckArabicOnly(this);" />
+														</div>
+													</div>
+												</div>
+												<br />
+												<div class="row" style="margin-top:1%">
+													<div class="col-md-4">
+														<label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.Gender <span class="red">*</span></label>
+														<select name="empGender" class="form-control" id="Gender">
+															<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectGender--</option>
+															<option value="Male">@ADQCC_New.LocalResource.Resource.EMPMale</option>
+															<option value="Female">@ADQCC_New.LocalResource.Resource.EMPFemale</option>
+															<option value="Other">@ADQCC_New.LocalResource.Resource.EMPOthers</option>
+														</select>
+													</div>
+													@*<div class="col-md-4">
+                                                            <label for="Nationality" class="control-label">@ADQCC_New.LocalResource.Resource.Nationality <span class="red">*</span></label>
+                                                            <select name="nationality" class="form-control" id="nationality">
+                                                            </select>
+                                                        </div>*@
+													<div class="col-md-4">
+														<label for="empBlood" class="control-label">@ADQCC_New.LocalResource.Resource.EmployeeDesignation <span class="red">*</span></label>
+														<select class="form-control select2" id="designation">
+															<option style="color:#D5D5D5;" value="0">--@ADQCC_New.LocalResource.Resource.SelectDesignation--</option>
+														</select>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="empTypemas" class="control-label">@ADQCC_New.LocalResource.Resource.Occupation<span class="red">*</span></label>
+															<input type="text" minlen="1" maxlength="100" data-toggle="tooltip" title="Alphabets Only" class="form-control alpha" id="Occupation" value="" autocomplete="off" placeholder="@ADQCC_New.LocalResource.Resource.Occupation">
+														</div>
+													</div>
+
+												</div>
+												<br />
+												<div class="row" style="margin-top:1%">
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="firstName" class="control-label">@ADQCC_New.LocalResource.Resource.DateofBirth <span class="red">*</span></label>
+															<input type="text" name="DOB" value="" id="DOB" autocomplete="off" placeholder="@ADQCC_New.LocalResource.Resource.DateofBirth" class="form-control BirthDate" />
+														</div>
+													</div>
+
+													<div class="col-md-4">
+														<label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.PhoneNumber<span class="red">*</span></label>
+														<input type="text" class="form-control numbersonly" data-toggle="tooltip" title="Numbers Only" id="phonenumber" table1 placeholder="@ADQCC_New.LocalResource.Resource.PhoneNumber" minlen="1" maxlength="10" autocomplete="off" />
+													</div>
+													<div class="col-md-4">
+														<label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.TelephoneNumber<span class="red">*</span></label>
+														<input type="text" class="form-control numbersonly" data-toggle="tooltip" title="Numbers Only" id="telephonenumber" placeholder="@ADQCC_New.LocalResource.Resource.TelephoneNumber" minlen="1" maxlength="10" autocomplete="off" />
+													</div>
+													@*<div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="firstName" class="control-label">@ADQCC_New.LocalResource.Resource.PassportNumber<span class="red">*</span></label>
+                                                                <input type="text" name="Passport_Number" value="" id="Passport_Number" autocomplete="off" placeholder="@ADQCC_New.LocalResource.Resource.PassportNumber" class="form-control alphanumeric" maxlength="10" />
+                                                            </div>
+                                                        </div>*@
+												</div>
+												<br />
+												<div class="row" style="margin-top:1%">
+
+													<div class="col-md-4">
+														<label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.Location <span class="red">*</span></label>
+														<select name="loc_types" class="form-control select2" id="location">
+															<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectLocation--</option>
+														</select>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+
+															<label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.Building<span class="red">*</span></label>
+
+															<select name="loc_types" class="form-control select2" id="Building">
+																<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectBuilding--</option>
+															</select>
+
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.SectorName<span class="red">*</span></label>
+															<select class="form-control select2" id="sectorname">
+																<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectSectorName--</option>
+															</select>
+														</div>
+													</div>
+
+												</div>
+												<br />
+												<div class="row" style="margin-top:1%">
+
+													<div class="col-md-4">
+														<label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.Department <span class="red">*</span></label>
+														<select class="form-control select2" id="department">
+															<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectDepartment--</option>
+														</select>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group">
+															<label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.TMSectionLab<span class="red">*</span></label>
+															<select name="loc_types" class="form-control select2" id="section">
+																<option value="0">--@ADQCC_New.LocalResource.Resource.SelectSection--</option>
+															</select>
+
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="">
+															<label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.EmailId<span class="red">*</span></label>
+															<input type="text" class="form-control" id="emailid" placeholder="@ADQCC_New.LocalResource.Resource.EmailId">
+															<label id="txtvalidemail" style="color:red"> </label>
+														</div>
+													</div>
+
+												</div>
+												<br />
+												<div class="row">
+													<div class="col-lg-12">
+														<div class="col-md-4">
+															<label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.INSPUploadImage <span class="red">*</span></label>
+															<br />
+															<div class="form-group col-lg-12" style="display: none;" id="VieweditAfterImage">
+															</div>
+															<input type="hidden" id="hdncls_Documentfile" class="hdncls_Documentfile hdncls_Documentfile" />
+															<input id="Documentfile_Viewhide" class="Documentfile" onchange="fnfile(this,'hdncls_Documentfile')" type="file" accept=".jpg,.jpeg,.png" />
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-lg-12">
+														<div class="col-md-4" style="display:none" id="SH_Section_head">
+															<label for="Section_head" class="control-label">@ADQCC_New.LocalResource.Resource.EMPNameofSectionHead <span class="red">*</span></label>
+															<select class="form-control select2" id="Section_head">
+																<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.EMPNameofSectionHead--</option>
+															</select>
+														</div>
+														<div class="col-md-4" style="display:none" id="SH_Director">
+															<label for="Ehs_Manager" class="control-label">Name of Director <span class="red">*</span></label>
+															<select class="form-control select2" id="_GetDirector">
+																<option value="0" style="color:#D5D5D5;">--Select Director--</option>
+															</select>
+														</div>
+														<div class="col-md-4" style="display:none" id="SH_Hsc_Manager">
+															<label for="Hsc_Manager" class="control-label">@ADQCC_New.LocalResource.Resource.EMPNameofHSSEManager <span class="red">*</span></label>
+															<select class="form-control select2" id="Hsc_Manager">
+																<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.EMPNameofHSSEManager--</option>
+															</select>
+														</div>
+													</div>
+												</div>
+
+												<br>
+												<div class="row">
+													<div class="col-lg-5"></div>
+													<div class="col-lg-7">
+														<button type="button" class="btn btn-primary" id="btn_AddEmployee">
+															@ADQCC_New.LocalResource.Resource.Submit
+														</button>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" id="ListView">
+		<div class="col-md-12">
+			<div class="box box-primary">
+				<label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+				<br />
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-8">
+								@if (loginclass != null)
+								{
+									if (loginclass.LANG_ID == "bo")
+									{
+										<div class="row">
+											<h5 class="d-flex align-items-center mb-3 col-lg-8">EMPLOYEE LIST </h5>
+											<h5 class="d-flex align-items-center mb-3 col-lg-3">قائمة موظف</h5>
+										</div>
+									}
+									else
+									{
+										<h3 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.EmployeeList</h3>
+									}
+								}
+							</div>
+							<div class="col-lg-2">
+								<a href="@Url.Action("Index", "ExcelBulkUpload", new { LanguageAbbrevation = loginclass.LANG_ID })" class="btn btn-primary btn-sm" id="BulkUpload">
+									<i class="fa fa-plus-circle"></i> @ADQCC_New.LocalResource.Resource.BulkUpload
+								</a>
+								@* <button style="float: right;" id="addnewemployee1" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.BulkUpload</button>*@
+							</div>
+							<div class="col-lg-2">
+								<button style="float: right;" id="addnewemployee" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.AddEmployee</button>
+							</div>
+						</div>
+						<hr />
+						<div class="row">
+							<div class="col-md-3">
+								<label>@ADQCC_New.LocalResource.Resource.EmployeeID</label>
+								<select name="SelectEmpID" class="form-control select2" id="SelectEmpID" onchange="fnSelectEmpID(this)">
+								</select>
+
+							</div>
+							<div class="col-md-3">
+								<label>@ADQCC_New.LocalResource.Resource.EmployeeName</label>
+								<select name="SelectEmpName" class="form-control select2" id="SelectEmpName" onchange="fnSelectEmpID(this)">
+								</select>
+							</div>
+							<div class="col-md-3">
+								<label>@ADQCC_New.LocalResource.Resource.EmployeeDesignation</label>
+								<select name="SelectDesignation" class="form-control select2" id="SelectDesignation" onchange="fnSelectEmpID(this)">
+								</select>
+							</div>
+
+							<div class="col-md-3">
+								<div class="btn btn-primary" style="background-color: #896522; color: white; margin-top: 20px;" id="btn_reset">
+									@ADQCC_New.LocalResource.Resource.Reset
+								</div>
+							</div>
+
+						</div>
+
+						<div class="box-body">
+							<div class="table-responsive">
+								<br>
+								<table class="table table-striped table-bordered" id="table1">
+									<thead>
+										<tr style="background: #916d2a; color: white;">
+											@if (loginclass != null)
+											{
+												if (loginclass.LANG_ID == "bo")
+												{
+													<th align="left" valign="middle">ID <span class="pull-right">هوية شخصية</span> </th>
+													<th align="left" valign="middle">Name <span class="pull-right">اسم</span> </th>
+													<th align="left" valign="middle">Status <span class="pull-right">حالة</span> </th>
+													<th align="left" valign="middle">Date <span class="pull-right">اريخ</span> </th>
+													<th align="left" valign="middle">Action <span class="pull-right">عمل</span> </th>
+
+												}
+												else
+												{
+													<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.EmployeeID</th>
+													<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.EmployeeName</th>
+													<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>
+													<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Date</th>
+													<th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+												}
+											}
+
+										</tr>
+									</thead>
+									<tbody id="GetEmployeeList">
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="HealthVitals" style="display:none">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-9">
+								@if (loginclass != null)
+								{
+									if (loginclass.LANG_ID == "bo")
+									{
+										<div class="row">
+											<h6 class="mb-0 text-uppercase col-lg-9 ">HEALTH VITALS</h6>
+											<h6 class="mb-0 text-uppercase col-lg-3"> العناصر الصحية</h6>
+										</div>
+
+									}
+									else
+									{
+										<h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.HealthVitals</h6>
+									}
+								}
+							</div>
+							<div class="col-lg-3">
+								<button style="float: right;" id="healthBack" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+							</div>
+						</div>
+						<hr />
+
+						<input type="hidden" name="name" value="" id="HealthEmplID" />
+						<div class="p-4 border rounded">
+							<form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8">
+								<div class="row">
+									<div class="form-group col-md-4">
+										<label>@ADQCC_New.LocalResource.Resource.EmployeeID <span class="red">*</span></label>
+										<input type="text" name="H_EmployeeID" id="H_EmployeeID" value="" class="form-control" disabled />
+									</div>
+									<div class="form-group col-md-4">
+										<label>@ADQCC_New.LocalResource.Resource.EmployeeName <span class="red">*</span></label>
+										<input type="text" name="H_EmployeeName" id="H_EmployeeName" value="" class="form-control" disabled />
+									</div>
+									<div class="form-group col-md-4">
+										<label>@ADQCC_New.LocalResource.Resource.EmployeeDesignation <span class="red">*</span></label>
+										<input type="text" name="H_Designation" id="H_Designation" value="" class="form-control" disabled />
+									</div>
+								</div>
+							</form>
+							<br>
+							<table class="table table-striped table-bordered " id="hsample2-table" style="background: #cdae7b;">
+								<thead>
+									<tr>
+										<th class="text-center" style="font-size:15px;"><label style="color:#fff">@ADQCC_New.LocalResource.Resource.HealthVitals</label></th>
+										<th class="text-center" style="font-size:15px;"><label style="color:#fff">@ADQCC_New.LocalResource.Resource.Yes</label></th>
+										<th class="text-center" style="font-size:15px;"><label style="color:#fff">@ADQCC_New.LocalResource.Resource.No</label></th>
+									</tr>
+								</thead>
+
+								<tbody id="Get_Health_Vitals">
+								</tbody>
+
+							</table>
+							<div class="row">
+								<div class="col-lg-5"></div>
+								<div class="col-lg-7">
+									<button type="button" class="btn btn-primary" id="btn_health_vitals">
+										@ADQCC_New.LocalResource.Resource.Submit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="BulkuploadDiv" style="display:none">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-9">
+								@if (loginclass != null)
+								{
+									if (loginclass.LANG_ID == "bo")
+									{
+										<div class="row">
+											<h6 class="mb-0 text-uppercase col-lg-9 ">EXCEL BULK UPLOAD</h6>
+											<h6 class="mb-0 text-uppercase col-lg-3">ملف إكسل للتحميل المجمع</h6>
+										</div>
+									}
+									else
+									{
+										<h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.EXCELBULKUPLOAD</h6>
+									}
+								}
+							</div>
+							<div class="col-lg-3">
+								<button style="float: right;" id="ExcelUploadBack" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+							</div>
+						</div>
+						<hr />
+						<div class="row">
+							<div class="box-header" id="SampleExcelDownload" onclick="SampleExcelFile('SampleExcelUpload.xlsx')">
+								<div class="box-tools">
+									<a href="#" class="btn btn-primary btn-sm" style="background-color: #cdae7b;">
+										@ADQCC_New.LocalResource.Resource.SampleExcelDownload
+									</a>
+								</div>
+							</div>
+							@*<input type="button" value="Download Excel File" onclick="DownloadExcelFile('SampleExcelUpload.xlsx')" />*@
+						</div>
+						<br /><br /><br />
+						<div class="p-4 border rounded">
+							<div class="row">
+								@using (Html.BeginForm("Preview", "ExcelBulkUpload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+								{
+
+									<input type="file" name="postedFile" class="form-control" id="excelfile" />
+
+									<br />
+									<div class="row">
+
+										<input type="submit" value="Import" class="form-control" id="importfile1" style="width: 10%; background-color: #cdae7b; color: white; font-weight: 700;margin-left: 482px;" />
+
+										<input type="button" value="Preview" class="form-control" id="Preview" onclick="GetPreview()" style="width: 10%; background-color: #cdae7b; color: white; font-weight: 700;margin-left: 482px;" />
+									</div>
+
+
+								}
+								<div id="ShowPreview" style="display:none">
+									<table class="table table-striped table-bordered" id="Data_table_Preview">
+										<thead>
+											<tr>
+												<th align="left" valign="middle" style="background-color:#cdae7b; color:white">@ADQCC_New.LocalResource.Resource.EMPFirstName</th>
+												<th align="left" valign="middle" style="background-color:#cdae7b; color:white">@ADQCC_New.LocalResource.Resource.EmailId</th>
+												<th align="left" valign="middle" style="background-color:#cdae7b; color:white">@ADQCC_New.LocalResource.Resource.PhoneNumber</th>
+												@*<th align="left" valign="middle" style="background-color:#cdae7b; color:white">Last Name</th>
+                                                    <th align="left" valign="middle" style="background-color:#cdae7b; color:white">Gender</th>*@
+											</tr>
+										</thead>
+										<tbody id="PreviewDetail">
+										</tbody>
+									</table>
+									<button type="button" value="Upload" class="btn btn-primary" id="finalSubmit" onclick="FinalSubmit()" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				@*<div class="box box-primary">
+                        <div class="box-header with-border" id="ExcelUploadBack">
+                            <div class="box-tools">
+                                <a href="#" class="btn btn-primary btn-sm pull-right margin-l-10" style="background-color:#cdae7b;">
+                                    <i class="fa fa-arrow-left"></i> @ADQCC_New.LocalResource.Resource.Back
+                                </a>
+                            </div>
+                        </div>
+                        <div class="box-header with-border" style="background: #8d744a;">
+                            <h3 class="box-title main-heading">@ADQCC_New.LocalResource.Resource.EXCELBULKUPLOAD</h3>
+                        </div>
+
+                    </div>*@
+			</div>
+		</div>
+	</div>
+
+	<!-- ========================= ACTIVE / DEACTIVE============================= -->
+	<div class="row" id="Active_Deactive" style="display:none">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-9">
+							@if (loginclass != null)
+							{
+								if (loginclass.LANG_ID == "bo")
+								{
+									<div class="row">
+										<h6 class="mb-0 text-uppercase col-lg-9 ">ACTIVE / DEACTIVE</h6>
+										<h6 class="mb-0 text-uppercase col-lg-3">نشط نشط</h6>
+									</div>
+
+								}
+								else
+								{
+									<h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.ACTIVE_DEACTIVE</h6>
+								}
+							}
+						</div>
+						<div class="col-lg-3">
+							<button style="float: right;" id="bckactivedeactive" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+						</div>
+					</div>
+					<hr />
+					<div class="p-4 border rounded">
+						<form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8">
+							<div class="row">
+								<input type="hidden" disabled class="form-control" id="ac_password">
+								<input type="hidden" disabled class="form-control" id="ac_con_password">
+								<div class="form-group col-md-4">
+									<label>@ADQCC_New.LocalResource.Resource.EmployeeID <span class="red">*</span></label>
+									<input type="text" name="loc_name" value="" id="ac_EMP_ID" class="form-control" disabled style="background-color:none;" />
+								</div>
+								<div class="form-group col-md-4">
+									<label>@ADQCC_New.LocalResource.Resource.EmployeeName <span class="red">*</span></label>
+									<input type="text" name="loc_name" value="" id="ac_firstName" class="form-control" disabled style="background-color: none;" />
+								</div>
+								<div class="form-group col-md-4">
+									<label>@ADQCC_New.LocalResource.Resource.DesignationID <span class="red">*</span></label>
+									<input type="text" name="loc_name" value="" id="ac_designation" class="form-control" disabled style="background-color: none;" />
+								</div>
+							</div>
+							<div class="row" style="margin-top:1%">
+								<div class="form-group col-md-4">
+									<label>@ADQCC_New.LocalResource.Resource.Username <span class="red">*</span></label>
+									<input type="text" class="form-control" id="ac_username">
+								</div>
+								<div class="form-group col-md-4">
+									<label id="txtlable" style="margin-top: 8%; color: #df6666; font-weight: bold;"></label>
+								</div>
+
+							</div>
+							<br />
+							@if (loginclass.LANG_ID == "ar")
+							{
+								<div class="row">
+									<div class="col-lg-6">
+										<a href="#" class="btn btn-success pull-left" style="width:120px;" onclick="Submit_Request_Active()">
+											@ADQCC_New.LocalResource.Resource.Active
+										</a>
+									</div>
+									<div class="col-lg-6">
+										<a href="#" class="btn btn-danger pull-right" style="width:120px;" onclick="Submit_Request_Deactive()">
+											@ADQCC_New.LocalResource.Resource.Deactive
+										</a>
+									</div>
+								</div>
+							}
+							else
+							{
+								<div class="row">
+									<div class="col-lg-4">
+										<button type="button" class="btn btn-success pull-right" onclick="GeneratePassword()">
+											Generate Password
+										</button>
+									</div>
+									<div class="col-lg-4">
+										<button type="button" class="btn btn-success pull-right" onclick="Submit_Request_Active()">
+											@ADQCC_New.LocalResource.Resource.Active
+										</button>
+									</div>
+									<div class="col-lg-4">
+										<button type="button" class="btn btn-danger pull-left" onclick="Submit_Request_Deactive()">
+											@ADQCC_New.LocalResource.Resource.Deactive
+										</button>
+									</div>
+								</div>
+							}
+
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- ========================= END ACTIVE / DEACTIVE============================= -->
+</div>
+
+
+<!-- ========================= modal POP UP============================= -->
+<div id="Activate_regis" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" backdrop="static" aria-hidden="true" class="modal fade">
+	<div role="document" class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header head_pop_data">
+				<div class="modal-title">@ADQCC_New.LocalResource.Resource.EMPUserActiveDeactive</div>
+				<button type="button" data-dismiss="modal" aria-label="Close" class="close" style="margin-top: -21px !important;"><span aria-hidden="true" class="close_btn">×</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="row cancel_regi">
+					<h4 style="text-align: center;">@ADQCC_New.LocalResource.Resource.EMPShouldthisaccountbeactivatedordeactivated</h4>
+					@*<div class="col-md-12">
+                            <textarea id="Cancle_reasontext"></textarea>
+                        </div>*@
+					<div class="col-md-12 text-right">
+						<button class="btn btn-success" onclick="Submit_Request_Active();">Active</button>
+						<button class="btn btn-danger" onclick="Submit_Request_Deactive();">Deactive</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ========================= modal POP UP============================= -->
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>*@
+<script>
+
+	   $(document).ready(function () {
+
+		   // $("#DOB").bootstrapMaterialDatePicker({
+		   //     format: 'DD-MM-YYYY',
+		   // });
+		   //                       debugger
+
+		   // $('#EMERG_TYPE_MAS_ID').multiselect({
+		   //     buttonWidth: 308,
+		   // });
+
+
+		   $("#AddEmployee").hide();
+		   $("#ListView").show();
+		   $("#HealthVitals").hide();
+		   $("#Active_Deactive").hide();
+
+		   GET_EMPLOYEE_LIST("0", "0", "0");
+
+		   GET_EMP_FILTER_DESIGNATION();
+		   GET_EMP_FILTER_ID();
+		   //GET_EMP_FILTER_NAME();
+
+
+
+		   GET_DESIGNATION_LIST();
+		   GET_LOCATION_LIST();
+		   GET_NATIONALITY();
+		   GET_EHS_LIST();
+		   GET_SECTION_HEAD_LIST();
+		   GET_HSSE_LIST();
+		   GET_SELECT_EMR_TYPE_LIST();
+		   GET_SECTOR_LIST();
+
+		   $("#addnewemployee").on('click', function () {
+
+
+			   $("#AddEmployee").show(100);
+
+			   $("#ListView").hide(100);
+			   $("#btn_AddEmployee").show();
+			   $("#btnclear").show();
+			   $("#VieweditAfterImage").empty();
+			   $("#VieweditAfterImage").hide(100);
+			   $("#Documentfile_Viewhide").show(100);
+			   $("#hdncls_Documentfile").show(100);
+			   ClearFileds();
+		   });
+
+
+		   $("#getlistpage").on('click', function () {
+			   $("#AddEmployee").hide(100);
+			   $("#ListView").show(100);
+
+			   $("#Building").removeAttr('disabled', 'disabled');
+			   $("#sectorname").removeAttr('disabled', 'disabled');
+			   $("#department").removeAttr('disabled', 'disabled');
+			   $("#section").removeAttr('disabled', 'disabled');
+			   $("#firstName").removeAttr('disabled', 'disabled');
+			   $("#firstName_ar").removeAttr('disabled', 'disabled');
+			   $("#Gender").removeAttr('disabled', 'disabled');
+			   $("#nationality").removeAttr('disabled', 'disabled');
+			   $("#designation").removeAttr('disabled', 'disabled');
+			   $("#location").removeAttr('disabled', 'disabled');
+			   $("#emailid").removeAttr('disabled', 'disabled');;
+			   $("#phonenumber").removeAttr('disabled', 'disabled');
+			   $("#telephonenumber").removeAttr('disabled', 'disabled');
+			   $("#Occupation").removeAttr('disabled', 'disabled');
+			   $("#DOB").removeAttr('disabled', 'disabled');
+			   $("#Passport_Number").removeAttr('disabled', 'disabled');
+			   $("#Length_Service").removeAttr('disabled', 'disabled');
+			   $("#EmployeeCategory").removeAttr('disabled', 'disabled');
+		   });
+		   $("#btnclear").on('click', function () {
+			   ClearFileds();
+		   });
+		   $("#bckactivedeactive").on('click', function () {
+			   $("#Active_Deactive").hide(100);
+			   $("#ListView").show(100);
+		   });
+
+		   $("#healthBack").on('click', function () {
+			   $("#HealthVitals").hide(100);
+			   $("#ListView").show(100);
+		   });
+
+		   $("#location").on('change', function () {
+			   GET_BUILDING_LIST($(this).val());
+		   });
+		   //$("#Building").on('change',function () {
+		   //    GET_SECTOR_LIST($(this).val());
+		   //});
+		   $("#sectorname").on('change',function () {
+			   GET_DEPARTMENT_LIST($(this).val());
+		   });
+		   $("#department").on('change',function () {
+			   GET_SECTION_LIST($(this).val());
+		   });
+
+		   $("#designation").on('change', function () {
+
+			  var designation = $("#designation option:selected").text();
+			   if (designation == "Director") {
+				   SHOW_DESIGNATION(designation);
+				   var SECTOR_ID = $("#sectorname option:selected").val();
+				   var BUILDING_ID = $("#Building option:selected").val();
+				   $.post("@Url.Action("_GetEmp_Dir_BySector", "EmployeeDetails")", { SECTOR_ID: SECTOR_ID, BUILDING_ID: BUILDING_ID} ,function (data) {
+				   if (data.STATUS_CODE == "200") {
+					   //alert(data.MESSAGE);
+					   toastr.warning(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+					   $("#sectorname").val('0');
+					   $("#Building").val('0');
+			   }
+			   else {
+				   //toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+			  });
+			   }
+			  else {
+
+				  SHOW_DESIGNATION(designation);
+			  }
+
+		   });
+
+		   $("#ExcelUploadBack").on('click', function () {
+			   $("#HealthVitals").hide(100);
+			   $("#BulkuploadDiv").hide(100);
+			   $("#ListView").show(100);
+		   });
+
+		   $("#BulkUpload1").on('click', function () {
+			   $("#HealthVitals").hide(100);
+			   $("#ListView").hide(100);
+			   $("#BulkuploadDiv").show(100);
+
+		   });
+
+
+
+		   $("#emailid").on('change', function myfunction() {
+			   ;
+			   var strmail = $('#emailid').val();
+			   if (strmail.length > 0) {
+				   var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+				   if (!expr.test(strmail)) {
+					   //toastr.warning("Please enter valid EmailID!");
+					   $('#txtvalidemail').text("@ADQCC_New.LocalResource.Resource.validEmailID");
+					   return false;
+				   }
+				   else {
+					   $('#txtvalidemail').text('');
+				   }
+			   }
+
+		   });
+
+
+		   $("#sectorname").on('change', function () {
+
+			   var designation = $("#designation option:selected").text();
+			   if (designation =="Director") {
+				   var SECTOR_ID = $(this).val();
+				   var BUILDING_ID = $("#Building option:selected").val();
+				   $.post("@Url.Action("_GetEmp_Dir_BySector", "EmployeeDetails")", { SECTOR_ID: SECTOR_ID, BUILDING_ID: BUILDING_ID} ,function (data) {
+				   if (data.STATUS_CODE == "200") {
+					   //alert(data.MESSAGE);
+					   toastr.warning(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+					   $("#sectorname").val('0');
+					   $("#Building").val('0');
+			   }
+			   else {
+				   //toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+			  });
+		   }
+
+		   });
+
+		   $("#btn_AddEmployee").on('click', function () {
+			   debugger;
+			   var EMRTYPELIST = [];
+			   var varemp_id = $("#EMP_ID").val();
+			   var varfirstName = $("#firstName").val();
+			   var varfirstName_ar = $("#firstName_ar").val();
+			   var varGender = $("#Gender").val();
+			   var varnationality = "0";
+			   var vardesignation = $("#designation").val();
+			   var varlocation = $("#location").val();
+			   var varBuilding = $("#Building").val();
+			   var varsectorname = $("#sectorname").val();
+			   var vardepartment = $("#department").val();
+			   var varsection = $("#section").val();
+			   var varemailid = $("#emailid").val();
+			   var varphonenumber = $("#phonenumber").val();
+			   var vartelephonenumber = $("#telephonenumber").val();
+			   var Occupation = $("#Occupation").val();
+			   var DOB = $("#DOB").val();
+			   var Passport_Number = "0";
+			   var Length = "0";
+			   var EmployeeCategory = $("#EmployeeCategory").val();
+
+			   var VarSection_head = "0";
+			   var VarEhs_Manager = "0";
+			   var VarHsc_Manager = "0";
+			   var varhdncls_Documentfile = $(".hdncls_Documentfile").val();
+
+
+			   var designation = $("#designation option:selected").text();
+			   if (designation=="Employee") {
+
+					VarHsc_Manager = $("#Hsc_Manager").val();
+
+					if(VarHsc_Manager=="0"){
+					  toastr.error("@ADQCC_New.LocalResource.Resource.EMPSelecttheHSSEManager", "@ADQCC_New.LocalResource.Resource.Error");
+					  $("#Hsc_Manager").focus();
+					  return false;
+					}
+			   }
+
+			   if (designation=="EHS Manager") {
+					VarSection_head = $("#Section_head").val();
+				   if(VarSection_head=="0"){
+				   toastr.error("@ADQCC_New.LocalResource.Resource.EMPSelecttheSectionHead", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#Section_head").focus();
+				   return false;
+				   }
+
+			   }
+
+			   if (designation == "HSSE Manager") {
+
+					VarEhs_Manager = $("#Ehs_Manager").val();
+
+
+					  if(VarEhs_Manager=="0"){
+						  toastr.error("@ADQCC_New.LocalResource.Resource.EMPSelecttheEHSManager", "@ADQCC_New.LocalResource.Resource.Error");
+					  $("#Ehs_Manager").focus();
+					  return false;
+				   }
+
+			   }
+
+			   $("#EMERG_TYPE_MAS_ID :selected").map(function (i, el) {
+				   ;
+				   var varEMP_ID = $("#EMP_ID").val();
+				   var varEMP_EMERG_TYPE_ID = $("#EMP_EMERG_TYPE_ID").val();
+				   var varCreatedBy = '@loginclass.EMP_ID'
+				   var data = {};
+				   data.EMERG_TYPE_MAS_ID = el.value;
+				   data.EMP_ID = varEMP_ID;
+				   data.EMP_EMERG_TYPE_ID = varEMP_EMERG_TYPE_ID;
+				   data.CREATED_BY = varCreatedBy;
+				   EMRTYPELIST.push(data);
+			   });
+
+			   if (EmployeeCategory == "0") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.EMPSelecttheEmployeeCategory", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#EmployeeCategory").focus();
+				   return false;
+			   }
+
+			   if (varfirstName == "") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastemployeename", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#firstName").focus();
+				   return false;
+			   }
+
+			   if (varfirstName_ar == "") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastemployeearabic", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#firstName_ar").focus();
+				   return false;
+			   }
+
+			   if (varGender == "0") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastGender", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#Gender").focus();
+				   return false;
+			   }
+	@*if (varnationality == "0") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.toastnationality", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#nationality").focus();
+                return false;
+            }*@
+			   if (vardesignation == "0") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastdesignation", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#designation").focus();
+				   return false;
+			   }
+
+			   if (Occupation == "") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastEntertheOccupation", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#Occupation").focus();
+				   return false;
+			   }
+
+			   if (DOB == "") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastSelecttheDOB", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#DOB").focus();
+				   return false;
+			   }
+
+	@*if (Passport_Number == "") {
+                toastr.error("Passport_Number", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#Passport_Number").focus();
+                return false;
+            }*@
+				if (varphonenumber == "") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastphonenumber", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#phonenumber").focus();
+				   return false;
+			   }
+			   if (vartelephonenumber == "") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toasttelephonenumber", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#telephonenumber").focus();
+				   return false;
+			   }
+
+			   if (varlocation == "0") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastlocation", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#location").focus();
+				   return false;
+			   }
+			   if (varBuilding == "0") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastbuilding", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#Building").focus();
+				   return false;
+			   }
+			   if (varsectorname == "0") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastsectorname", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#sectorname").focus();
+				   return false;
+			   }
+			   if (vardepartment == "0") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastdepartment", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#department").focus();
+				   return false;
+			   }
+			   if (varsection == "0") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastsection", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#section").focus();
+				   return false;
+			   }
+			   if (varemailid == "") {
+				   toastr.error("@ADQCC_New.LocalResource.Resource.toastemailid", "@ADQCC_New.LocalResource.Resource.Error");
+				   $("#emailid").focus();
+				   return false;
+			   }
+			   var strmail = $('#emailid').val();
+			   if (strmail.length > 0) {
+				   var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+				   if (!expr.test(strmail)) {
+					   toastr.warning("@ADQCC_New.LocalResource.Resource.validEmailID");
+					   $('#emailid').focus();
+					   return false;
+				   }
+			   }
+			   varhdncls_Documentfile = "test";
+			 //   if (varhdncls_Documentfile == "") {
+			 //     toastr.error("@ADQCC_New.LocalResource.Resource.INSPPleaseuploadtheimage", "@ADQCC_New.LocalResource.Resource.Error");
+			 //       $(".hdncls_Documentfile").focus();
+			 //       return false;
+			 // }
+
+
+
+			   var EMP_STATUS = $("#EMP_STATUS").val();
+			   var EMP_USERNAME = $("#EMP_USERNAME").val();
+			   var EMP_PASSWORD = $("#EMP_PASSWORD").val();
+
+			   if (varemp_id == "") {
+				   varemp_id = "0";
+			   }
+
+			   if (EMP_STATUS == "") {
+				   EMP_STATUS = "0";
+			   }
+			   if (EMP_USERNAME == "") {
+				   EMP_USERNAME = "";
+			   }
+			   if (EMP_PASSWORD == "") {
+				   EMP_PASSWORD = "";
+			   }
+
+			   let form = $("#Frm_Emp_Add_List");
+			   let token = $('input[name="__RequestVerificationToken"]', form).val();
+
+			   var model = {
+				  __RequestVerificationToken: token,
+				   EMP_ID: varemp_id,
+				   EMP_FIRSTNAME: varfirstName,
+				   EMP_GENDER: varGender,
+				   EMP_NATIONALITY_ID: varnationality,
+				   EMP_DESIGNATION_ID: vardesignation,
+				   EMP_LOCATION_ID: varlocation,
+				   EMP_BUILDING_ID: varBuilding,
+				   EMP_SECTOR_ID: varsectorname,
+				   EMP_DEPARTMENT_ID: vardepartment,
+				   EMP_SECTION_ID: varsection,
+				   EMP_EMAIL: varemailid,
+				   EMP_PHONE_NO: varphonenumber,
+				   EMP_TEL_NO: vartelephonenumber,
+				   EMP_STATUS: EMP_STATUS,
+				   EMP_PASSWORD: EMP_PASSWORD,
+				   EMP_USERNAME: EMP_USERNAME,
+				   EMP_NAME_AR: varfirstName_ar,
+				   OCCUPATION: Occupation,
+				   DOB: DOB,
+				   IMAGE_PATH: varhdncls_Documentfile,
+				   PASSPORT_NUMBER: Passport_Number,
+				   LENGTH_OF_SERVICE: Length,
+				   EMPLOYEE_CATEGORY: EmployeeCategory,
+				   SECTION_HEAD: VarSection_head,
+				   EHS_MANAGER: VarEhs_Manager,
+				   HSSE_MANAGER: VarHsc_Manager,
+				   EMP_ENCRYPT_ID:"0",
+				   _EMERG_TYPE_SELECT_LIST: EMRTYPELIST
+			   };
+			   let formData = $.param(model);
+			   console.log(formData);
+			   $.ajax({
+					 url: '@Html.Raw(@Url.Action("AddEmployeeDetails", "EmployeeDetails"))',
+			type: "POST",
+				data: formData,
+				dataType: "json",
+				ContentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+			   success: function (data) {
+				   if (data.STATUS_CODE != "0") {
+					   toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+					   //ClearFileds();
+					   //GET_EMPLOYEE_LIST("0", "0", "0");
+					   window.location.reload();
+				   }
+				   else {
+					   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+				   }
+			   },
+		   });
+		   });
+
+
+		   $("#btn_health_vitals").on('click', function () {
+			   ;
+			   var returncheckboxValues = [];
+			   var Sno = 1;
+			   if ($(".healthischeck").is(":checked")) {
+
+				   $("#hsample2-table input[type=radio]:checked").each(function () {
+					   //var radioname = 'check[' + Sno + '][list]';
+					   //if ($('input[name="' + radioname + '"]:checked').val()) {
+					   //    toastr.error("Check All Radio Box", "Error");
+					   //    return false;
+					   //}
+
+					   //else {
+						   var name = "#vitalname_" + Sno;
+						   var vitalname = $(name).text();
+						   var vitalyesid = $(this).val();
+						   var data = {};
+						   data.YES_OR_NO = vitalyesid;
+						   data.HEALTH_VITAL_NAME = vitalname;
+						   data.EMP_ID = $("#HealthEmplID").val();
+						   returncheckboxValues.push(data);
+					   //}
+				   Sno++;
+			   });
+
+			   var model = {
+				   HEALTH_VITAL_LIST: returncheckboxValues,
+				   };
+
+				   if (model.HEALTH_VITAL_LIST.length <= 15) {
+					   toastr.error("Check All Radio Box", "Error");
+						   return false;
+				   }
+			   $.ajax({
+				   url: '@Html.Raw(@Url.Action("AddHealthVitalsDetails", "EmployeeDetails"))',
+				   type: "POST",
+				   cache: false,
+				   data: JSON.stringify(model),
+				   contentType: "application/json; charset=utf-8",
+				   dataType: "json",
+
+				   success: function (data) {
+					   if (data.STATUS_CODE == "200") {
+						   toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+						   //ClearFileds();
+						   GET_EMPLOYEE_LIST("0","0","0");
+					   }
+					   else {
+						   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+					   }
+				   },
+			   });
+
+			   }
+			   else {
+				   toastr.error("Check Atleast one Radio Box", "Error");
+			   }
+
+	   });
+
+		   $("#btn_reset").on('click', function () {
+			   GET_EMP_FILTER_ID("0");
+			  // GET_EMP_FILTER_NAME("0");
+			   GET_EMP_FILTER_DESIGNATION("0");
+			   GET_EMPLOYEE_LIST("0", "0", "0");
+		   });
+
+	   });
+
+	   function GET_SELECT_EMR_TYPE_LIST() {
+						  //debugger
+
+
+			   $.post("@Url.Action("GetSelectEmergencyTypeMaster", "EmployeeDetails")", function (data) {
+			   $(data).each(function (i, e) {
+				   $("#EMERG_TYPE_MAS_ID").append("<option value=" + e.EMERG_TYPE_MAS_ID + ">" + e.EMERG_TYPE_MAS + "</option>");
+			   });
+				   $("#EMERG_TYPE_MAS_ID").multiselect('rebuild');
+			   });
+		}
+
+	   function SHOW_DESIGNATION(SHOW_NAME) {
+
+		   switch (SHOW_NAME) {
+
+			   case "Section Head":
+				   $("#SH_Section_head").hide();
+				   $("#SH_Ehs_Manager").hide();
+				   $("#SH_Director").show();
+				   break;
+
+
+			   case "Employee":
+				   $("#SH_Section_head").hide();
+				   $("#SH_Ehs_Manager").hide();
+				   $("#SH_Hsc_Manager").show();
+				   break;
+
+			   case "HSSE Manager":
+				   $("#SH_Section_head").hide();
+				   $("#SH_Ehs_Manager").show();
+				   $("#SH_Hsc_Manager").hide();
+				   break;
+
+				case "EHS Manager":
+				   $("#SH_Section_head").show();
+				   $("#SH_Ehs_Manager").hide();
+				   $("#SH_Hsc_Manager").hide();
+				   break;
+			   default:
+				   $("#SH_Section_head").hide();
+				   $("#SH_Ehs_Manager").hide();
+				   $("#SH_Hsc_Manager").hide();
+				   break;
+
+		   }
+
+	   }
+
+
+	   function EDIT_SHOW_DESIGNATION(SHOW_NAME,EHS,HSSE,SECTION_HEAD,enable) {
+
+		   switch (SHOW_NAME) {
+
+			   case "Employee":
+				   if (enable == "1") {
+					   $("#Hsc_Manager").val(HSSE).prop("disabled", false);
+				   }
+				   else {
+					   $("#Hsc_Manager").val(HSSE).attr('disabled', 'disabled');
+				   }
+				   $("#SH_Section_head").hide();
+				   $("#SH_Ehs_Manager").hide();
+				   $("#SH_Hsc_Manager").show();
+				   break;
+
+			   case "HSSE Manager":
+				   if (enable == "1") {
+					   $("#Ehs_Manager").val(EHS).prop("disabled", false);
+				   }
+				   else {
+						 $("#Ehs_Manager").val(EHS).attr('disabled', 'disabled');
+				   }
+				   $("#SH_Section_head").hide();
+				   $("#SH_Ehs_Manager").show();
+				   $("#SH_Hsc_Manager").hide();
+				   break;
+
+			   case "EHS Manager":
+				   if (enable == "1") {
+					   $("#Section_head").val(SECTION_HEAD).prop("disabled", false);;
+				   }
+				   else {
+						$("#Section_head").val(SECTION_HEAD).attr('disabled', 'disabled');
+				   }
+				   $("#SH_Section_head").show();
+				   $("#SH_Ehs_Manager").hide();
+				   $("#SH_Hsc_Manager").hide();
+				   break;
+
+			   default:
+				   $("#SH_Section_head").hide();
+				   $("#SH_Ehs_Manager").hide();
+				   $("#SH_Hsc_Manager").hide();
+				   break;
+
+		   }
+
+	   }
+
+	   function SampleExcelFile(fileName) {
+		   //Set the File URL.
+		   var url = '@Url.Content("~/ExcelFileUploads/")' + fileName;
+		   $.ajax({
+			   url: url,
+			   cache: false,
+			   xhr: function () {
+				   var xhr = new XMLHttpRequest();
+				   xhr.onreadystatechange = function () {
+					   if (xhr.readyState == 2) {
+						   if (xhr.status == 200) {
+							   xhr.responseType = "blob";
+						   } else {
+							   xhr.responseType = "text";
+						   }
+					   }
+				   };
+				   return xhr;
+			   },
+			   success: function (data) {
+				   //Convert the Byte Data to BLOB object.
+				   var blob = new Blob([data], { type: "application/octetstream" });
+
+				   //Check the Browser type and download the File.
+				   var isIE = false || !!document.documentMode;
+				   if (isIE) {
+					   window.navigator.msSaveBlob(blob, fileName);
+				   } else {
+					   var url = window.URL || window.webkitURL;
+					   link = url.createObjectURL(blob);
+					   var a = $("<a />");
+					   a.attr("download", fileName);
+					   a.attr("href", link);
+					   $("body").append(a);
+					   a[0].click();
+					   $("body").remove(a);
+				   }
+			   }
+		   });
+	   };
+
+	   function GET_EMPLOYEE_LIST(emp_id, emp_name, emp_desi) {
+		   debugger
+		   $("#Loaderbck").show();
+		   $("#Loader").show();
+		   $("#table1").dataTable().fnDestroy();
+		   $("#Active_Deactive").hide(100);
+		   $("#HealthVitals").hide(100);
+		   $("#AddEmployee").hide();
+		   $("#ListView").show();
+		   $.post("@Url.Action("_GetEmployeeList", "EmployeeDetails")", { EMP_ID: emp_id, EMP_NAME: emp_name, EMP_DESI: emp_desi }, function (data) {
+				$("#GetEmployeeList").html('');
+				$("#GetEmployeeList").html(data);
+		  }).always(function () {
+			   $("#Loaderbck").hide();
+			   $("#Loader").hide();
+		   });
+	   }
+
+	   function GetPreview()
+	   {
+
+		   $("#PreviewDetail").empty();
+		   var show = false;
+		   $.post("@Url.Action("_GetPreviewList", "EmployeeDetails")", function (data) {
+
+			   //$("#PreviewDetail").html('');
+			   //$("#PreviewDetail").html(data);
+			   //
+			   if (data) {
+
+				   $(data).each(function (i, e) {
+					   var markup = '';
+					   markup += '<tr>'
+
+					   markup += '<td>'
+					   markup += '<input type="hidden" class="form-control uniqueid" name="" value="' + e.EMP_FIRSTNAME + '"  disabled="disabled">'
+					   markup += '<input type="text" class="form-control firstname" id="firstname" maxlength="500"  disabled="disabled" value="' + e.EMP_FIRSTNAME + '"/>'
+					   markup += '</td>'
+
+					   markup += '<td>'
+					   markup += '<input type="text" class="form-control email" id="gender" maxlength="500"  disabled="disabled" value="' + e.EMP_EMAIL + '"/>'
+					   markup += '</td>'
+
+					   markup += '<td>'
+					   markup += '<input type="text" class="form-control PhoneNo" id="gender" maxlength="500"  disabled="disabled" value="' + e.EMP_PHONE_NO + '"/>'
+					   markup += '</td>'
+					   // markup += '<td>'
+					   //markup += '<input type="text" class="form-control lastname" id="lastname" maxlength="500"  disabled="disabled" value="' + e.EMP_LASTNAME + '"/>'
+					   //markup += '</td>'
+
+					   //markup += '<td>'
+					   //markup += '<input type="text" class="form-control gender" id="gender" maxlength="500"  disabled="disabled" value="' + e.EMP_GENDER + '"/>'
+					   //markup += '</td>'
+					   $("#PreviewDetail").append(markup);
+				   });
+					show = true;
+			   }
+		   });
+		   if (show) {
+			   $("#ShowPreview").show();
+		   }
+		   else {
+				$("#ShowPreview").hide();
+		   }
+	   }
+
+	   function BulkExcelUpload() {
+
+		   //  var postedFile = $('#excelfile').prop('files');
+			var postedFile = new FormData();
+		   postedFile.append("File", document.getElementById("excelfile").files[0]);
+
+		   //var postedFile = new FormData($('#excelpost')[0]);
+		  // var postedFile = new FormData($("#excelpost").get(0));
+	@*$.post("@Url.Action("Preview", "ExcelBulkUpload")", function (data) {
+            if (data == "Success") {
+                toastr.success(data, "@ADQCC_New.LocalResource.Resource.Success");
+
+            }*@
+
+
+		   //});
+
+
+			   $.ajax({
+				   url: '@Html.Raw(@Url.Action("Preview", "ExcelBulkUpload"))',
+				   type: "POST",
+				   cache: false,
+				   processData: false,
+				   contentType: false,
+				   data: postedFile,
+				   success: function (result) {
+
+					  toastr.success(result, "@ADQCC_New.LocalResource.Resource.Success");
+				   },
+				   error: function (err) {
+					   alert(err.statusText);
+				   }
+			   });
+
+	   }
+
+
+	   function FinalSubmit() {
+
+			var finalupload = [];
+
+		   $('#Data_table_Preview tbody > tr').each(function () {
+			   ;
+			   var varfirstname = $(this).closest('tr').find('.firstname').val();
+			   var varlastname = $(this).closest('tr').find('.lastname').val();
+			   var vargender = $(this).closest('tr').find('.gender').val();
+			   var varemail = $(this).closest('tr').find('.email').val();
+			   var varphone_no = $(this).closest('tr').find('.PhoneNo').val();
+			   var varunique = "";
+			   var varempid = "0";
+
+
+				   var data = {};
+
+				   data.EMP_FIRSTNAME = varfirstname;
+				   data.EMP_LASTNAME = varlastname;
+				   data.EMP_GENDER = vargender;
+				   data.EMP_EMAIL = varemail;
+				   data.EMP_PHONE_NO = varphone_no;
+				   data.UNIQUE_ID = varunique;
+				   data.EMP_ID = varempid;
+
+
+				   finalupload.push(data);
+
+		   });
+
+			$.ajax({
+				   url: '@Html.Raw(@Url.Action("AddEmployeeDetailsBulk", "EmployeeDetails"))',
+				   type: "POST",
+				   cache: false,
+				   data: JSON.stringify(finalupload),
+				   contentType: "application/json; charset=utf-8",
+				   dataType: "json",
+
+				   success: function (data) {
+					   if (data.STATUS_CODE == "200") {
+						   toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+						   //ClearFileds();
+						   //GET_EMPLOYEE_LIST("0","0","0");
+					   }
+					   else {
+						   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+					   }
+				   },
+			   });
+
+	   }
+
+	   function ClearFileds() {
+		   //$("#Hsc_Manager").hide();
+		   //$("#SH_Hsc_Manager").hide();
+		   $("#firstName").val('');
+		   $("#Gender").val("0");
+		   $("#nationality").val("0");
+		   $("#designation").val("0");
+		   $("#location").val("0");
+		   $("#Building").val("0");
+		   $("#department").val("0");
+		   $("#section").val("0");
+		   $("#emailid").val("");
+		   $("#phonenumber").val('');
+		   $("#telephonenumber").val('');
+		   $("#Occupation").val('');
+		   $("#DOB").val('');
+		   $("#Passport_Number").val('');
+		   $("#Length_Service").val('');
+		   $("#EmployeeCategory").val("0");
+		   $("#sectorname").val("0");
+		   $("#firstName_ar").val('');
+		   $('#Documentfile_Viewhide').val("")
+	   }
+
+	   function EMP_DELETE(ROWID) {
+		   $.post("@Url.Action("_DeleteEmployeeList", "EmployeeDetails")", { EMP_ID: ROWID } ,function (data) {
+			   if (data.STATUS_CODE == "200") {
+				   toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+				   GET_EMPLOYEE_LIST("0","0","0");
+			   }
+			   else {
+				   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+		  });
+	   }
+
+	   function EMP_EDIT(ROWID) {
+		   $("#btn_AddEmployee").show();
+		   $("#btnclear").show();
+		   $.post("@Url.Action("_EditEmployeeList", "EmployeeDetails")", { EMP_ID: ROWID } ,function (data) {
+			   if (data.STATUS_CODE == "200") {
+
+				   $("#AddEmployee").show(100);
+				   $("#ListView").hide(100);
+				   $("#VieweditAfterImage").empty();
+				   $("#VieweditAfterImage").show(100);
+				   $("#Documentfile_Viewhide").show(100);
+				   $("#hdncls_Documentfile").show(100);
+				   $("#EMP_ID").val(data.EMP_ID);
+				   $("#EMP_STATUS").val(data.EMP_STATUS);
+				   $("#EMP_USERNAME").val(data.EMP_USERNAME);
+				   $("#EMP_PASSWORD").val(data.EMP_PASSWORD);
+
+				   $("#VIEW_EMP_ID").val(data.UNIQUE_ID);
+				   $("#firstName").val(data.EMP_FIRSTNAME);
+				   $("#firstName_ar").val(data.EMP_NAME_AR);
+				   if (data.EMP_GENDER == null) {
+					   $("#Gender").val("0");
+				   }
+				   else {
+					   $("#Gender").val(data.EMP_GENDER);
+				   }
+				   $("#nationality").val(data.EMP_NATIONALITY_ID);
+				   if (data.EMP_DESIGNATION_ID == null) {
+					   $("#designation").val("0");
+						SHOW_DESIGNATION("0");
+				   }
+				   else {
+					   $("#designation").val(data.EMP_DESIGNATION_ID);
+						var val = $("#designation option:selected").text();
+						EDIT_SHOW_DESIGNATION(val,data.EHS_MANAGER,data.HSSE_MANAGER,data.SECTION_HEAD,"1");
+				   }
+				   if (data.EMP_LOCATION_ID == null) {
+						 $("#location").val("0");
+				   }
+				   else {
+					   $("#location").val(data.EMP_LOCATION_ID);
+				   }
+
+				   GET_BUILDING_MASTER(data.EMP_LOCATION_ID, "#Building", data.EMP_BUILDING_ID);
+
+				   GET_SECTOR_MASTER("0", "#sectorname", data.EMP_SECTOR_ID);
+
+				   GET_DEPARTMENT_MASTER(data.EMP_SECTOR_ID, "#department", data.EMP_DEPARTMENT_ID);
+
+				   GET_SECTION_MASTER(data.EMP_DEPARTMENT_ID, "#section", data.EMP_SECTION_ID);
+
+
+				   $("#emailid").val(data.EMP_EMAIL);
+				   $("#phonenumber").val(data.EMP_PHONE_NO);
+				   $("#telephonenumber").val(data.EMP_TEL_NO);
+				   $("#Occupation").val(data.OCCUPATION);
+				   $("#DOB").val(data.DOB);
+				   $("#Passport_Number").val(data.PASSPORT_NUMBER);
+				   $("#Length_Service").val(data.LENGTH_OF_SERVICE);
+				   $(".hdncls_Documentfile").val(data.IMAGE_PATH);
+				   //$("#VieweditAfterImage").val(data.IMAGE_PATH);
+				   $('<img />').attr('src', "" + data.IMAGE_PATH + "").width('150px').appendTo($('#VieweditAfterImage'));
+
+				   if (data.EMPLOYEE_CATEGORY == null) {
+					   $("#EmployeeCategory").val("0");
+
+				   }
+				   else {
+					   $("#EmployeeCategory").val(data.EMPLOYEE_CATEGORY);
+
+				   }
+			   }
+			   else {
+				   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+		  });
+	   }
+
+	   function EMP_VIEW(ROWID) {
+
+		   $("#btn_AddEmployee").hide();
+		   $("#btnclear").hide();
+
+		   $.post("@Url.Action("_EditEmployeeList", "EmployeeDetails")", { EMP_ID: ROWID }, function (data) {
+
+			   if (data.STATUS_CODE == "200") {
+				   $("#VieweditAfterImage").empty();
+
+				   $("#AddEmployee").show(100);
+				   $("#ListView").hide(100);
+				   $("#Documentfile_Viewhide").hide(100);
+				   $("#hdncls_Documentfile").hide(100);
+				   $("#VieweditAfterImage").show(100);
+
+
+				   $("#VIEW_EMP_ID").val(data.UNIQUE_ID);
+				   $("#Building").attr('disabled', 'disabled');
+				   $("#sectorname").attr('disabled', 'disabled');
+				   $("#department").attr('disabled', 'disabled');
+				   $("#section").attr('disabled', 'disabled');
+
+				   $("#firstName").val(data.EMP_FIRSTNAME).attr('disabled', 'disabled');
+				   $("#firstName_ar").val(data.EMP_NAME_AR).attr('disabled', 'disabled');
+					if (data.EMP_GENDER == null) {
+					   $("#Gender").val("0").attr('disabled', 'disabled');
+				   }
+				   else {
+					   $("#Gender").val(data.EMP_GENDER).attr('disabled', 'disabled');
+				   }
+
+				   $("#nationality").val(data.EMP_NATIONALITY_ID).attr('disabled', 'disabled');
+					if (data.EMP_DESIGNATION_ID == null) {
+						$("#designation").val("0").attr('disabled', 'disabled');
+				   }
+				   else {
+						$("#designation").val(data.EMP_DESIGNATION_ID).attr('disabled', 'disabled');
+						 var val1 = $("#designation option:selected").text();
+						 EDIT_SHOW_DESIGNATION(val1,data.EHS_MANAGER,data.HSSE_MANAGER,data.SECTION_HEAD,"0");
+				   }
+
+				   if (data.EMP_LOCATION_ID == null) {
+						 $("#location").val("0").attr('disabled', 'disabled');
+				   }
+				   else {
+					   $("#location").val(data.EMP_LOCATION_ID).attr('disabled', 'disabled');
+				   }
+
+
+
+
+				   GET_BUILDING_MASTER(data.EMP_LOCATION_ID, "#Building", data.EMP_BUILDING_ID);
+
+				   GET_SECTOR_MASTER("0", "#sectorname", data.EMP_SECTOR_ID);
+
+				   GET_DEPARTMENT_MASTER(data.EMP_SECTOR_ID, "#department", data.EMP_DEPARTMENT_ID);
+
+				   GET_SECTION_MASTER(data.EMP_DEPARTMENT_ID, "#section", data.EMP_SECTION_ID);
+
+
+				   $("#emailid").val(data.EMP_EMAIL).attr('disabled', 'disabled');
+				   $("#phonenumber").val(data.EMP_PHONE_NO).attr('disabled', 'disabled');
+				   $("#telephonenumber").val(data.EMP_TEL_NO).attr('disabled', 'disabled');
+				   $("#Occupation").val(data.OCCUPATION).attr('disabled', 'disabled');
+				   $("#DOB").val(data.DOB).attr('disabled', 'disabled');
+				   $("#Passport_Number").val(data.PASSPORT_NUMBER).attr('disabled', 'disabled');
+				   $("#Length_Service").val(data.LENGTH_OF_SERVICE).attr('disabled', 'disabled');
+				   $(".hdncls_Documentfile").val(data.IMAGE_PATH);
+
+				   $('<img />').attr('src', "" + data.IMAGE_PATH + "").width('150px').appendTo($('#VieweditAfterImage'));
+				   if (data.EMPLOYEE_CATEGORY == null) {
+					   $("#EmployeeCategory").val("0").attr('disabled', 'disabled');
+
+				   }
+				   else {
+					$("#EmployeeCategory").val(data.EMPLOYEE_CATEGORY).attr('disabled', 'disabled');
+				   }
+
+			   }
+			   else {
+				   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+		  });
+	   }
+
+
+
+	   function GET_BUILDING_MASTER(RefTransID, controlid, selectedValue) {
+		   ;
+		   $(controlid).html("");
+		   $.post("@Url.Action("_GetBuildingMasterSelect", "Masters")", { LOCID: RefTransID}, function (data) {
+			   if (data != null) {
+				   $(controlid).append("<option value='0'>--@ADQCC_New.LocalResource.Resource.SelectBuilding--</option>");
+				   $.each(data, function (index, item) {
+					   $(controlid).append(new Option(item.BUIL_NAME, item.BUIL_ID));
+				   });
+				   if (selectedValue != null)
+					   $(controlid).val(selectedValue);
+			   }
+		   }).always(function () {
+
+		   });
+	   }
+
+
+	   function GET_SECTOR_MASTER(RefTransID, controlid, selectedValue) {
+		   ;
+		   $(controlid).html("");
+		   $.post("@Url.Action("_GetSectorMasterSelect", "Masters")", { BUILID: RefTransID}, function (data) {
+			   if (data != null) {
+				   $(controlid).append("<option value='0'>--@ADQCC_New.LocalResource.Resource.SelectSectorName--</option>");
+				   $.each(data, function (index, item) {
+					   $(controlid).append(new Option(item.SEC_NAME_EN, item.SEC_ID));
+				   });
+				   if (selectedValue != null)
+					   $(controlid).val(selectedValue);
+			   }
+		   }).always(function () {
+
+		   });
+	   }
+
+
+	   function GET_DEPARTMENT_MASTER(RefTransID, controlid, selectedValue) {
+		   ;
+		   $(controlid).html("");
+		   $.post("@Url.Action("_GetDepartmentMasterSelect", "Masters")", { SECID: RefTransID}, function (data) {
+			   if (data != null) {
+				   $(controlid).append("<option value='0'>--@ADQCC_New.LocalResource.Resource.SelectDepartment--</option>");
+				   $.each(data, function (index, item) {
+					   $(controlid).append(new Option(item.DEP_NAME, item.DEP_ID));
+				   });
+				   if (selectedValue != null)
+					   $(controlid).val(selectedValue);
+			   }
+		   }).always(function () {
+
+		   });
+	   }
+
+
+	   function GET_SECTION_MASTER(RefTransID, controlid, selectedValue) {
+		   ;
+		   $(controlid).html("");
+		   $.post("@Url.Action("_GetSectionMasterSelect", "Masters")", { DEPID: RefTransID}, function (data) {
+			   if (data != null) {
+				   $(controlid).append("<option value='0'>--@ADQCC_New.LocalResource.Resource.SelectSection--</option>");
+				   $.each(data, function (index, item) {
+					   $(controlid).append(new Option(item.SEC_LAB_NAME, item.SEC_LAB_ID));
+				   });
+				   if (selectedValue != null)
+					   $(controlid).val(selectedValue);
+			   }
+		   }).always(function () {
+
+		   });
+	   }
+
+	   function EMP_HEALTH(ROWID) {
+		   ;
+			$.post("@Url.Action("_GetHealthVitalsDetails", "EmployeeDetails")", { EMP_ID: ROWID } ,function (data) {
+			   if (data!= "") {
+				   $("#HealthVitals").show(100);
+				   $("#ListView").hide(100);
+
+				   $("#Get_Health_Vitals").html('')
+				   $("#Get_Health_Vitals").html(data)
+
+				   GET_HEALTH_VITALS(ROWID);
+
+			   }
+			   else {
+				   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+		  });
+	   }
+
+	   function GET_HEALTH_VITALS(ROWID) {
+		   $.post("@Url.Action("_EditEmployeeList", "EmployeeDetails")", { EMP_ID: ROWID } ,function (data) {
+			   if (data.STATUS_CODE == "200") {
+				   $("#HealthVitals").show(100);
+				   $("#ListView").hide(100);
+
+				   $("#HealthEmplID").val(data.EMP_ID);
+				   $("#H_EmployeeID").val(data.UNIQUE_ID);
+				   $("#H_EmployeeName").val(data.EMP_FIRSTNAME);
+				   $("#H_Designation").val(data.DESI_NAME_EN);
+			   }
+			   else {
+				   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+		  });
+
+	   }
+	   var globalemployeeID = "";
+	   function EMP_ACTIVE(ROWID) {
+		   globalemployeeID = ROWID;
+		   $.post("@Url.Action("_EditEmployeeList", "EmployeeDetails")", { EMP_ID: ROWID } ,function (data) {
+			   if (data.STATUS_CODE == "200") {
+				   $("#ListView").hide(100);
+				   $("#Active_Deactive").show(100);
+
+				   $("#ac_username").val(data.UNIQUE_ID)
+				   $("#ac_EMP_ID").val(data.UNIQUE_ID)
+				   $("#ac_firstName").val(data.EMP_FIRSTNAME);
+				   $("#ac_designation").val(data.DESI_NAME_EN);
+				   $("#ac_password").val(data.EMP_PASSWORD);
+				   $("#ac_con_password").val(data.EMP_PASSWORD);
+
+			   }
+			   else {
+				   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+		  });
+
+
+
+	   }
+
+	   function Submit_Request_Active() {
+		   //alert(globalemployeeID);
+		   var varUserName = $("#ac_username").val();
+		   var varPassword = $("#ac_password").val();
+		   var varconPassword = $("#ac_con_password").val();
+
+		   if (varUserName == "") {
+			   toastr.error("@ADQCC_New.LocalResource.Resource.EMPPleaseentertheusername", "Error");
+			   $("#ac_username").focus();
+			   return false;
+		   }
+		   else if (varPassword == "") {
+			   toastr.error("Please Generate Password", "Error");
+			   $("#ac_password").focus();
+			   return false;
+		   }
+		   else if (varconPassword == "") {
+			   toastr.error("@ADQCC_New.LocalResource.Resource.EMPPleaseentertheConfirmPassword", "Error");
+			   $("#ac_con_password").focus();
+			   return false;
+		   }
+
+		   if (varPassword == varconPassword) {
+				$.post("@Url.Action("UpdateActiveDeactiveStatus", "EmployeeDetails")", { EMP_ID: globalemployeeID, STATUS: '1', PASSWORD: $("#ac_password").val(), USERNAME: $("#ac_username").val()} ,function (data) {
+			   if (data.STATUS_CODE == "200") {
+				   toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+				   GET_EMPLOYEE_LIST("0", "0", "0");
+			   }
+			   else {
+				   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+		  });
+		}
+		   else {
+			   toastr.error('@ADQCC_New.LocalResource.Resource.EMPPasswordMismatch', "@ADQCC_New.LocalResource.Resource.Error");
+		   }
+	   }
+
+	   function GeneratePassword() {
+
+		   $.ajax({
+				   url: '@Html.Raw(@Url.Action("Get_RandomPassword", "EmployeeDetails"))',
+				   type: "POST",
+				   cache: false,
+				   contentType: "application/json; charset=utf-8",
+				   dataType: "json",
+
+			   success: function (data) {
+				   $("#ac_password").val(data);
+				   $("#ac_con_password").val(data);
+				   $("#txtlable").text("Password is Generated, Please Active!");
+
+			   }
+		   });
+
+	   }
+	   function Submit_Request_Deactive() {
+		   //alert(globalemployeeID);
+		   var varUserName = $("#ac_username").val();
+		   var varPassword = $("#ac_password").val();
+		   var varconPassword = $("#ac_con_password").val();
+
+		   if (varUserName == "") {
+			   varUserName = "";
+		   }
+		   else if (varPassword == "") {
+			   varPassword = "";
+		   }
+		   else if (varconPassword == "") {
+			   varconPassword = "";
+		   }
+		   $.post("@Url.Action("UpdateActiveDeactiveStatus", "EmployeeDetails")", { EMP_ID: globalemployeeID, STATUS: '0', PASSWORD: varPassword, USERNAME: varUserName } ,function (data) {
+				if (data.STATUS_CODE == "200") {
+					toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+					//$("#Activate_regis").modal("toggle");
+					GET_EMPLOYEE_LIST("0", "0", "0");
+			   }
+			   else {
+				   toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+			   }
+		  });
+	   }
+
+		function GET_DESIGNATION_LIST() {
+					   //debugger
+
+		   $.post("@Url.Action("_GetDesignationMasterSelect", "Masters")", function (data) {
+			   $(data).each(function (i, e) {
+				   $("#designation").append("<option value=" + e.DESI_ID + ">" + e.DESI_NAME_EN + "</option>");
+				});
+			});
+		}
+
+	   function GET_LOCATION_LIST() {
+					  //debugger
+
+		   $.post("@Url.Action("_GetLocationMasterSelect", "Masters")", function (data) {
+			   $(data).each(function (i, e) {
+				   $("#location").append("<option value=" + e.LOC_ID + ">" + e.LOC_NAME + "</option>");
+				});
+			});
+	   }
+	   function GET_BUILDING_LIST(locid) {
+		   $.post("@Url.Action("_GetBuildingMasterSelect", "Masters")", { LOCID: locid }, function (data) {
+			   $("#Building").empty();
+			   $("#Building").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectBuilding--</option>");
+			   $(data).each(function (i, e) {
+				   $("#Building").append("<option value=" + e.BUIL_ID + ">" + e.BUIL_NAME + "</option>");
+				});
+			});
+	   }
+	   function GET_SECTOR_LIST() {
+					  //debugger
+
+		   $.post("@Url.Action("_GetSectorMasterSelect", "Masters")", { BUILID: "0" }, function (data) {
+			   $("#sectorname").empty();
+			   $("#sectorname").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectSectorName--</option>");
+			   $(data).each(function (i, e) {
+				   $("#sectorname").append("<option value=" + e.SEC_ID + ">" + e.SEC_NAME_EN + "</option>");
+				});
+			});
+	   }
+	   function GET_DEPARTMENT_LIST(secid) {
+		   $.post("@Url.Action("_GetDepartmentMasterSelect", "Masters")", { SECID: secid }, function (data) {
+			   $("#department").empty();
+			   $("#department").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectDepartment--</option>");
+			   $(data).each(function (i, e) {
+				   $("#department").append("<option value=" + e.DEP_ID + ">" + e.DEP_NAME + "</option>");
+				});
+			});
+	   }
+
+	   function GET_SECTION_LIST(depid) {
+		   $.post("@Url.Action("_GetSectionMasterSelect", "Masters")", { DEPID: depid }, function (data) {
+			   $("#section").empty();
+			   $("#section").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectSection--</option>");
+			   $(data).each(function (i, e) {
+				   $("#section").append("<option value=" + e.SEC_LAB_ID + ">" + e.SEC_LAB_NAME + "</option>");
+				});
+			});
+	   }
+
+		 function GET_NATIONALITY() {
+						//debugger
+
+		   $.post("@Url.Action("GetNationalityDetails", "Masters")",  function (data) {
+			   $("#nationality").empty();
+			   $("#nationality").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectNationality--</option>");
+			   $(data).each(function (i, e) {
+				   $("#nationality").append("<option value=" + e.NATIONALITY_ID + ">" + e.NATIONALITY_NAME + "</option>");
+				});
+			});
+		   //alert(selectedValue)
+	   }
+
+	   function GET_EMP_FILTER_ID() {
+					  //debugger
+
+		   $("#Loaderbck").show();
+		   $("#Loader").show();
+		   $.post("@Url.Action("GetEmployeeFilter", "EmployeeDetails")", function (data) {
+			   $("#SelectEmpID").empty();
+			   $("#SelectEmpID").append("<option value='0'> --ALL--</option>");
+
+			   $("#SelectEmpName").empty();
+			   $("#SelectEmpName").append("<option value='0'> --ALL--</option>");
+				   $(data).each(function (i, e) {
+					   $("#SelectEmpID").append("<option value=" + e.EMPLOYEE_ID + ">" + e.UNIQUE_ID + "</option>");
+					   $("#SelectEmpName").append("<option value=" + e.EMPLOYEE_ID + ">" + e.EMPLOYEE_NAME + "</option>");
+				   });
+		   }).always(function () {
+			   $("#Loaderbck").hide();
+			   $("#Loader").hide();
+		   });
+	   }
+
+	@*function GET_EMP_FILTER_NAME() {
+        ;
+         $.post("@Url.Action("GetEmployeeFilter", "EmployeeDetails")", function (data) {
+             $("#SelectEmpName").empty();
+             $("#SelectEmpName").append("<option value='0'> --ALL--</option>");
+                $(data).each(function (i, e) {
+                    $("#SelectEmpName").append("<option value=" + e.EMPLOYEE_ID + ">" + e.EMPLOYEE_NAME + "</option>");
+                });
+            });
+    }*@
+
+	   function GET_EMP_FILTER_DESIGNATION() {
+					  //debugger
+		   $.post("@Url.Action("_GetDesignationMasterSelect", "Masters")", function (data) {
+			   $("#SelectDesignation").empty();
+			   $("#SelectDesignation").append("<option value='0'>-ALL-</option>");
+			   $(data).each(function (i, e) {
+				   $("#SelectDesignation").append("<option value=" + e.DESI_ID + ">" + e.DESI_NAME_EN + "</option>");
+				});
+			});
+
+	   }
+
+
+		function GET_EHS_LIST() {
+						 //debugger
+
+
+			   $.post("@Url.Action("_GetEmployee_EHSList", "EmployeeDetails")", function (data) {
+			   $(data).each(function (i, e) {
+				   $("#Ehs_Manager").append("<option value=" + e.EMP_ID + ">" + e.EMP_FIRSTNAME + "</option>");
+
+				});
+			   });
+		}
+
+
+		function GET_SECTION_HEAD_LIST() {
+						 //debugger
+
+
+			   $.post("@Url.Action("_GetEmployee_SECTION_HEAD_List", "EmployeeDetails")", function (data) {
+			   $(data).each(function (i, e) {
+				   $("#Section_head").append("<option value=" + e.EMP_ID + ">" + e.EMP_FIRSTNAME + "</option>");
+
+				});
+			   });
+	   }
+
+
+	   function GET_HSSE_LIST() {
+						 //debugger
+
+
+			   $.post("@Url.Action("_GetEmployee_HSSE_List", "EmployeeDetails")", function (data) {
+			   $(data).each(function (i, e) {
+				   $("#Hsc_Manager").append("<option value=" + e.EMP_ID + ">" + e.EMP_FIRSTNAME + "</option>");
+
+				});
+			   });
+	   }
+
+
+	   function fnSelectEmpID(EMP_ID) {
+		   ;
+		   var EMP_ID = $("#SelectEmpID").val();
+		   var EMPLOYEE_NAME = $("#SelectEmpName").val();
+		   var DESI_ID = $("#SelectDesignation").val();
+
+		   GET_EMPLOYEE_LIST(EMP_ID, EMPLOYEE_NAME, DESI_ID);
+
+	   }
+
+
+
+	   function ExportToTable() {
+
+
+			$.ajax({
+	  url:"employee.csv",
+	  dataType:"text",
+	  success:function(data)
+	  {
+	   var employee_data = data.split(/\r?\n|\r/);
+	   var table_data = '<table class="table table-bordered table-striped">';
+	   for(var count = 0; count<employee_data.length; count++)
+	   {
+		var cell_data = employee_data[count].split(",");
+		table_data += '<tr>';
+		for(var cell_count=0; cell_count<cell_data.length; cell_count++)
+		{
+		 if(count === 0)
+		 {
+		  table_data += '<th>'+cell_data[cell_count]+'</th>';
+		 }
+		 else
+		 {
+		  table_data += '<td>'+cell_data[cell_count]+'</td>';
+		 }
+		}
+		table_data += '</tr>';
+	   }
+	   table_data += '</table>';
+	   $('#Data_table').html(table_data);
+	   }
+	   });
+
+
+		//var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+		///*Checks whether the file is a valid excel file*/
+		//if (regex.test($("#excelfile").val().toLowerCase())) {
+		//    var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+		//    if ($("#excelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+		//        xlsxflag = true;
+		//    }
+		//    /*Checks whether the browser supports HTML5*/
+		//    if (typeof (FileReader) != "undefined") {
+		//
+		//        var reader = new FileReader();
+		//        reader.onload = function (e) {
+		//            var data = e.target.result;
+		//            /*Converts the excel data in to object*/
+		//            if (xlsxflag) {
+		//
+		//                var workbook = XLSX.read(data, { type: 'binary' });
+		//            }
+		//            else {
+		//                var workbook = XLS.read(data, { type: 'binary' });
+		//            }
+		//            /*Gets all the sheetnames of excel in to a variable*/
+		//            var sheet_name_list = workbook.SheetNames;
+
+		//            var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+		//            sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+		//                /*Convert the cell value to Json*/
+		//                if (xlsxflag) {
+		//                    var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+		//                }
+		//                else {
+		//                    var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+		//                }
+		//                if (exceljson.length > 0 && cnt == 0) {
+		//                    BindTable(exceljson, '#exceltable');
+		//                    cnt++;
+		//                }
+		//            });
+		//            $('#exceltable').show();
+		//        }
+		//        if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+		//            reader.readAsArrayBuffer($("#excelfile")[0].files[0]);
+		//        }
+		//        else {
+		//            reader.readAsBinaryString($("#excelfile")[0].files[0]);
+		//        }
+		//    }
+		//    else {
+		//        alert("Sorry! Your browser does not support HTML5!");
+		//    }
+		//}
+		//else {
+		//    alert("Please upload a valid Excel file!");
+		//}
+	   }
+
+	   function BindTable(jsondata, tableid) {/*Function used to convert the JSON array to Html Table*/
+
+		var columns = BindTableHeader(jsondata, tableid); /*Gets all the column headings of Excel*/
+		for (var i = 0; i < jsondata.length; i++) {
+			var row$ = $('<tr/>');
+			for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+				var cellValue = jsondata[i][columns[colIndex]];
+				if (cellValue == null)
+					cellValue = "";
+				row$.append($('<td/>').html(cellValue));
+			}
+			$(tableid).append(row$);
+		}
+	}
+	   function BindTableHeader(jsondata, tableid) {/*Function used to get all column names from JSON and bind the html table header*/
+
+		var columnSet = [];
+		var headerTr$ = $('<tr/>');
+		for (var i = 0; i < jsondata.length; i++) {
+			var rowHash = jsondata[i];
+			for (var key in rowHash) {
+				if (rowHash.hasOwnProperty(key)) {
+					if ($.inArray(key, columnSet) == -1) {/*Adding each unique column names to a variable array*/
+						columnSet.push(key);
+						headerTr$.append($('<th/>').html(key));
+					}
+				}
+			}
+		}
+		$(tableid).append(headerTr$);
+		return columnSet;
+	   }
+
+
+	   function GETDIRLIST() {
+
+	   }
+
+	  function fnfile(val, hdncls) {
+
+		   readImage(val, hdncls);
+	   }
+
+
+	   function readImage(input, hdncls) {
+		   ;
+		   if (input.files && input.files[0]) {
+			   var FR = new FileReader();
+			   FR.onload = function (e) {
+				   $.post("@Url.Action("FiletoImages", "Insepection")", { FileData: e.target.result }, function (data) {
+					   var hncls = "." + hdncls;
+					   $(hncls).val(data);
+				   });
+			   };
+			   FR.readAsDataURL(input.files[0]);
+		   }
+	   }
+		function FunctionHelp() {
+		   ;
+		   window.open('@Url.Action("EmployeeDetailsHelpDoc", "EmployeeDetails")');
+	   }
+
+	   function CheckArabicOnly(field) {
+		   var sNewVal = "";
+		   var sFieldVal = field.value;
+
+		   for (var i = 0; i < sFieldVal.length; i++) {
+			   var ch = sFieldVal.charAt(i),
+				   c = ch.charCodeAt(0);
+
+			   if (field.keyCode = '38') {
+			   }
+			   else if (field.keyCode = '40') {
+				   // down arrow
+			   }
+			   else if (field.keyCode = '37') {
+			   }
+			   else if (field.keyCode = '39') {
+				   // right arrow
+			   }
+
+			   if (c < 1536 || c > 1791) {
+				   // Discard
+			   }
+			   else {
+				   sNewVal += ch;
+			   }
+		   }
+
+		   field.value = sNewVal;
+	   }
+
+
+
+</script>

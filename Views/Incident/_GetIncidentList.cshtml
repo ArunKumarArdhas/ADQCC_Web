@@ -1,0 +1,203 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@* @model IEnumerable<ADQCC_New.Models.GET_INCIDENT_DETAILS>*@
+
+@{
+    Layout = null;
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+
+@* <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+ *@
+
+ @if (loginclass.LANG_ID == "ar")
+{
+    foreach (var item in Model)
+    {
+
+        <tr class="">
+            <td align="right" valign="middle">@item.UNIQUE_ID</td>
+            <td align="right" valign="middle">@item.LOC_NAME_AR</td>
+            <td align="right" valign="middle">@item.INC_CAT_NAME_AR</td>
+            <td align="left" valign="middle">@item.INC_DATE</td>
+            @if (@item.INC_STATUS == "1")
+            {
+                if (loginclass.DESI_NAME == "HSSE Team")
+                {
+                    <td align="right" valign="middle" style="cursor:pointer">
+                        <label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">
+                            في انتظار موافقة مدير الصحة والسلامة
+                        </label>
+                    </td>
+                }
+                else
+                {
+                    <td align="right" valign="middle">
+                        <label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">
+                            في انتظار موافقة مدير الصحة والسلامة
+                        </label>
+                    </td>
+                }
+
+            }
+            else if (@item.INC_STATUS == "2")
+            {
+                <td align="right" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">تم الإغلاق</label> </td>
+            }
+            else if (@item.INC_STATUS == "3" || @item.INC_STATUS == "4" || @item.INC_STATUS == "9")
+            {
+                <td align="right" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">التحقيق معلق</label></td>
+            }
+            else if (@item.INC_STATUS == "5")
+            {
+                <td align="right" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3" style="background: blue;">في انتظار مدير الإدارة </label> </td>
+            }
+            else if (@item.INC_STATUS == "6")
+            {
+                <td align="right" valign="middle">
+                    <label class="labels label label-depmanger" style="background: blue;">
+                        في انتظار موافقة المدير التنفيذي للقطاع
+                    </label>
+                </td>
+            }
+
+            else if (@item.INC_STATUS == "7")
+            {
+                <td align="right" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3" style="background: blue;">تم إكمال التحقيق </label> </td>
+            }
+            else if (@item.INC_STATUS == "8")
+            {
+                <td align="right" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3" style="background: blue;">تم إكمال التحقيق </label> </td>
+            }
+
+            <td>
+                @if (loginclass.DESI_NAME == "HSSE Team")
+                {
+
+                    if (@item.INC_STATUS == "7" || @item.INC_STATUS == "8")
+                    {
+                        <a href="#" title="PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                        <a href="#" title="PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                    }
+                    else
+                    {
+                        @*<a href="#" title="Edit" onclick="Incident_Edit(@item.INC_ID)"><i class="fas fa-pencil-alt "></i></a>*@
+                        <a href="#" title="View" value="@TempData[@item.INC_ID]" onclick="Incident_View(@item.INC_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        @*<a href="#" title="Delete" onclick="Incident_Delete(@item.INC_ID)"><i class="fa fa-times "></i></a>*@
+                    }
+                }
+                else
+                {
+                    <a href="#" title="View" value="@TempData[@item.INC_ID]" onclick="Incident_View(@item.INC_ID,'1')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                    if (@item.INC_STATUS == "7" || @item.INC_STATUS == "8")
+                    {
+                        <a href="#" title="PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                        <a href="#" title="PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                    }
+
+                }
+            </td>
+        </tr>
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+
+        <tr class="">
+            <td align="left" valign="middle">@item.UNIQUE_ID</td>
+            <td align="left" valign="middle">@item.LOC_NAME</td>
+            <td align="left" valign="middle">@item.INC_CAT_NAME</td>
+            <td align="left" valign="middle">@item.INC_DATE</td>
+            @if (@item.INC_STATUS == "1")
+            {
+                if (loginclass.DESI_NAME == "HSSE Team")
+                {
+                    <td align="left" valign="middle" style="cursor:pointer"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">HSSE Manager Approval Pending</label> </td>
+                }
+                else
+                {
+                    <td align="left" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">HSSE Manager Approval Pending</label> </td>
+                }
+
+            }
+            else if (@item.INC_STATUS == "2")
+            {
+                <td align="left" valign="middle"><label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">Closed</label> </td>
+            }
+            else if (@item.INC_STATUS == "3" || @item.INC_STATUS == "4" || @item.INC_STATUS == "9")
+            {
+                <td align="left" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">Investigation Pending</label></td>
+            }
+            else if (@item.INC_STATUS == "5")
+            {
+                <td align="left" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3" style="background: blue;">Waiting for Department Manager</label> </td>
+            }
+            else if (@item.INC_STATUS == "6")
+            {
+                <td align="left" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3" style="background: blue;">Waiting for Exec. Director of Sector Approval</label> </td>
+            }
+
+            else if (@item.INC_STATUS == "7")
+            {
+                <td align="left" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3" style="background: blue;">Investigation Completed</label> </td>
+            }
+            else if (@item.INC_STATUS == "8")
+            {
+                <td align="left" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3" style="background: blue;">Investigation Completed</label> </td>
+            }
+
+            <td>
+                @if (loginclass.DESI_NAME == "HSSE Team")
+                {
+
+                    if (@item.INC_STATUS == "7" || @item.INC_STATUS == "8")
+                    {
+                        <a href="#" title="PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                        <a href="#" title="PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                    }
+                    else
+                    {
+                        @*<a href="#" title="Edit" onclick="Incident_Edit(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>*@
+                        <a href="#" title="View" value="@TempData[@item.INC_ID]" onclick="Incident_View(@item.INC_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        @*<a href="#" title="Delete" onclick="Incident_Delete(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/delete.png" /></a>*@
+                    }
+                }
+                else
+                {
+                    <a href="#" title="View" value="@TempData[@item.INC_ID]" onclick="Incident_View(@item.INC_ID,'1')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                    if (@item.INC_STATUS == "7" || @item.INC_STATUS == "8")
+                    {
+                        <a href="#" title="PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                        <a href="#" title="PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                    }
+
+                }
+            </td>
+        </tr>
+    }
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#table1").DataTable({
+            "order": [[0, "desc"]],
+            "initComplete": function (settings, json) {
+                $("#table1").wrap("<div class='tableFixHead' style='overflow:auto;min-height:auto;max-height:430px; width:100%;position:relative;'></div>");
+            },
+            dom: 'lBfrtip',
+            buttons: ['excel', 'pdf', 'print'],
+        });
+    });
+
+</script>
+

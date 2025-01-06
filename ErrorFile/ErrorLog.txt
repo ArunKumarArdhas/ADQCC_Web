@@ -1,0 +1,45 @@
+﻿Repository Name  : LoginOTPAsync
+
+Time: 28-11-2024 03:41:14 PM
+
+Message: One or more errors occurred. (No connection could be made because the target machine actively refused it. (localhost:63579))
+
+StackTrace:    at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at ADQCC_New.Controllers.AccountController.LoginOTPAsync(LOGIN _login) in D:\SVN_New\ADQCC_SK\ADQCC_New\Controllers\AccountController.cs:line 51
+
+Source: System.Private.CoreLib
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+Repository Name  : LoginOTPAsync
+
+Time: 28-11-2024 03:41:51 PM
+
+Message: One or more errors occurred. (No connection could be made because the target machine actively refused it. (localhost:63579))
+
+StackTrace:    at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at ADQCC_New.Controllers.AccountController.LoginOTPAsync(LOGIN _login) in D:\SVN_New\ADQCC_SK\ADQCC_New\Controllers\AccountController.cs:line 51
+
+Source: System.Private.CoreLib
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+Repository Name  : LoginOTPAsync
+
+Time: 28-11-2024 03:44:46 PM
+
+Message: One or more errors occurred. (The SSL connection could not be established, see inner exception.)
+
+StackTrace:    at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at ADQCC_New.Controllers.AccountController.LoginOTPAsync(LOGIN _login) in D:\SVN_New\ADQCC_SK\ADQCC_New\Controllers\AccountController.cs:line 50
+
+Source: System.Private.CoreLib
+
+
+----------------------------------------------------------------------------------------------------------------------
+

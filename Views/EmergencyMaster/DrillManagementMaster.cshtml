@@ -1,0 +1,176 @@
+﻿@model IReadOnlyCollection<ADQCC_New.Models.Emergency.DRILL_TYPE_MASTER>
+
+@{
+    ViewData["Title"] = "Drill Type Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .red {
+        color: red;
+    }
+</style>
+
+<div class="page-content">
+ 
+    <div class="row" id="AddDrillType" style="display:none">
+        <form id="AddModule_div" asp-controller="EmergencyMaster" asp-action="AddDrillType" method="post">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    <div class="row">
+                                        <h6 class="mb-0 text-uppercase col-lg-9">Add Drill Type</h6>
+                                        <h6 class="mb-0 text-uppercase col-lg-3">أضف نوع التدريبات</h6>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="bckDrillType" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="p-4 border rounded">
+                            <div class="row">
+                                <div class="col-md-4" style="display:none;">
+                                    <input type="hidden" id="drill_type_id" name="drill_type_id" value="0" />
+                                    <label>@ADQCC_New.LocalResource.Resource.DRDrillID <span class="red">*</span></label>
+                                    <input type="text" name="drill_type_id" value="" id="View_drill_type_id" class="form-control" disabled style="background-color:#eee;" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label>@ADQCC_New.LocalResource.Resource.DRDrillName <span class="red">*</span></label>
+                                    <input type="text" name="drill_type_name" minlen="1" maxlength="1000" data-toggle="tooltip" title="Alphabets Only" id="drill_type_name" value="" class="form-control alpha" autocomplete="off" />
+                                </div>
+                                <div class="col-md-6" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.DRDrillName <span class="red">*</span></label>
+                                    <input type="text" name="drill_type_name_ar" id="drill_type_name_ar" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="submit" class="btn btn-primary" id="btn_DrillType">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    <h5 class="d-flex align-items-center mb-3 col-lg-9">Drill Types</h5>
+                                    <h5 class="d-flex align-items-center mb-3 col-lg-3">أنواع التدريبات</h5>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="addnewdrilltype" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Add Drill Type</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table id="table1" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                        <tr style="background: #916d2a; color: white;">
+                                            <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.DRDrillID <span class="pull-right">معرف نوع التدريبات</span></th>
+                                            <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.DRDrillName <span class="pull-right">اسم نوع التدريبات</span></th>
+                                            <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.DRDrillName <span class="pull-right">اسم نوع التدريبات بالعربية</span></th>
+                                            <th align="left" valign="middle">Action <span class="pull-right">عمل</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td align="left" onclick="DRILL_TYPE_VIEW('@item.DRILL_TYPE_ID')" valign="middle">@item.DRILL_TYPE_ID</td>
+                                                    <td align="left" onclick="DRILL_TYPE_VIEW('@item.DRILL_TYPE_ID')" valign="middle">@item.DRILL_TYPE_NAME</td>
+                                                    <td align="left" onclick="DRILL_TYPE_VIEW('@item.DRILL_TYPE_ID')" valign="middle">@item.DRILL_TYPE_NAME_AR</td>
+                                                    <td>
+                                                        <a href="#" title="Edit" onclick="DRILL_TYPE_EDIT('@item.DRILL_TYPE_ID')"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                                                        <a href="#" title="View" onclick="DRILL_TYPE_VIEW('@item.DRILL_TYPE_ID')"><img src="~/Content/assets/img/gridicons/view.png" /> </a>
+                                                        <a href="#" title="Delete" onclick="DRILL_TYPE_DELETE('@item.DRILL_TYPE_ID')"> <img src="~/Content/assets/img/gridicons/delete.png" /></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Loader" style="display: none;">
+    <img src="@Url.Content("~/Content/dist/img/loader.gif")" alt="" />
+</div>
+
+<script>
+    $(document).ready(function () {
+        alert("DrillTypeMaster");
+        $("#AddDrillType").hide();
+        $("#ListView").show();
+        GET_DRILL_TYPE_LIST();
+
+        $("#addnewdrilltype").on('click', function () {
+            alert("DrillTypeMaster 2");
+            $("#AddDrillType").show(100);
+            $("#ListView").hide(100);
+            ClearFields();
+        });
+
+        $("#bckDrillType").on('click', function () {
+            $("#Loaderbck").show();
+            $("#Loader").show();
+            $("#AddDrillType").hide(100);
+            $("#ListView").show(100);
+            ClearFields();
+        });
+
+      
+        $("#btnclear").on('click', function () {
+            ClearFields();
+        });
+
+        function ClearFields() {
+            $("#View_drill_type_id").val('');
+            $("#drill_type_name").val('');
+            $("#drill_type_name_ar").val('');
+        }
+    });
+</script>

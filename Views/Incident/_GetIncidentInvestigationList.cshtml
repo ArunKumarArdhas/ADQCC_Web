@@ -1,0 +1,558 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    Layout = null;
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+
+@* <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+ *@
+@if (loginclass.LANG_ID == "ar")
+{
+    if (loginclass.DESI_NAME == "Director")
+    {
+
+        foreach (var item in Model)
+        {
+            //if (@item.NON_INVEST_STATUS != "9")
+            //{
+            if (@item.INC_STATUS == "5" || @item.INC_STATUS == "7")
+            {
+                <tr class="">
+                    <td align="right" valign="middle">@item.UNIQUE_ID</td>
+                    <td align="right" valign="middle">@item.LOC_NAME_AR</td>
+                    <td align="right" valign="middle">@item.INC_CAT_NAME_AR</td>
+                    <td align="right" valign="middle">@item.INC_DATE</td>
+                    @if (@item.INC_STATUS == "5")
+                    {
+                        <td align="right" valign="middle">
+                            <label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">
+                                في انتظار موافقة المدير التنفيذي للقطاع
+                            </label>
+                        </td>
+                        <td></td>
+                        <td>
+                            <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'1')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+                    else if (@item.INC_STATUS == "7")
+                    {
+                        <td align="right" valign="middle">
+                            <label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">
+                                تم إكمال التحقيق
+                            </label>
+                        </td>
+                        <td>
+                            <a href="#" title="Investigation PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+                            <a href="#" title="Investigation PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a> <span style="font:600;">  &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;  </span>
+                            <a href="#" title="Incident PDF EN" onclick="Incident_Final_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                            <a href="#" title="Incident PDF AR" onclick="Incident_Final_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                        </td>
+                        <td align="right" valign="middle"><label class="font-35 text-success"><i class="bx bxs-check-circle" aria-hidden="true"></i></label></td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a href="#" title="Edit" onclick="Incident_Invest_Edit(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+
+                        </td>
+                    }
+
+                </tr>
+            }
+            //}
+        }
+
+    }
+
+
+    else
+    {
+
+        foreach (var item in Model)
+        {
+
+            <tr class="">
+                <td align="right" valign="middle">@item.UNIQUE_ID</td>
+                <td align="right" valign="middle">@item.LOC_NAME_AR</td>
+                <td align="right" valign="middle">@item.INC_CAT_NAME_AR</td>
+                <td align="right" valign="middle">@item.INC_DATE</td>
+
+                @if (@item.INC_STATUS == "9")
+                {
+
+                    <td align="right" valign="middle" onclick="Incident_View(@item.INC_ID)" style="cursor:pointer"><label style="cursor:pointer" class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">التحقيق معلق </label></td>
+                    <td></td>
+                    <td>
+                        <a href="#" title="Edit" onclick="Incident_View(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    </td>
+                }
+
+                @if (@item.INC_STATUS == "3")
+                {
+
+                    <td align="right" valign="middle" onclick="Incident_View(@item.INC_ID)" style="cursor:pointer"><label style="cursor:pointer" class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">التحقيق معلق </label></td>
+                    <td></td>
+                    <td>
+                        <a href="#" title="Edit" onclick="Incident_View(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    </td>
+                }
+                else if (@item.INC_STATUS == "6")
+                {
+
+                    <td align="right" valign="middle" style="cursor:pointer"><label style="cursor:pointer" class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">تم رفض التحقيق </label></td>
+                    <td></td>
+                    <td>
+                        <a href="#" title="Edit" onclick="Incident_Edit(@item.INC_ID,'0')"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    </td>
+                }
+                else if (@item.INC_STATUS == "4")
+                {
+
+                    <td align="right" valign="middle">
+                        <label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">
+                            في انتظار موافقة مدير الصحة والسلامة
+                        </label>
+                    </td>
+                    <td></td>
+                    if (loginclass.DESI_NAME == "HSSE Manager")
+                    {
+
+                        <td>
+                            <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'1')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+                    else
+                    {
+
+                        <td>
+                            <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+                }
+                else if (@item.INC_STATUS == "5")
+                {
+                    <td align="right" valign="middle">
+                        <label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">
+                            في انتظار موافقة المدير التنفيذي للقطاع
+                        </label>
+                    </td>
+                    <td></td>
+                    <td>
+                        <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                    </td>
+                }
+
+
+                else if (@item.INC_STATUS == "7")
+                {
+                    if (loginclass.DESI_NAME == "HSSE Manager")
+                    {
+                        <td align="right" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">تم إكمال التحقيق</label></td>
+                        <td>
+                            <a href="#" title="Investigation PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+                            <a href="#" title="Investigation PDF AR" onclick="Incident_Invest_PDF_NewAR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a> <span style="font:600;">/</span>
+                            <a href="#" title="Incident PDF EN" onclick="Incident_Final_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                            <a href="#" title="Incident PDF AR" onclick="Incident_Final_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a> <span style="font:600;">/</span>
+                            <a href="#" title="EHS Alert PPT EN" onclick="Incident_Final_PPT(@item.INC_ID)"><i class="bx bxs-file me-2 font-24 text-primary"></i></a>
+                            <a href="#" title="EHS Alert PPT AR" onclick="Incident_Final_PPT_AR(@item.INC_ID)"><i class="bx bxs-file me-2 font-24 text-primary"></i></a>
+
+                        </td>
+                        <td align="right" valign="middle"><label class="font-35 text-success"><i class="bx bxs-check-circle" aria-hidden="true"></i></label></td>
+                    }
+                    else
+                    {
+                        <td align="right" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">تم إكمال التحقيق </label></td>
+                        <td>
+                            <a href="#" title="Investigation PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+                            <a href="#" title="Investigation PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+                        </td>
+                        <td align="right" valign="middle"><label class="font-35 text-success"><i class="bx bxs-check-circle" aria-hidden="true"></i></label></td>
+                    }
+                }
+            </tr>
+            //}
+            <!--else
+            {
+                <tr class="">
+                    <td align="left" valign="middle">@item.UNIQUE_ID</td>
+                    <td align="left" valign="middle">@item.LOC_NAME</td>
+                    <td align="left" valign="middle">@item.INC_CAT_NAME</td>
+                    <td align="left" valign="middle">@item.INC_DATE</td>-->
+            @*<td align="left" valign="middle">@item.INC_STATUS</td>*@
+
+            <!--@if (@item.INC_STATUS == "9")
+            {
+
+                                <td align="left" valign="middle" onclick="Incident_View(@item.INC_ID)" style="cursor:pointer"><label style="cursor:pointer" class="labels label label-warning">Investigation Pending</label></td>
+                                <td></td>
+                                <td>
+                                    <a href="#" title="Edit" onclick="Incident_View(@item.INC_ID)"><i class="fas fa-pencil-alt"></i></a>
+                                </td>
+            }
+
+            @if (@item.INC_STATUS == "3")
+            {
+
+                                <td align="left" valign="middle" onclick="Incident_View(@item.INC_ID)" style="cursor:pointer"><label style="cursor:pointer" class="labels label label-warning">Investigation Pending</label></td>
+                                <td></td>
+                                <td>
+                                    <a href="#" title="Edit" onclick="Incident_View(@item.INC_ID)"><i class="fas fa-pencil-alt"></i></a>
+                                </td>
+            }
+            else if (@item.INC_STATUS == "6")
+            {
+
+                                <td align="left" valign="middle" style="cursor:pointer"><label style="cursor:pointer" class="labels label label-danger">Investigation Rejected</label></td>
+                                <td></td>
+                                <td>
+                                    <a href="#" title="Edit" onclick="Incident_Edit(@item.INC_ID,'0')"><i class="fas fa-pencil-alt"></i></a>
+                                </td>
+            }
+            else if (@item.INC_STATUS == "4")
+            {
+
+                                <td align="left" valign="middle"><label class="labels label label-warning">Waiting for HSSE Manager Approval</label></td>
+                                <td></td>
+                if (loginclass.DESI_NAME == "HSSE Manager")
+                {
+
+                                            <td>
+                                                <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'1')"><i class="fa fa-eye "></i></a>
+                                            </td>
+                }
+                else
+                {
+
+                                            <td>
+                                                <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'0')"><i class="fa fa-eye "></i></a>
+                                            </td>
+                }
+            }
+            else if (@item.INC_STATUS == "5")
+            {
+                                <td align="left" valign="middle"><label class="labels label label-success">Investigation Completed</label></td>
+                                <td align="left" valign="middle"><label class="labels label label-primary">Non-Reportable Investication</label></td>
+                                <td>
+                                    <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'0')"><i class="fa fa-eye "></i></a>
+                                </td>
+            }
+
+
+            else if (@item.INC_STATUS == "7")
+            {
+                if (loginclass.DESI_NAME == "HSSE Manager")
+                {
+                                            <td align="left" valign="middle"><label class="labels label label-success">Investigation Completed</label></td>
+                                            <td>
+                                                <a href="#" title="Investication PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a>
+                                                <a href="#" title="Investication PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a> <span style="font:600;">  &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;  </span>
+                                                <a href="#" title="Incident PDF EN" onclick="Incident_Final_PDF(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a>
+                                                <a href="#" title="Incident PDF AR" onclick="Incident_Final_PDF_AR(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a> <span style="font:600;">  &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;  </span>
+                                                <a href="#" title="EHS Alert PPT EN" onclick="Incident_Final_PPT(@item.INC_ID)"><i class="fa fa-file-powerpoint-o" align="center" valign="middle"></i></a>
+                                                <a href="#" title="EHS Alert PPT AR" onclick="Incident_Final_PPT_AR(@item.INC_ID)"><i class="fa fa-file-powerpoint-o" align="center" valign="middle"></i></a>
+
+                                            </td>
+                                            <td align="left" valign="middle"><label class="labels label label-success"><i class="fa fa-check" aria-hidden="true"></i></label></td>
+                }
+                else
+                {
+                                            <td align="left" valign="middle"><label class="labels label label-success">Investigation Completed</label></td>
+                                            <td>
+                                                <a href="#" title="Investication PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a>
+                                                <a href="#" title="Investication PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a>
+                                            </td>
+                                            <td align="left" valign="middle"><label class="labels label label-success"><i class="fa fa-check" aria-hidden="true"></i></label></td>
+                }
+            }
+                </tr>
+            }-->
+        }
+
+    }
+}
+else
+{
+    if (loginclass.DESI_NAME == "Director")
+    {
+
+        foreach (var item in Model)
+        {
+            //if (@item.NON_INVEST_STATUS != "9")
+            //{
+            if (@item.INC_STATUS == "5" || @item.INC_STATUS == "7")
+            {
+                <tr class="">
+                    <td align="left" valign="middle">@item.UNIQUE_ID</td>
+                    <td align="left" valign="middle">@item.LOC_NAME</td>
+                    <td align="left" valign="middle">@item.INC_CAT_NAME</td>
+                    <td align="left" valign="middle">@item.INC_DATE</td>
+                    @if (@item.INC_STATUS == "5")
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">Waiting for Exec. Director of Sector Approval</label></td>
+                        <td></td>
+                        <td>
+                            <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'1')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+                    else if (@item.INC_STATUS == "7")
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">Investigation Completed</label></td>
+                        <td>
+                            <a href="#" title="Investigation PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+                            <a href="#" title="Investigation PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a> <span style="font:600;">  &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;  </span>
+                            <a href="#" title="Incident PDF EN" onclick="Incident_Final_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                            <a href="#" title="Incident PDF AR" onclick="Incident_Final_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                        </td>
+                        <td align="left" valign="middle"><label class="font-35 text-success"><i class="bx bxs-check-circle" aria-hidden="true"></i></label></td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a href="#" title="Edit" onclick="Incident_Invest_Edit(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+
+                        </td>
+                    }
+
+                </tr>
+            }
+            //}
+        }
+
+    }
+
+
+    else
+    {
+
+        foreach (var item in Model)
+        {
+
+            //if (@item.NON_INVEST_STATUS != "9")
+            //{
+
+            <tr class="">
+                <td align="left" valign="middle">@item.UNIQUE_ID</td>
+                <td align="left" valign="middle">@item.LOC_NAME</td>
+                <td align="left" valign="middle">@item.INC_CAT_NAME</td>
+                <td align="left" valign="middle">@item.INC_DATE</td>
+
+                @if (@item.INC_STATUS == "9")
+                {
+
+                    <td align="left" valign="middle" onclick="Incident_View(@item.INC_ID)" style="cursor:pointer"><label style="cursor:pointer" class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">Investigation Pending</label></td>
+                    <td></td>
+                    <td>
+                        <a href="#" title="Edit" onclick="Incident_View(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    </td>
+                }
+
+                @if (@item.INC_STATUS == "3")
+                {
+
+                    <td align="left" valign="middle" onclick="Incident_View(@item.INC_ID)" style="cursor:pointer"><label style="cursor:pointer" class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">Investigation Pending</label></td>
+                    <td></td>
+                    <td>
+                        <a href="#" title="Edit" onclick="Incident_View(@item.INC_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    </td>
+                }
+                else if (@item.INC_STATUS == "6")
+                {
+
+                    <td align="left" valign="middle" style="cursor:pointer"><label style="cursor:pointer" class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">Investigation Rejected</label></td>
+                    <td></td>
+                    <td>
+                        <a href="#" title="Edit" onclick="Incident_Edit(@item.INC_ID,'0')"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                    </td>
+                }
+                else if (@item.INC_STATUS == "4")
+                {
+
+                    <td align="left" valign="middle"><label class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-3">Waiting for HSSE Manager Approval</label></td>
+                    <td></td>
+                    if (loginclass.DESI_NAME == "HSSE Manager")
+                    {
+
+                        <td>
+                            <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'1')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+                    else
+                    {
+
+                        <td>
+                            <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                        </td>
+                    }
+                }
+                else if (@item.INC_STATUS == "5")
+                {
+                    <td align="left" valign="middle"><label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">Waiting for Exec. Director of Sector Approval</label></td>
+                    <td></td>
+                    <td>
+                        <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                    </td>
+                }
+
+
+                else if (@item.INC_STATUS == "7")
+                {
+                    if (loginclass.DESI_NAME == "HSSE Manager")
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">Investigation Completed</label></td>
+                        <td>
+                            @*<a href="#" title="Investigation PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+        <a href="#" title="Investigation PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a> <span style="font:600;">/</span>*@
+                            <a href="#" title="Investigation PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+                            <a href="#" title="Investigation PDF AR" onclick="Incident_Invest_PDF_NewAR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a> <span style="font:600;">/</span>
+                            @*<a href="#" title="Incident PDF EN" onclick="Incident_Final_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+        <a href="#" title="Incident PDF AR" onclick="Incident_Final_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a> <span style="font:600;">/</span>*@
+                            <a href="#" title="Incident PDF EN" onclick="Incident_Final_PDFNew(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                            <a href="#" title="Incident PDF AR" onclick="Incident_Final_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a> <span style="font:600;">/</span>
+                            <a href="#" title="EHS Alert PPT EN" onclick="Incident_Final_PPT(@item.INC_ID)"><i class="bx bxs-file me-2 font-24 text-primary"></i></a>
+                            <a href="#" title="EHS Alert PPT AR" onclick="Incident_Final_PPT_AR(@item.INC_ID)"><i class="bx bxs-file me-2 font-24 text-primary"></i></a>
+
+                        </td>
+                        <td align="left" valign="middle"><label class="font-35 text-success"><i class="bx bxs-check-circle" aria-hidden="true"></i></label></td>
+                    }
+                    else
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">Investigation Completed</label></td>
+                        <td>
+                            <a href="#" title="Investigation PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+                            <a href="#" title="Investigation PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-success"></i></a>
+                        </td>
+                        <td align="left" valign="middle"><label class="font-35 text-success"><i class="bx bxs-check-circle" aria-hidden="true"></i></label></td>
+                    }
+                }
+            </tr>
+            //}
+            <!--else
+            {
+                <tr class="">
+                    <td align="left" valign="middle">@item.UNIQUE_ID</td>
+                    <td align="left" valign="middle">@item.LOC_NAME</td>
+                    <td align="left" valign="middle">@item.INC_CAT_NAME</td>
+                    <td align="left" valign="middle">@item.INC_DATE</td>-->
+            @*<td align="left" valign="middle">@item.INC_STATUS</td>*@
+
+            <!--@if (@item.INC_STATUS == "9")
+            {
+
+                                <td align="left" valign="middle" onclick="Incident_View(@item.INC_ID)" style="cursor:pointer"><label style="cursor:pointer" class="labels label label-warning">Investigation Pending</label></td>
+                                <td></td>
+                                <td>
+                                    <a href="#" title="Edit" onclick="Incident_View(@item.INC_ID)"><i class="fas fa-pencil-alt"></i></a>
+                                </td>
+            }
+
+            @if (@item.INC_STATUS == "3")
+            {
+
+                                <td align="left" valign="middle" onclick="Incident_View(@item.INC_ID)" style="cursor:pointer"><label style="cursor:pointer" class="labels label label-warning">Investigation Pending</label></td>
+                                <td></td>
+                                <td>
+                                    <a href="#" title="Edit" onclick="Incident_View(@item.INC_ID)"><i class="fas fa-pencil-alt"></i></a>
+                                </td>
+            }
+            else if (@item.INC_STATUS == "6")
+            {
+
+                                <td align="left" valign="middle" style="cursor:pointer"><label style="cursor:pointer" class="labels label label-danger">Investigation Rejected</label></td>
+                                <td></td>
+                                <td>
+                                    <a href="#" title="Edit" onclick="Incident_Edit(@item.INC_ID,'0')"><i class="fas fa-pencil-alt"></i></a>
+                                </td>
+            }
+            else if (@item.INC_STATUS == "4")
+            {
+
+                                <td align="left" valign="middle"><label class="labels label label-warning">Waiting for HSSE Manager Approval</label></td>
+                                <td></td>
+                if (loginclass.DESI_NAME == "HSSE Manager")
+                {
+
+                                            <td>
+                                                <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'1')"><i class="fa fa-eye "></i></a>
+                                            </td>
+                }
+                else
+                {
+
+                                            <td>
+                                                <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'0')"><i class="fa fa-eye "></i></a>
+                                            </td>
+                }
+            }
+            else if (@item.INC_STATUS == "5")
+            {
+                                <td align="left" valign="middle"><label class="labels label label-success">Investigation Completed</label></td>
+                                <td align="left" valign="middle"><label class="labels label label-primary">Non-Reportable Investication</label></td>
+                                <td>
+                                    <a href="#" title="View" onclick="Incident_Invest_View(@item.INC_ID,'0')"><i class="fa fa-eye "></i></a>
+                                </td>
+            }
+
+
+            else if (@item.INC_STATUS == "7")
+            {
+                if (loginclass.DESI_NAME == "HSSE Manager")
+                {
+                                            <td align="left" valign="middle"><label class="labels label label-success">Investigation Completed</label></td>
+                                            <td>
+                                                <a href="#" title="Investication PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a>
+                                                <a href="#" title="Investication PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a> <span style="font:600;">  &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;  </span>
+                                                <a href="#" title="Incident PDF EN" onclick="Incident_Final_PDF(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a>
+                                                <a href="#" title="Incident PDF AR" onclick="Incident_Final_PDF_AR(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a> <span style="font:600;">  &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;  </span>
+                                                <a href="#" title="EHS Alert PPT EN" onclick="Incident_Final_PPT(@item.INC_ID)"><i class="fa fa-file-powerpoint-o" align="center" valign="middle"></i></a>
+                                                <a href="#" title="EHS Alert PPT AR" onclick="Incident_Final_PPT_AR(@item.INC_ID)"><i class="fa fa-file-powerpoint-o" align="center" valign="middle"></i></a>
+
+                                            </td>
+                                            <td align="left" valign="middle"><label class="labels label label-success"><i class="fa fa-check" aria-hidden="true"></i></label></td>
+                }
+                else
+                {
+                                            <td align="left" valign="middle"><label class="labels label label-success">Investigation Completed</label></td>
+                                            <td>
+                                                <a href="#" title="Investication PDF EN" onclick="Incident_Invest_PDF(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a>
+                                                <a href="#" title="Investication PDF AR" onclick="Incident_Invest_PDF_AR(@item.INC_ID)"><i class="fa fa-file-pdf" align="center" valign="middle"></i></a>
+                                            </td>
+                                            <td align="left" valign="middle"><label class="labels label label-success"><i class="fa fa-check" aria-hidden="true"></i></label></td>
+                }
+            }
+                </tr>
+            }-->
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#table1").DataTable({
+            "order": [[0, "desc"]],
+            "initComplete": function (settings, json) {
+                $("#table1").wrap("<div class='tableFixHead' style='overflow:auto;min-height:auto;max-height:430px; width:100%;position:relative;'></div>");
+            },
+            dom: 'lBfrtip',
+            buttons: ['excel', 'pdf', 'print'],
+        });
+
+    });
+</script>
+
+

@@ -1,0 +1,391 @@
+﻿@model IReadOnlyCollection<ADQCC_New.Models.Masters.SECTORTYPE_MASTER>;
+@{
+    ViewData["Title"] = "SectorType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+
+
+<div class="page-content">
+    <div class="row" id="AddSectorType" style="display:none;">
+        <form id="AddModule_div" asp-controller="Masters" asp-action="AddSectorTypeMaster" method="post">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (loginclass.LANG_ID == "bo")
+                                {
+                                <div class="row">
+                                <h6 class="box-title main-heading col-lg-9">ADD SECTOR TYPE</h6>
+                                <h6 class="box-title main-heading col-lg-3">إضافة نوع القطاع</h6>
+                                </div>
+
+                                }
+                                else
+                                { *@
+                                    <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.ADDSectorType</h6>
+                                    @* } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="back_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="p-4 border rounded">
+                            @* <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8"> *@
+                            <div class="row">
+                                <div class="form-group col-md-4" style="display:none;">
+                                    <input type="hidden" id="SEC_TYPE_ID" name="SEC_TYPE_ID" value="0" />
+                                    <label>@ADQCC_New.LocalResource.Resource.SectorTypeID <span class="red">*</span></label>
+                                    <input type="text" id="View_SectorTypeId" name="sec_type_id" value="0" class="form-control" disabled="" style="background-color:#eee;">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>@ADQCC_New.LocalResource.Resource.SectorTypeName <span class="red">*</span></label>
+                                    <input type="text" id="SectorTypeName_EN" minlen="1" maxlength="1000" data-toggle="tooltip" title="Alphabets Only" name="sec_type_name_en" value="" class="form-control alpha" autocomplete="off">
+                                </div>
+                                <div class="form-group col-md-6" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.SectorTypeNameAR <span class="red">*</span></label>
+                                    <input type="text" id="SectorTypeName_ARB" name="sec_type_name_arb" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="submit" id="Add_SectorType" class="btn btn-primary ">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                            </div>
+                            @*  </form> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <label style="float: right;color:blue;cursor:pointer" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (Model != null)
+                            {
+                                @* if (loginclass.LANG_ID == "bo")
+                                {
+                                    <div class="row">
+                                        <h5 class="box-title main-heading col-lg-9">Sector Type</h5>
+                                        <h5 class="box-title main-heading col-lg-3">نوع القطاع</h5>
+                                    </div>
+
+                                }
+                                else
+                                { *@
+                                    <h5 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.SectorType</h5>
+                                @* } *@
+                            }
+                        </div>
+                        <div class="col-lg-3">
+                            <button style="float: right;" id="Add_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.ADDSectorType</button>
+                        </div>
+
+                    </div>
+                    <hr />
+
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table id="Sectortypetable" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    @if (Model != null)
+                                    {
+                                        @* switch (loginclass.LANG_ID)
+                                        {
+                                            case "ar":
+                                                <tr style="background: #916d2a; color: white;">
+                                                    <th align="left" valign="middle">هوية شخصية</th>
+                                                    <th align="left" valign="middle">اسم نوع القطاع</th>
+                                                    <th align="left" valign="middle">تاريخ</th>
+                                                    <th align="left" valign="middle">عمل</th>
+                                                </tr>
+
+                                                break;
+                                            case "en":
+                                                <tr style="background: #916d2a; color: white;">
+                                                    <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.SectorTypeID</th>
+                                                    <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.SectorTypeName </th>
+                                                    <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Date</th>
+                                                    <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                </tr>
+                                                break;
+                                            default: *@
+                                                <tr style="background: #916d2a; color: white;">
+                                                    <th align="left" valign="middle">ID <span class="pull-right">هوية شخصية</span></th>
+                                                    <th align="left" valign="middle">Sector Type Name <span class="pull-right">اسم نوع القطاع</span> </th>
+                                                    <th align="left" valign="middle">Sector Type Name AR<span class="pull-right">اسم القطاع اسم عربي</span></th>
+                                                    <th align="left" valign="middle">Date<span class="pull-right">تاريخ</span></th>
+                                                    <th align="left" valign="middle">Action<span class="pull-right">عمل</span></th>
+                                                </tr>
+                                               @* 
+                                             break;
+                                        } *@
+                                    }
+                                </thead>
+                                @* <tbody id="GetSectorTypeList">
+                                </tbody> *@
+                                <tbody>
+                                    @if (Model!.Count() != 0)
+                                    {
+                                        foreach (var item in Model!)
+                                        {
+                                            <tr>
+                                                <td onclick="return View_SectorType(@item.SEC_TYPE_ID)">@item.UNIQUE_ID </td>
+                                                <td onclick="return View_SectorType(@item.SEC_TYPE_ID)">@item.SEC_TYPE_NAME_EN </td>
+                                                <td onclick="return View_SectorType(@item.SEC_TYPE_ID)">@item.SEC_TYPE_NAME_ARB </td>
+                                                <td onclick="return View_SectorType(@item.SEC_TYPE_ID)">@item.CREATED_DATE </td>
+                                                <td>
+                                                    <a id="Edit_SectorType" onclick="return Edit_SectorType(@item.SEC_TYPE_ID)" title="Edit"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                                                    <a id="View_SectorType" title="View" onclick="return View_SectorType(@item.SEC_TYPE_ID)"><img src="~/Content/assets/img/gridicons/view.png" /> </a>
+                                                    <a id="Delete_SectorType" onclick="return Delete_SectorType(@item.SEC_TYPE_ID)" title="Delete"><img src="~/Content/assets/img/gridicons/delete.png" /></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#AddSectorType").hide();
+        $("#ListView").show();
+        GET_SECTOR_TYPE_LIST();
+
+        $("#back_btn").on('click', function () {
+            $("#AddSectorType").hide(100);
+            $("#ListView").show(100);
+            $("#SectorTypeId").val('');
+            $("#SectorTypeName_EN").val('');
+            $("#SectorTypeName_ARB").val('');
+
+            $("#SectorTypeName_EN").removeAttr('disabled', 'disabled');
+            $("#SectorTypeName_ARB").removeAttr('disabled', 'disabled');
+        });
+
+        $("#btnclear").on('click', function () {
+            ClearFileds();
+        });
+
+        $("#Add_SectorType").on('click', function () {
+            $("#Add_SectorType").show();
+            Add_SectorType();
+            $("#SectorTypeId").val('');
+            $("#SectorTypeName_EN").val('');
+            $("#SectorTypeName_ARB").val('');
+        });
+
+        $("#Add_btn").on('click', function () {
+            $("#ListView").hide(100);
+            $("#AddSectorType").show(100);
+            $("#SectorTypeId").val('');
+            $("#SectorTypeName_EN").val('');
+            $("#SectorTypeName_ARB").val('');
+            $("#View_SectorTypeId").val('');
+        });
+    });
+
+    function GET_SECTOR_TYPE_LIST() {
+        $("#Sectortypetable").dataTable().fnDestroy();
+        $("#AddSectorType").hide();
+        $("#ListView").show();
+        $.post("@Url.Action("_GetSectorType", "Masters")", function (data) {
+            $("#GetSectorTypeList").html('');
+            $("#GetSectorTypeList").html(data);
+        });
+    }
+
+    // function Add_SectorType() {
+    //     ;
+    //     var varsectortypeid = $("#SectorTypeId").val();
+    //     var varsectortypeNameEN = $("#SectorTypeName_EN").val();
+    //     var varsectortypeNameARB = $("#SectorTypeName_ARB").val();
+
+    //     if (varsectortypeNameEN == "") {
+    //         toastr.error("@ADQCC_New.LocalResource.Resource.toastentersectortype", "@ADQCC_New.LocalResource.Resource.Error");
+    //         $("#SectorTypeName_EN").focus();
+    //         return false;
+    //     }
+    //     if (varsectortypeNameARB == "") {
+    //         toastr.error("@ADQCC_New.LocalResource.Resource.toastentersectortypearb", "@ADQCC_New.LocalResource.Resource.Error");
+    //         $("#SectorTypeName_ARB").focus();
+    //         return false;
+    //     }
+
+    //     var model = {
+    //         SEC_TYPE_ID: varsectortypeid,
+    //         SEC_TYPE_NAME_EN: varsectortypeNameEN,
+    //         SEC_TYPE_NAME_ARB: varsectortypeNameARB
+    //     };
+
+    //     if (varsectortypeid == "") {
+    //         varsectortypeid = "0";
+    //     }
+
+    //     $.ajax({
+    //         url: '@Html.Raw(@Url.Action("AddSectorType", "Masters"))',
+    //         type: "POST",
+    //         cache: false,
+    //         data: JSON.stringify(model),
+    //         contentType: "application/json; charset=utf-8",
+    //         dataType: "json",
+    //         success: function (data) {
+    //             if (data.STATUS_CODE == "200") {
+    //                 toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+    //             }
+    //             else {
+    //                 toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+    //             }
+    //             GET_SECTOR_TYPE_LIST();
+    //         }
+    //         error: ajaxErrHandler
+    //     });
+    //     $("#SectorTypeId").val('');
+    //     $("#SectorTypeName_EN").val('');
+    //     $("#SectorTypeName_ARB").val('');
+    //     return true;
+    // }
+
+
+    function Delete_SectorType(sectypeid) {
+        var DELETE = confirm("Are you sure you want to delete");
+        if (DELETE == true) {
+            $.post("@Url.Action("DeleteSectorType", "Masters")", { SECTYPEID: sectypeid }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                } else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+                GET_SECTOR_TYPE_LIST();
+            });
+        }
+    }
+
+
+    function Edit_SectorType(sectypeid) {
+        $("#Add_SectorType").show();
+        $.post("@Url.Action("EditSectorType", "Masters")", { SECTYPEID: sectypeid }, function (data) {
+            if (data.STATUS_CODE == "200") {
+
+                $("#AddSectorType").show(100);
+                $("#ListView").hide(100);
+                $("#SectorTypeId").val(data.SEC_TYPE_ID);
+                $("#View_SectorTypeId").val(data.UNIQUE_ID);
+                $("#SectorTypeName_EN").val(data.SEC_TYPE_NAME_EN);
+                $("#SectorTypeName_ARB").val(data.SEC_TYPE_NAME_ARB);
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function View_SectorType(sectypeid) {
+        $("#Add_SectorType").hide();
+        $.post("@Url.Action("EditSectorType", "Masters")", { SECTYPEID: sectypeid }, function (data) {
+            if (data.STATUS_CODE == "200") {
+
+                $("#AddSectorType").show(100);
+                $("#ListView").hide(100);
+
+                $("#View_SectorTypeId").val(data.UNIQUE_ID)
+                $("#SectorTypeName_EN").val(data.SEC_TYPE_NAME_EN).attr('disabled', 'disabled');
+                $("#SectorTypeName_ARB").val(data.SEC_TYPE_NAME_ARB).attr('disabled', 'disabled');
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function ClearFileds() {
+        $("#SectorTypeId").val('');
+        $("#SectorTypeName_EN").val('');
+        $("#SectorTypeName_ARB").val('');
+        $("#View_SectorTypeId").val('');
+    }
+
+    function CheckArabicOnly(field) {
+        var sNewVal = "";
+        var sFieldVal = field.value;
+
+        for (var i = 0; i < sFieldVal.length; i++) {
+            var ch = sFieldVal.charAt(i),
+                c = ch.charCodeAt(0);
+
+            if (field.keyCode = '38') {
+            }
+            else if (field.keyCode = '40') {
+                // down arrow
+            }
+            else if (field.keyCode = '37') {
+            }
+            else if (field.keyCode = '39') {
+                // right arrow
+            }
+
+            if (c < 1536 || c > 1791) {
+                // Discard
+            }
+            else {
+                sNewVal += ch;
+            }
+        }
+
+        field.value = sNewVal;
+    }
+</script>
+

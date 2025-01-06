@@ -1,0 +1,105 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    Layout = null;
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+
+@* <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+ *@
+@if (loginclass.LANG_ID == "ar")
+{
+    foreach (var item in Model)
+    {
+        if (@item.INC_STATUS == "7" || @item.INC_STATUS == "8")
+        {
+            if (loginclass.DESI_NAME == "Employee")
+            {
+                <tr class="">
+                    <td align="right" valign="middle">@item.UNIQUE_ID</td>
+                    <td align="right" valign="middle">@item.LOC_NAME_AR</td>
+                    <td align="right" valign="middle">@item.INC_CAT_NAME_AR</td>
+
+                    @if (@item.INC_STATUS == "7" || @item.INC_STATUS == "8")
+                    {
+                        <td align="right" valign="middle">
+                            <label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">
+                                اكتمل التحقيق
+                            </label>
+                        </td>
+                    }
+
+                    <td>
+                        <a href="#" title="EHS Alert PPT EN" onclick="Incident_Final_PPT(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                        <a href="#" title="EHS Alert PPT AR" onclick="Incident_Final_PPT_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a><span style="font:600;">  &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;  </span>
+                        <a href="#" title="EHS Alert Emp PPT EN" onclick="Incident_Invest_Employee_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-info"></i></a>
+                        <a href="#" title="EHS Alert Emp PPT AR" onclick="Incident_Invest_Employee_AR_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-info"></i></a>
+
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+
+        }
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        if (@item.INC_STATUS == "7" || @item.INC_STATUS == "8")
+        {
+            if (loginclass.DESI_NAME == "Employee")
+            {
+                <tr class="">
+                    <td align="left" valign="middle">@item.UNIQUE_ID</td>
+                    <td align="left" valign="middle">@item.LOC_NAME</td>
+                    <td align="left" valign="middle">@item.INC_CAT_NAME</td>
+
+                    @if (@item.INC_STATUS == "7" || @item.INC_STATUS == "8")
+                    {
+                        <td align="left" valign="middle"><label class="badge rounded-pill text-info bg-light-info p-2 text-uppercase px-3">Investigation Completed</label> </td>
+                    }
+
+                    <td>
+                        <a href="#" title="EHS Alert PPT EN" onclick="Incident_Final_PPT(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>
+                        <a href="#" title="EHS Alert PPT AR" onclick="Incident_Final_PPT_AR(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-danger"></i></a>@*<span style="font:600;">  &nbsp;&nbsp;&nbsp;/ &nbsp;&nbsp;&nbsp;  </span>*@
+                        <a href="#" title="EHS Alert Emp PPT EN" onclick="Incident_Invest_Employee_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-info"></i></a>
+                        <a href="#" title="EHS Alert Emp PPT AR" onclick="Incident_Invest_Employee_AR_PDF(@item.INC_ID)"><i class="bx bxs-file-pdf me-2 font-24 text-info"></i></a>
+
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+
+        }
+    }
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#table1").DataTable({
+            "order": [[0, "desc"]],
+            "initComplete": function (settings, json) {
+                $("#table1").wrap("<div class='tableFixHead' style='overflow:auto;min-height:auto;max-height:430px; width:100%;position:relative;'></div>");
+            },
+            dom: 'lBfrtip',
+            buttons: ['excel', 'pdf', 'print'],
+        });
+    });
+
+</script>
+
+

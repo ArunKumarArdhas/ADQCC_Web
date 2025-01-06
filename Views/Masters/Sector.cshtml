@@ -1,0 +1,457 @@
+﻿ @model IReadOnlyCollection<ADQCC_New.Models.Masters.SECTOR_MASTER>;
+@{
+    ViewData["Title"] = "Sector";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+
+<div class="page-content">
+    <div class="row" id="AddSector" style="display:none;">
+        <form id="AddModule_div" asp-controller="Masters" asp-action="AddSectorMaster" method="post">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (Model.LANG_ID == "bo")
+                                {
+                                <div class="row">
+                                <h6 class="mb-0 text-uppercase col-lg-9 ">Add Sector</h6>
+                                <h6 class="mb-0 text-uppercase col-lg-3">
+                                إضافة قطاع
+                                </h6>
+                                </div>
+                                }
+                                else
+                                { *@
+                                    <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.AddSector</h6>
+                                    @* } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="back_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            </div>
+                        </div>
+                        <hr />
+
+                        <div class="p-4 border rounded">
+                            <div class="row">
+                                <div class="form-group col-md-3" style="display:none;">
+                                    <input type="hidden" id="SectorId" value="" />
+                                    <label>@ADQCC_New.LocalResource.Resource.SectorID <span class="red">*</span></label>
+                                    <input type="text" id="View_SectorId" name="sec_id" value="" class="form-control" disabled="" style="background-color:#eee;">
+                                </div>
+                                <div class="form-group col-md-6" hidden>
+                                    <label>@ADQCC_New.LocalResource.Resource.BuildingName <span class="red">*</span></label>
+                                    <select class="form-control" id="BuildingName_EN" style="margin-bottom:30px;">
+                                        <option style="color:#D5D5D5;" value="0">@ADQCC_New.LocalResource.Resource.SelectBuilding</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>@ADQCC_New.LocalResource.Resource.SectorType <span class="red">*</span></label>
+                                    <select class="form-control" id="SecType" style="margin-bottom:30px;">
+                                        <option style="color:#D5D5D5;" value="0">@ADQCC_New.LocalResource.Resource.SelectSectorType</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>@ADQCC_New.LocalResource.Resource.SectorName <span class="red">*</span></label>
+                                    <input type="text" id="SectorName_EN" minlen="1" maxlength="1000" data-toggle="tooltip" title="Alphabets Only" name="Sector_name_en" value="" class="form-control alpha" autocomplete="off">
+                                </div>
+
+                                <div class="form-group col-md-4" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.SectorNameAR <span class="red">*</span></label>
+                                    <input type="text" id="SectorName_AR" name="Sector_name_ar" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="button" id="Add_Sector" class="btn btn-primary">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+<div class="row" id="ListView">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (Model != null)
+                            {
+                                @* if (loginclass.LANG_ID == "bo")
+                            {
+                            <div class="row">
+                            <h5 class="d-flex align-items-center mb-3 col-lg-9">Sector </h5>
+                            <h5 class="d-flex align-items-center mb-3 col-lg-3">قطاع</h5>
+                            </div>
+
+                            }
+                            else
+                            { *@
+                                <h3 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.Sector</h3>
+                                @*  } *@
+                            }
+                        </div>
+                        <div class="col-lg-3">
+                            <button style="float: right;" id="Add_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.AddSector</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table id="Sectortable" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    @if (Model != null)
+                                    {
+                                        @* switch (loginclass.LANG_ID)
+                                    {
+                                    case "ar":
+                                    <tr style="background: #916d2a; color: white;">
+                                    <th align="left" valign="middle" style="width: 249.5px;" class="sorting_desc" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-sort="descending" aria-label="Building ID: activate to sort column ascending">ID<span class="pull-right">هوية شخصية</span></th>
+                                    @*<th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Location Name: activate to sort column ascending"> اسم المبنى</th>*@
+                                        @*<th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Building Name: activate to sort column ascending">اسم القطاع عربي</th>
+                                    <th align="left" valign="middle" style="width: 275.016px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending">تاريخ</th>
+                                    <th align="left" valign="middle" style="width: 173.266px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">عمل</th>
+                                    </tr>
+                                    break;
+                                    case "en":
+                                    <tr style="background: #916d2a; color: white;">
+                                    <th align="left" valign="middle" style="width: 249.5px;" class="sorting_desc" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-sort="descending" aria-label="Building ID: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.SectorID</th>
+                                    @*<th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Location Name: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.BuildingName </th>*@
+                                        @*<th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Building Name: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.SectorName </th>
+                                    <th align="left" valign="middle" style="width: 275.016px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.Date</th>
+                                    <th align="left" valign="middle" style="width: 173.266px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.Action</th>
+                                    </tr>
+                                    break;
+                                    default: *@
+                                        <tr style="background: #916d2a; color: white;">
+                                            <th align="left" valign="middle" style="width: 249.5px;" class="sorting_desc" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-sort="descending" aria-label="Building ID: activate to sort column ascending">ID<span class="pull-right">هوية شخصية</span></th>
+                                            @*<th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Location Name: activate to sort column ascending">Building Name <span class="pull-right">اسم المبنى</span></th>*@
+                                            <th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Building Name: activate to sort column ascending">Sector Name <span class="pull-right">اسم القطاع</span></th>
+                                            <th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Building Name: activate to sort column ascending">Sector Name AR<span class="pull-right">اسم القطاع عربي</span></th>
+                                            <th align="left" valign="middle" style="width: 275.016px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending">Date<span class="pull-right">تاريخ</span></th>
+                                            <th align="left" valign="middle" style="width: 173.266px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">Action<span class="pull-right">عمل</span></th>
+                                        </tr>
+                                        @* break;
+                                    } *@
+                                    }
+                                </thead>
+                                @* <tbody id="GetSectorList">
+                                </tbody> *@
+                                <tbody>
+                                    @if (Model!.Count() != 0)
+                                    {
+                                        foreach (var item in Model!)
+                                        {
+                                            <tr>
+                                                <td onclick="return View_Sector(@item.SEC_ID)">@item.UNIQUE_ID </td>
+                                                @*<td> @td.BUIL_NAME_EN </td>*@
+                                                <td onclick="return View_Sector(@item.SEC_ID)">@item.SEC_NAME_EN </td>
+                                                <td onclick="return View_Sector(@item.SEC_ID)">@item.SEC_NAME_ARB </td>
+                                                <td onclick="return View_Sector(@item.SEC_ID)">@item.CREATED_DATE </td>
+                                                <td>
+                                                    <a id="Edit_Sector" onclick="return Edit_Sector(@item.SEC_ID)" title="Edit"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                                                    <a id="View_Sector" onclick="return View_Sector(@item.SEC_ID)" title="View"><img src="~/Content/assets/img/gridicons/view.png" /> </a>
+                                                    <a id="Delete_Sector" onclick="return Delete_Sector(@item.SEC_ID)" title="Delete"><img src="~/Content/assets/img/gridicons/delete.png" /></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#AddSector").hide();
+        $("#ListView").show();
+        GET_SECTOR_LIST();
+        GET_SECTOR_TYPE();
+        GET_BUILDING_LIST();
+
+        $("#back_btn").on('click', function () {
+            $("#AddSector").hide(100);
+            $("#ListView").show(100);
+            $("#SectorId").val('');
+            $("#BuildingName_EN")[0].selectedIndex = 0;
+            $("#SecType")[0].selectedIndex = 0;
+            $("#SectorName_EN").val('');
+            $("#SectorName_AR").val('');
+            $("#Add_Sector").show();
+
+
+            $("#BuildingName_EN").removeAttr('disabled', 'disabled');
+            $("#SecType").removeAttr('disabled', 'disabled');
+            $("#SectorName_EN").removeAttr('disabled', 'disabled');
+            $("#SectorName_AR").removeAttr('disabled', 'disabled');
+        });
+
+        $("#Add_Sector").on('click', function () {
+            $("#View_SectorTypeId").val('');
+            debugger;
+            $("#Add_Sector").show();
+            Add_Sector();
+            $("#SectorId").val('');
+            $("#SectorName_EN").val('');
+            $("#SectorName_EN").val('');
+
+        });
+
+        $("#btnclear").on('click', function () {
+            ClearFileds();
+        });
+        $("#Add_btn").on('click', function () {
+            $("#ListView").hide(100);
+            $("#AddSector").show(100);
+            $("#SectorId").val('');
+            $("#SectorName_EN").val('');
+            $("#SectorName_AR").val('');
+            $("#View_SectorTypeId").val('');
+        });
+    });
+
+    function ClearFileds() {
+        $("#SectorId").val('');
+        $("#BuildingName_EN")[0].selectedIndex = 0;
+        $("#SecType")[0].selectedIndex = 0;
+        $("#SectorName_EN").val('');
+        $("#SectorName_AR").val('');
+    }
+
+    function GET_SECTOR_LIST() {
+        $("#Sectortable").dataTable().fnDestroy();
+        $("#AddSector").hide();
+        $("#ListView").show();
+        $.post("@Url.Action("_GetSectorMasterSelect", "Masters")", function (data) {
+            $("#GetSectorList").html('');
+            $("#GetSectorList").html(data);
+        });
+
+    }
+    function GET_SECTOR_TYPE() {
+        $.post("@Url.Action("_GetSectorTypeMasterSelect", "Masters")", function (data) {
+            $(data).each(function (i, e) {
+                $("#SecType").append("<option value=" + e.SEC_TYPE_ID + ">" + e.SEC_TYPE_NAME_EN + "</option>");
+            });
+        });
+    }
+
+    function GET_BUILDING_LIST() {
+        $.post("@Url.Action("_GetBuilding", "Masters")", function (data) {
+            $(data).each(function (i, e) {
+                $("#BuildingName_EN").append("<option value=" + e.BUIL_ID + ">" + e.BUIL_NAME + "</option>");
+            });
+        });
+    }
+
+    function Add_Sector() {
+        var varsecid = $("#SectorId").val();
+        var varbuilid = "0";
+        var varsectype = $("#SecType option:selected").val();
+        var varsectorNameEN = $("#SectorName_EN").val();
+        var varsectorNameAR = $("#SectorName_AR").val();
+
+
+        if (varsectype == 0) {
+            toastr.error("@ADQCC_New.LocalResource.Resource.toastsectortype", "@ADQCC_New.LocalResource.Resource.Error");
+            $("#SecType").focus();
+            return false;
+        }
+        if (varsectorNameEN == "") {
+            toastr.error("@ADQCC_New.LocalResource.Resource.toastentersectorname", "@ADQCC_New.LocalResource.Resource.Error");
+            $("#SectorName_EN").focus();
+            return false;
+        }
+        if (varsectorNameAR == "") {
+            toastr.error("@ADQCC_New.LocalResource.Resource.toastentersectornamearb", "@ADQCC_New.LocalResource.Resource.Error");
+            $("#SectorName_AR").focus();
+            return false;
+        }
+
+        if (varsecid == "") {
+            varsecid = "0"
+        }
+
+        let model_ = null;
+
+        model_ = {
+            SEC_ID: varsecid,
+            BUIL_ID: varbuilid,
+            SEC_TYPE: varsectype,
+            SEC_NAME_EN: varsectorNameEN,
+            SEC_NAME_ARB: varsectorNameAR
+
+        };
+
+
+
+        $.ajax({
+            url: '@Html.Raw(@Url.Action("AddSectorMaster", "Masters"))',
+            type: "POST",
+            cache: false,
+            data: JSON.stringify(model_),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+                GET_SECTOR_LIST();
+            }
+                  //  error: ajaxErrHandler
+        });
+        $("#SectorId").val('');
+        $("#BuildingName_EN")[0].selectedIndex = 0;
+        $("#SecType")[0].selectedIndex = 0;
+        $("#SectorName_EN").val('');
+        $("#SectorName_AR").val('');
+        return true;
+    }
+
+
+    function Delete_Sector(secid) {
+        var DELETE = confirm("Are you sure you want to delete");
+        if (DELETE == true) {
+            $.post("@Url.Action("DeleteSector", "Masters")", { SECID: secid }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                } else {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+                GET_SECTOR_LIST();
+            });
+        }
+    }
+
+
+    function Edit_Sector(rowid) {
+        $("#Add_Sector").show();
+        $.post("@Url.Action("EditSector", "Masters")", { SECID: rowid }, function (data) {
+            if (data.STATUS_CODE == "200") {
+
+                $("#AddSector").show(100);
+                $("#ListView").hide(100);
+                $("#SectorId").val(data.SEC_ID);
+                $("#View_SectorId").val(data.UNIQUE_ID);
+                $("#BuildingName_EN").val(data.BUIL_ID);
+                $("#SecType").val(data.SEC_TYPE);
+                $("#SectorName_EN").val(data.SEC_NAME_EN);
+                $("#SectorName_AR").val(data.SEC_NAME_ARB);
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function View_Sector(rowid) {
+        $("#Add_Sector").hide();
+        $.post("@Url.Action("EditSector", "Masters")", { SECID: rowid }, function (data) {
+            if (data.STATUS_CODE == "200") {
+
+                $("#AddSector").show(100);
+                $("#ListView").hide(100);
+
+                $("#View_SectorId").val(data.UNIQUE_ID);
+                $("#BuildingName_EN").val(data.BUIL_ID).attr('disabled', 'disabled');
+                $("#SecType").val(data.SEC_TYPE).attr('disabled', 'disabled');
+                $("#SectorName_EN").val(data.SEC_NAME_EN).attr('disabled', 'disabled');
+                $("#SectorName_AR").val(data.SEC_NAME_ARB).attr('disabled', 'disabled');
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function FunctionHelp() {
+        ;
+        window.open('@Url.Action("SectorHelpDoc", "Masters")');
+    }
+
+    function CheckArabicOnly(field) {
+        var sNewVal = "";
+        var sFieldVal = field.value;
+
+        for (var i = 0; i < sFieldVal.length; i++) {
+            var ch = sFieldVal.charAt(i),
+                c = ch.charCodeAt(0);
+
+            if (field.keyCode = '38') {
+            }
+            else if (field.keyCode = '40') {
+                // down arrow
+            }
+            else if (field.keyCode = '37') {
+            }
+            else if (field.keyCode = '39') {
+                // right arrow
+            }
+
+            if (c < 1536 || c > 1791) {
+                // Discard
+            }
+            else {
+                sNewVal += ch;
+            }
+        }
+        field.value = sNewVal;
+    }
+</script>
+

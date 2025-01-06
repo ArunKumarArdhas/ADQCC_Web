@@ -1,0 +1,48 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@{
+    Layout = null;
+}
+@model IEnumerable<ADQCC_New.Models.GET_EMPLOYEE_DETAILS>
+
+@foreach (var item in Model)
+{
+    <tr class="">
+        <td align="left" onclick="EMP_VIEW(@item.EMPLOYEE_ID)" valign="middle">@item.UNIQUE_ID</td>
+        <td align="left" onclick="EMP_VIEW(@item.EMPLOYEE_ID)" valign="middle">@item.EMPLOYEE_NAME</td>
+        @if (item.STATUS == "ACTIVE / نشيط")
+        {
+            <td align="left" onclick="EMP_VIEW(@item.EMPLOYEE_ID)" valign="middle"><label class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-3">ACTIVE / نشط</label></td>
+        }
+        else if (item.STATUS == "DEACTIVE / مكسور")
+        {
+            <td align="left" onclick="EMP_VIEW(@item.EMPLOYEE_ID)" valign="middle"><label class="badge rounded-pill text-danger bg-light-danger p-2 text-uppercase px-3">DEACTIVE / غير نشط</label></td>
+        }
+
+        <td align="left" onclick="EMP_VIEW(@item.EMPLOYEE_ID)" valign="middle">
+            @item.CREATED_DATE
+        </td>
+        <td>
+            <a href="#" title="Edit" onclick="EMP_EDIT(@item.EMPLOYEE_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+            <a href="#" title="View" onclick="EMP_VIEW(@item.EMPLOYEE_ID)"><img src="~/Content/assets/img/gridicons/view.png" /> </a>
+            <a href="#" title="Delete" onclick="EMP_DELETE(@item.EMPLOYEE_ID)"><img src="~/Content/assets/img/gridicons/delete.png" /></a>
+            <a href="#" title="Active/Deactive" onclick="EMP_ACTIVE(@item.EMPLOYEE_ID)"><i class="lni lni-thumbs-up" style="font-size:20px;"></i></a>
+            <a href="#" title="Health vital" onclick="EMP_HEALTH(@item.EMPLOYEE_ID)"><i class="lni lni-pulse" style="font-size:20px;"></i></a>
+        </td>
+    </tr>
+}
+<script>
+    $(document).ready(function () {
+        $("#table1").DataTable({
+            "order": [[0, "desc"]],
+            "initComplete": function (settings, json) {
+                $("#table1").wrap("<div class='tableFixHead' style='overflow:auto;min-height:auto;max-height:430px; width:100%;position:relative;'></div>");
+            },
+            dom: 'lBfrtip',
+            buttons: ['excel', 'pdf', 'print'],
+        });
+
+    });
+</script>

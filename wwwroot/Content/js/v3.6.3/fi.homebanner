@@ -1,0 +1,39 @@
+﻿FI.script.requireAndDefine('jquery', 'owl.carousel').requires('jquery','owl.carousel').define('fi.homebanner', function () {
+    (function ($, fi) {
+        'use strict';
+
+        $(document).ready(function () {
+
+        
+
+            $('.main-banner').owlCarousel({
+                loop: true,
+                margin: 0,
+                nav: false,
+                items: 1,
+                autoplay: true,
+                rtl: (FI.languageId == 1 ? false : true),
+                autoplayTimeout: 7000,
+            });
+
+            $('.notification-slide').owlCarousel({
+                loop: true,
+                rtl: (FI.languageId == 1 ? false : true),
+                margin: 0,
+                nav: false,
+                items: 1,
+                dots: false,
+                autoplay: true,
+                autoplayTimeout: 6000,
+            })
+
+            $(".close-btn").click(function () {
+                $(".notification").removeClass("show");
+            });
+
+
+
+        });
+
+    }(jQuery, FI));
+});

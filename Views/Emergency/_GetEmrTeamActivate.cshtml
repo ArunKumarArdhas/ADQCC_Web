@@ -1,0 +1,225 @@
+﻿
+@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@* @model IEnumerable<ADQCC_New.GET_EMERGENCY_TYPE_MASTER_SELECT>
+ *@
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    Layout = null;
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+
+}
+
+
+@if (loginclass.LANG_ID == "ar")
+{
+    if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr class="">
+                <td align="right" valign="middle">@item.UNIQUE_ID</td>
+                <td align="right" valign="middle">@item.EMERG_TYPE_NAME_AR</td>
+                <td align="right" valign="middle">@item.EMP_NAME_AR</td>
+                <td align="right" valign="middle">@item.CREATED_DATE</td>
+                @if (loginclass.DESI_NAME == "ADMIN")
+                {
+                    switch (item.ActiveDeactive)
+                    {
+
+                        case "1":
+                            <td align="right" valign="middle">
+                                <label class="labels label label-warning">
+                                    في انتظار قيام مديري البيئة والصحة والسلامة بالعمل
+                                </label>
+                            </td>
+                            <td><a href="#" title="View" onclick="EMR_VIEW(@item.EMP_ACTIVE_ID,'view')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+                            break;
+                        case "2":
+                            <td align="right" valign="middle">@item.STATUS</td>
+                            <td>
+                                <a href="#" title="Deactivate" onclick="EMR_Deactivate('@item.EMP_ACTIVE_ID')"><i class="far fa-thumbs-down"></i></a>
+                                <a href="#" title="View" onclick="EMR_VIEW(@item.EMP_ACTIVE_ID,'view')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                            </td>
+                            break;
+                        case "3":
+                            <td align="right" valign="middle"><label class="labels label label-success">في انتظار رئيس القسم للقيام بعمل</label></td>
+                            <td><a href="#" title="View" onclick="EMR_VIEW(@item.EMP_ACTIVE_ID,'view')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+                            break;
+                        case "4":
+                            <td align="right" valign="middle"><label class="labels label label-success">مكتمل</label></td>
+                            <td>
+                                <a href="#" title="View"><i class="fa fa-file-pdf"></i></a>
+                                <a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                            </td>
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (item.ActiveDeactive)
+                    {
+
+                        case "1":
+                            if (loginclass.DESI_NAME == "HSSE Manager")
+                            {
+                                <td align="right" valign="middle">
+                                    <label class="labels label label-warning">
+                                        في انتظار قيام مديري البيئة والصحة والسلامة بالعمل
+                                    </label>
+                                </td>
+                                <td> <a href="#" title="Edit" onclick="EMR_EDIT(@item.EMP_ACTIVE_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a></td>
+                            }
+                            else
+                            {
+                                <td align="right" valign="middle">
+                                    <label class="labels label label-warning">
+                                        في انتظار قيام مديري البيئة والصحة والسلامة بالعمل
+                                    </label>
+                                </td>
+                                <td><a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+
+                            }
+                            break;
+
+                        case "3":
+                            if (loginclass.DESI_NAME == "Department Manager")
+                            {
+                                <td align="right" valign="middle">
+                                    <label class="labels label label-success">
+                                        في انتظار رئيس القسم للقيام بعمل
+                                    </label>
+                                </td>
+                                <td><a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'1')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+                            }
+                            else
+                            {
+                                <td align="right" valign="middle"><label class="labels label label-success">في انتظار رئيس القسم للقيام بعمل</label></td>
+                                <td><a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+                            }
+                            break;
+                        case "4":
+                            <td align="right" valign="middle"><label class="labels label label-success">مكتمل</label></td>
+                            <td>
+                                <a href="#" title="View"><i class="fa fa-file-pdf"></i></a>
+                                <a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                            </td>
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            </tr>
+        }
+    }
+}
+else
+{
+    if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr class="">
+                <td align="left" valign="middle">@item.UNIQUE_ID</td>
+                <td align="left" valign="middle">@item.EMERG_TYPE_NAME</td>
+                <td align="left" valign="middle">@item.CREATED_BY_NAME</td>
+                <td align="left" valign="middle">@item.CREATED_DATE</td>
+                @if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "HSSE Team")
+                {
+                    switch (item.ActiveDeactive)
+                    {
+
+                        case "1":
+                            <td align="left" valign="middle"><label class="labels label label-warning">Waiting for Emergency Member to do action</label></td>
+                            <td><a href="#" title="View" onclick="EMR_VIEW(@item.EMP_ACTIVE_ID,'view')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+                            break;
+                        case "2":
+                            <td align="left" valign="middle">@item.STATUS</td>
+                            <td>
+                                <a href="#" title="Deactivate" onclick="EMR_Deactivate('@item.EMP_ACTIVE_ID')"><i class="far fa-thumbs-down"></i></a>
+                                <a href="#" title="View" onclick="EMR_VIEW(@item.EMP_ACTIVE_ID,'view')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                            </td>
+                            break;
+                        case "3":
+                            <td align="left" valign="middle"><label class="labels label label-success">Waiting for Section Head  To do Action</label></td>
+                            <td><a href="#" title="View" onclick="EMR_VIEW(@item.EMP_ACTIVE_ID,'view')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+                            break;
+                        case "4":
+                            <td align="left" valign="middle"><label class="labels label label-success">Completed</label></td>
+                            <td>
+                                <a href="#" title="View"><i class="fa fa-file-pdf"></i></a>
+                                <a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                            </td>
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (item.ActiveDeactive)
+                    {
+
+                        case "1":
+                            if (loginclass.DESI_NAME == "HSSE Manager")
+                            {
+                                <td align="left" valign="middle"><label class="labels label label-warning">Waiting for HSSE Managers To do Action</label></td>
+                                <td> <a href="#" title="Edit" onclick="EMR_EDIT(@item.EMP_ACTIVE_ID)"><img src="~/Content/assets/img/gridicons/edit.png" /></a></td>
+                            }
+                            else
+                            {
+                                <td align="left" valign="middle"><label class="labels label label-warning">Waiting for HSSE Managers To do Action</label></td>
+                                <td><a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+
+                            }
+                            break;
+
+                        case "3":
+                            if (loginclass.DESI_NAME == "Department Manager")
+                            {
+                                <td align="left" valign="middle"><label class="labels label label-success">Waiting for Section Head  To do Action</label></td>
+                                <td><a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'1')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+                            }
+                            else
+                            {
+                                <td align="left" valign="middle"><label class="labels label label-success">Waiting for Section Head  To do Action</label></td>
+                                <td><a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a></td>
+                            }
+                            break;
+                        case "4":
+                            <td align="left" valign="middle"><label class="labels label label-success">Completed</label></td>
+                            <td>
+                                <a href="#" title="View"><i class="fa fa-file-pdf"></i></a>
+                                <a href="#" title="View" onclick="EMR_APPROVAL(@item.EMP_ACTIVE_ID,'0')"><img src="~/Content/assets/img/gridicons/view.png" /></a>
+                            </td>
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            </tr>
+        }
+    }
+
+}
+
+<script>
+    $(document).ready(function () {
+        $("#table1").DataTable({
+            "order": [[0, "desc"]],
+            "initComplete": function (settings, json) {
+                $("#table1").wrap("<div class='tableFixHead' style='overflow:auto;min-height:auto;max-height:430px; width:100%;position:relative;'></div>");
+            },
+            dom: 'lBfrtip',
+            buttons: ['excel', 'pdf', 'print'],
+        });
+    });
+</script>
+

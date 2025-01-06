@@ -1,0 +1,653 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewBag.Title = "EmergencyTeam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // var loginclass = (GET_USER_DETAILS)Session["objloginClass"];
+
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+
+}
+
+<link href="@Url.Content("~/Content/MultiSelect/New/css/fileinput.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/FontAwesome_5/fontawesome-free-6.1.1-web/css/all.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Content/MultiSelect/New/js/fileinput.js")"></script>
+<script src="~/Content/MultiSelect/New/js/locales/fr.js"></script>
+<script src="~/Content/MultiSelect/New/js/locales/es.js"></script>
+<script src="~/Content/MultiSelect/New/themes/fas/theme.js"></script>
+<script src="~/Content/MultiSelect/New/themes/explorer-fas/theme.js"></script>
+<style>
+    .btn-group > .btn:first-child {
+        margin-left: 0 !important;
+        width: 400px !important;
+    }
+
+    .open > .dropdown-menu {
+        display: block !important;
+        width: 400px !important;
+        overflow-y: scroll;
+        height: 350px;
+    }
+</style>
+
+
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+
+<div class="page-content">
+    <div class="row" id="AddSymptomsMaster">
+        <div class="col-md-12">
+            <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (loginclass != null)
+                            {
+                                if (loginclass.LANG_ID == "bo")
+                                {
+                                    <div class="row">
+                                        <h6 class="mb-0 text-uppercase col-lg-8">Add Emergency Team</h6>
+                                        <h6 class="mb-0 text-uppercase col-lg-4">
+                                            اضافة فريق طوارئ
+                                        </h6>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.EMRAddEmergencyTeamlabel</h6>
+                                }
+                            }
+                        </div>
+                        @*<div class="col-lg-3">
+                                <button style="float: right;" id="bcklocation" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            </div>*@
+                    </div>
+                    <hr />
+                    <div class="p-4 border rounded">
+                        <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8">
+                            <div class="row">
+                                <div class="col-md-5" style="display:none;">
+                                    <div class="form-group">
+                                        <input type="hidden" id="EMP_ID" value="" />
+                                        <label for="empTypemas" class="control-label">@ADQCC_New.LocalResource.Resource.EmployeeID<span class="red">*</span></label>
+                                        <input type="text" class="form-control" disabled="disabled" id="VIEW_EMP_ID" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <label for="EmpTeam" class="control-label">@ADQCC_New.LocalResource.Resource.EmrTeam <span class="red">*</span></label>
+
+                                    <select name="EmpTeam" class="form-control select2" id="EmpType">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.LEGALSelect--</option>*@
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="empGender" class="control-label">@ADQCC_New.LocalResource.Resource.Location <span class="red">*</span></label>
+                                    <select name="loc_types" class="form-control select2" id="location">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectLocation--</option>*@
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="dob" class="control-label">@ADQCC_New.LocalResource.Resource.Building<span class="red">*</span></label>
+
+                                    <select name="loc_types" class="form-control select2" id="Building">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectBuilding--</option>*@
+                                    </select>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="LEVEL" class="control-label">@ADQCC_New.LocalResource.Resource.EMRFloorLevel<span class="red">*</span></label>
+
+                                    <select name="LEVEL" class="form-control select2" id="LEVEL">
+                                        <option value="0">--@ADQCC_New.LocalResource.Resource.EMRSelectTeamLevel--</option>
+                                        <option value="8">@ADQCC_New.LocalResource.Resource.All</option>
+                                        <option value="1">@ADQCC_New.LocalResource.Resource.EMRLevel1</option>
+                                        <option value="2">@ADQCC_New.LocalResource.Resource.EMRLevel2</option>
+                                        <option value="3">@ADQCC_New.LocalResource.Resource.EMRLevel3</option>
+                                        <option value="4">@ADQCC_New.LocalResource.Resource.EMRLevel4</option>
+                                        <option value="5">@ADQCC_New.LocalResource.Resource.EMRLevel5</option>
+                                        <option value="6">@ADQCC_New.LocalResource.Resource.EMRLevel6</option>
+                                        <option value="7">@ADQCC_New.LocalResource.Resource.EMRLevel7</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4" id="EMP_DIV">
+                                    <input value="0" class="EMP_ID" id="EMP_ID" type="hidden" />
+                                    <label class="control-label">@ADQCC_New.LocalResource.Resource.EmployeeName<span class="red">*</span></label>
+                                    <br />
+                                    <div class="form-group-lg EMP_NAME" id="EMP_NAME">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <br />
+                                    <br />
+                                    <div class="col-lg-9">
+                                        <br />
+                                        <br />
+                                        @if (loginclass != null)
+                                        {
+                                            if (loginclass.LANG_ID == "bo")
+                                            {
+
+                                                <div class="row">
+                                                    <h6 class="mb-0 text-uppercase col-lg-8">SCENARIO AND PROCEDURES NEED TO FOLLOW</h6>
+                                                    <h6 class="mb-0 text-uppercase col-lg-4">
+                                                        السيناريو والإجراءات اللازمة لمتابعة
+                                                    </h6>
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+
+                                                <br />
+                                                <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.EMRScenarioNeedtoFollow</h6>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <hr />
+                                <br />
+                                <div class="row" id="MultipleDOC">
+                                    <div class="col-lg-6">
+                                        <br />
+                                        <div class="col-md-4">
+                                            <label for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.EMRUploadDocuments</label>
+                                            <br />
+                                        </div>
+
+                                        <div>
+                                            <input class="btn btn-default btn-file" id="spnInputfile" type="file" multiple style="width:200%">
+                                        </div>
+
+                                        <br />
+                                    </div>
+                                    <br />
+
+                                    <br />
+                                    <br />
+                                    <br />
+
+
+                                    <br />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary" style="background-color: #896522; color: white; margin-top: 23px; margin-left: 100px;" id="btn_Submit">
+                                    @ADQCC_New.LocalResource.Resource.EMRAdd
+                                </button>
+                            </div>
+                            </form>
+                    </div>
+                    <br />
+                    <div class="row DivEmergencyType">
+                        <div class="form-group col-md-12">
+
+                            <div class="form-group col-md-12">
+                                @*<div class="box-header with-border" style="height:40px;width:100%; background-color:#cdae7b !important;color:white">
+                                        <h6 class="box-title"><label style="color:white;">Checklist Sub Type</label></h6>
+                                    </div>
+                                    <br />*@
+                                <table class="table table-bordered col-md-12" id="TblEmergencyType">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+        $(document).ready(function () {
+            ;
+            //$("#spnInputfile").html('');
+            //$("#spnInputfile").html('<input id="input-2" name="input2[]" type="file"  accept=".pdf"  class="file"  multiple data-show-upload="true" data-show-caption="true">');
+
+            //var $input = $('input.file[type=file]');
+
+            var FileCount = 10;
+            var $input = $("#spnInputfile")
+
+                ;
+                $input.fileinput({
+
+                    uploadUrl: '/EmployeeDetails/UploadEmgTeamDocumentFiles',
+                    uploadAsync: false,
+                    previewFileIcon: '<i class="fa fa-file"></i>',
+                    maxFileCount: FileCount,
+                    allowedFileExtensions: ["pdf"],
+                    deleteUrl: '/Emergency_AK/UploadDocumentFiles',
+                    showUpload: false, // hide upload button
+                    overwriteInitial: false, // append files to initial preview
+                    minFileCount: 1,
+                    maxFileCount: 5,
+                    browseOnZoneClick: true,
+                    initialPreviewAsData: true,
+                }).on('filebatchuploadsuccess', function (event, data) {
+                    $input.fileinput("upload");
+    @* toastr.success(data.response, "@ADQCC_New.LocalResource.Resource.Success");*@
+            });
+
+
+            GET_EMPLOYEE_TYPE();
+            EMPLOYEE_EMERG_TYPE_TEAM_GET();
+            $("#location").on('change', function () {
+                GET_BUILDING_LIST($(this).val());
+            });
+            $("#Building").on('change', function () {
+                $("#LEVEL").val("0");
+            });
+            $("#LEVEL").on('change', function () {
+                var loc = $("#location").val();
+                var type = $("#EmpType").val();
+                var build = $("#Building").val();
+                GET_EMPLOYEE_LIST(loc, build, type);
+            });
+            GET_LOCATION_LIST();
+            virtual_Select("#EMP_NAME", "--@ADQCC_New.LocalResource.Resource.EMRSelectEmployee--");
+            //GET_EMPLOYEE_LIST("0", "0", "0");
+            //$('#EMP_NAME').multiselect({
+            //    includeSelectAllOption: true,
+            //    enableFiltering: true,
+            //    enableCaseInsensitiveFiltering: true,
+            //});
+            $("#EmpType").on('change', function () {
+                $("#location").empty();
+                $("#Building").empty();
+                $("#LEVEL").val("0");
+                GET_LOCATION_LIST();
+            });
+
+
+    });
+    var tblchklsttypeHashAry = [];
+    function HideShowTable(EMERG_TYPE_MAS, tblchklsttypeApprove) {
+        ;
+        var tableid = tblchklsttypeHashAry;
+        var vartblchklsttypeApprove = "#" + tblchklsttypeApprove;
+        $(tableid).each(function (g, h) {
+            if (h == vartblchklsttypeApprove) {
+                $(h).show(150);
+            } else {
+                $(h).hide();
+            }
+        });
+    }
+    function virtual_Select(id, placeholder) {
+        VirtualSelect.init({
+            ele: id,
+            placeholder: placeholder,
+            search: true,
+            disableSelectAll: true,
+            multiple: true
+        });
+    }
+    function GET_LOCATION_LIST() {
+        $.post("@Url.Action("_GetLocationMasterSelect", "Masters")", function (data) {
+             $("#location").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectLocation--</option>");
+            $(data).each(function (i, e) {
+                 if ('@loginclass.LANG_ID' == "ar") {
+                     $("#location").append("<option value=" + e.LOC_ID + ">" + e.LOC_NAME_AR + "</option>");
+                } else
+                {
+                     $("#location").append("<option value=" + e.LOC_ID + ">" + e.LOC_NAME + "</option>");
+
+                }
+             });
+         });
+        }
+        function GET_BUILDING_LIST(locid) {
+
+        $.post("@Url.Action("_GetBuildingMasterSelect", "Masters")", { LOCID: locid }, function (data) {
+            $("#Building").empty();
+            $("#Building").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectBuilding--</option>");
+            $(data).each(function (i, e) {
+                if ('@loginclass.LANG_ID' == "ar") {
+                    $("#Building").append("<option value=" + e.BUIL_ID + ">" + e.BUIL_NAME_AR + "</option>");
+                } else
+                {
+                    $("#Building").append("<option value=" + e.BUIL_ID + ">" + e.BUIL_NAME + "</option>");
+
+                }
+
+             });
+        });
+
+        }
+    function EMPLOYEE_EMERG_TYPE_TEAM_GET() {
+        ;
+        $.post("@Url.Action("GetEmergencyTeam", "EmployeeDetails")",function (data) {
+            $(data).each(function (i, e) {
+                ;
+                if (e.length != "0") {
+                    var tblchklsttypeApprove = "tblchklsttypeApprove" + i;
+                    var tblchklsttypeHashApprove = "#" + "tblchklsttypeApprove" + i;
+                    tblchklsttypeHashAry.push(tblchklsttypeHashApprove);
+                     var loginclas = '@loginclass.LANG_ID';
+                    if (loginclas == "ar") {
+                        $('#TblEmergencyType').append(
+                            '<tr><td onclick="HideShowTable(' + "'" + e.EMERG_TYPE_MAS_AR + "'" + ', ' + "'" + tblchklsttypeApprove + "'" + ')" style="background-color:#8c7348;text-align:right;"><label class="ChecklistSubTypeID' + e.EMERG_TYPE_MAS_AR + ' ChecklistSubTypeID" value="' + e.EMERG_TYPE_MAS_AR + '" style="color:white;font-weight:500;text-align:right;font-size:large;">' + e.EMERG_TYPE_MAS_AR + '</label> </td></tr><tr></tr>',
+                        '</br>',
+                        '<table style="display:none;" class="table table-bordered col-md-12" id="' + tblchklsttypeApprove + '">'
+                        + '<thead>'
+                        + '<tr style="background-color:#cdae7b;">'
+                        + '<th style="color:white;width:40px;">@ADQCC_New.LocalResource.Resource.EmployeeID<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EmployeeName<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRDesignationName<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Location<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Building<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRFloorLevel<span class="red"></span></th>'
+                       // + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRDocum<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Action<span class="red"></span></th>'
+                        + '</tr>'
+                        + '</thead>'
+                        + '<tbody>'
+                        + '</tbody>'
+                        + '</table>'
+                    );
+                    $(e._EMPLOYEE_EMERG_TYPE_TEAM_LIST).each(function (g, h) {
+                        $(tblchklsttypeHashApprove).append([
+                            '<tr >',
+                            '<td>' + h.EMP_UNIQUEID + '</td>',
+                            '<td>' + h.EMP_NAME_AR + '</td>',
+                            '<td>' + h.DESI_NAME_ARB + '</td>',
+                            '<td>' + h.LOC_NAME_AR + '</td>',
+                            '<td>' + h.BUIL_NAME_AR + '</td>',
+                            '<td>' + h.LEVEL + '</td>',
+                           // '<td>' + h.EMR_FILE_PATH + '</td>',
+                            '<td>' + '<a href="#" title="Delete" onclick="EMP_DELETE(' + h.EMP_ID + ',' + h.EMERG_TYPE_MAS_ID +')"><img src="~/Content/assets/img/gridicons/delete.png" /></a>'+  '</td>',
+                            '</tr>'
+                        ].join(''));
+                    });
+                    }
+                    else if (loginclas == "bo") {
+                        $('#TblEmergencyType').append(
+                            '<tr><td onclick="HideShowTable(' + "'" + e.BOTH + "'" + ', ' + "'" + tblchklsttypeApprove + "'" + ')" style="background-color:#8c7348;text-align:left;"><label class="ChecklistSubTypeID' + e.BOTH + ' ChecklistSubTypeID" value="' + e.BOTH + '" style="color:white;font-weight:500;text-align:left;font-size:large;">' + e.BOTH + '</label> </td></tr><tr></tr>',
+                        '</br>',
+                        '<table style="display:none;" class="table table-bordered col-md-12" id="' + tblchklsttypeApprove + '">'
+                        + '<thead>'
+                        + '<tr style="background-color:#cdae7b;">'
+                        + '<th style="color:white;width:40px;">@ADQCC_New.LocalResource.Resource.EmployeeID<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EmployeeName<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRDesignationName<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Location<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Building<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRFloorLevel<span class="red"></span></th>'
+                         //+ '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRDocum<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Action<span class="red"></span></th>'
+                        + '</tr>'
+                        + '</thead>'
+                        + '<tbody>'
+                        + '</tbody>'
+                        + '</table>'
+                    );
+                    $(e._EMPLOYEE_EMERG_TYPE_TEAM_LIST).each(function (g, h) {
+                        $(tblchklsttypeHashApprove).append([
+                            '<tr >',
+                            '<td>' + h.EMP_UNIQUEID + '</td>',
+                            '<td>' + h.EMP_BOTH_NAME + '</td>',
+                            '<td>' + h.DESI_BOTH_NAME + '</td>',
+                            '<td>' + h.LOC_BOTH_NAME + '</td>',
+                            '<td>' + h.BUIL_BOTH_NAME + '</td>',
+                            '<td>' + h.LEVEL + '</td>',
+                           // '<td>' + h.EMR_FILE_PATH + '</td>',
+                            '<td>' + '<a href="#" title="Delete" onclick="EMP_DELETE(' + h.EMP_ID + ',' + h.EMERG_TYPE_MAS_ID +')"><img src="~/Content/assets/img/gridicons/delete.png" /></a>'+  '</td>',
+                            '</tr>'
+                        ].join(''));
+                    });
+                    }
+
+                    else {
+                        $('#TblEmergencyType').append(
+                            '<tr><td onclick="HideShowTable(' + "'" + e.EMERG_TYPE_MAS + "'" + ', ' + "'" + tblchklsttypeApprove + "'" + ')" style="background-color:#8c7348;"><label class="ChecklistSubTypeID' + e.EMERG_TYPE_MAS + ' ChecklistSubTypeID" value="' + e.EMERG_TYPE_MAS + '" style="color:white;font-weight:500;text-align:center;font-size:large;margin-right: 400px;">' + e.EMERG_TYPE_MAS + '</label> </td></tr><tr></tr>',
+                        '</br>',
+                        '<table style="display:none;" class="table table-bordered col-md-12" id="' + tblchklsttypeApprove + '">'
+                        + '<thead>'
+                        + '<tr style="background-color:#cdae7b;">'
+                        + '<th style="color:white;width:40px;">@ADQCC_New.LocalResource.Resource.EmployeeID<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EmployeeName<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRDesignationName<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Location<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Building<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRFloorLevel<span class="red"></span></th>'
+                        // + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.EMRDocum<span class="red"></span></th>'
+                        + '<th style="width:250px;color:white;">@ADQCC_New.LocalResource.Resource.Action<span class="red"></span></th>'
+                        + '</tr>'
+                        + '</thead>'
+                        + '<tbody>'
+                        + '</tbody>'
+                        + '</table>'
+                    );
+                    $(e._EMPLOYEE_EMERG_TYPE_TEAM_LIST).each(function (g, h) {
+                        $(tblchklsttypeHashApprove).append([
+                            '<tr >',
+                            '<td>' + h.EMP_UNIQUEID + '</td>',
+                            '<td>' + h.EMP_FIRSTNAME + '</td>',
+                            '<td>' + h.DESI_NAME_EN + '</td>',
+                            '<td>' + h.LOC_NAME + '</td>',
+                            '<td>' + h.BUIL_NAME + '</td>',
+                            '<td>' + h.LEVEL + '</td>',
+                           // '<td>' + h.EMR_FILE_PATH + '</td>',
+                            '<td>' + '<a href="#" title="Delete" onclick="EMP_DELETE(' + h.EMP_ID + ',' + h.EMERG_TYPE_MAS_ID +')"><img src="~/Content/assets/img/gridicons/delete.png" /></a>'+  '</td>',
+                            '</tr>'
+                        ].join(''));
+                    });
+                    }
+
+                }
+            });
+        });
+        }
+        $("#btn_Submit").on('click', function () {
+            ;
+            var EMRTYPELIST = [];
+            var EMRTYPELIST1 = [];
+            var EmpType = $("#EmpType").val();
+            var locID = $("#location").val();
+            var BuildID = $("#Building").val();
+            var LevelID = $("#LEVEL").val();
+            var doc = $("#spnInputfile").val();
+
+            EMRTYPELIST1 = $("#EMP_NAME").val();
+
+            if (EmpType == "0") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.EMRSelecttheEmergencyTeam", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#EmpType").focus();
+                return false;
+            }
+            if (locID == "0") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.toastDocSelecttheLocation", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#location").focus();
+                return false;
+            }
+            if (BuildID == "0") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.toastDocSelecttheBuilding", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#Building").focus();
+                return false;
+            }
+             if (LevelID == "0") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.EMRPleaseSelecttheLevel", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#LEVEL").focus();
+                return false;
+            }
+
+            if (EMRTYPELIST1.length == 0) {
+               toastr.error("Select the Employee Name", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#EMP_NAME").focus();
+                return false;
+            }
+    @*if (empname == "0") {
+                toastr.error("Select the Employee Name", "@ADQCC_New.LocalResource.Resource.Error");
+                $(".EMP_NAME").focus();
+                return false;
+            }*@
+    @*$("#EMP_NAME :selected").map(function (i, el) {
+                ;
+                var varCreatedBy = '@loginclass.EMP_ID'
+                var data = {};
+                data.EMP_ID = el.value;
+                data.EMP_EMERG_TYPE_ID = "0";
+                data.CREATED_BY = varCreatedBy;
+                data.EMERG_TYPE_MAS_ID = EmpType;
+                data.LOC_ID = locID;
+                data.BUILD_ID = BuildID;
+                data.LEVEL = LevelID;
+                EMRTYPELIST.push(data);
+            });*@
+
+
+
+            $(EMRTYPELIST1).each(function (i, el) {
+                ;
+                var varCreatedBy = '@loginclass.EMP_ID'
+                var data = {};
+                data.EMP_ID = el;
+                data.EMP_EMERG_TYPE_ID = "0";
+                data.CREATED_BY = varCreatedBy;
+                data.EMERG_TYPE_MAS_ID = EmpType;
+                data.LOC_ID = locID;
+                data.BUILD_ID = BuildID;
+                data.LEVEL = LevelID;
+                data.EMR_FILE_PATH = doc;
+                EMRTYPELIST.push(data);
+            });
+
+            var model = {
+                EMERG_TYPE_SELECT: EMRTYPELIST
+            }
+
+                $.ajax({
+                    url: '@Html.Raw(@Url.Action("AddEmployeeTypeDetails", "EmployeeDetails"))',
+                    type: "POST",
+                    cache: false,
+                    data: JSON.stringify(model),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (data) {
+                        if (data.STATUS_CODE == "200") {
+                            toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                            window.location.reload();
+                        }
+                        else {
+                            toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                        }
+                    },
+                });
+
+        });
+
+        function GET_EMPLOYEE_TYPE() {
+            ;
+            $.post("@Url.Action("_GetEmergencyTeamDrop", "EmployeeDetails")", function (data) {
+                ;
+                $("#EmpType").empty();
+                $("#EmpType").append("<option value='0'>--@ADQCC_New.LocalResource.Resource.EMRSelecttheEmergencyTeam --</option>");
+                $(data).each(function (i, e) {
+                    if ('@loginclass.LANG_ID' == "ar") {
+                    $("#EmpType").append("<option value=" + e.EMERG_TYPE_MAS_ID + ">" + e.EMERG_TYPE_MAS_AR + "</option>");
+                } else {
+                        $("#EmpType").append("<option value=" + e.EMERG_TYPE_MAS_ID + ">" + e.EMERG_TYPE_MAS + "</option>");
+
+                }
+            });
+         });
+     }
+        function GET_EMPLOYEE_LIST(loc_id, build_id,emer_type) {
+            ;
+            $.post("@Url.Action("GetEmployeeByBuilding", "EmployeeDetails")", {LOC_ID:loc_id,BUILD_ID:build_id,EMR_Type:emer_type}, function (data) {
+                 //$("#EMP_NAME").empty();
+                var Options = [];
+                 $(data).each(function (i, e) {
+                     if ('@loginclass.LANG_ID' == "ar") {
+
+                         var opt = {};
+                         opt["label"] = data[i].EMP_NAME_AR;
+                         opt["value"] = data[i].EMPLOYEE_ID;
+                         Options.push(opt);
+                         //$("#EMP_NAME").append("<option value=" + e.EMPLOYEE_ID + ">" + e.EMP_NAME_AR + "</option>");
+                     } else
+                     {
+                         var opt = {};
+                         opt["label"] = data[i].EMPLOYEE_NAME;
+                         opt["value"] = data[i].EMPLOYEE_ID;
+                         Options.push(opt);
+                        //$("#EMP_NAME").append("<option value=" + e.EMPLOYEE_ID + ">" + e.EMPLOYEE_NAME + "</option>");
+
+                      }
+
+                 });
+                document.querySelector('#EMP_NAME').setOptions(Options);
+                 //$("#EMP_NAME").multiselect('rebuild');
+            });
+
+
+        }
+        function EMP_DELETE(EMP_ID, EMERG_TYPE_MAS_ID) {
+            var DELETE = confirm("Are you sure you want to delete");
+         if (DELETE == true) {
+             $.post("@Url.Action("DeleteEmployeeTypeDetails", "EmployeeDetails")", { EMP_ID: EMP_ID, EMERG_TYPE_MAS_ID: EMERG_TYPE_MAS_ID }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                    window.location.reload();
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            });
+
+        }
+        }
+    function FunctionHelp() {
+        ;
+        window.open('@Url.Action("EmergencyTeamHelpDoc", "EmployeeDetails")');
+    }
+
+</script>

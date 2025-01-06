@@ -1,0 +1,223 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    ViewBag.Title = "EHSAlertEmployee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+
+}
+
+@* <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+ *@
+
+<style>
+    .badge {
+        display: inline-block;
+        padding: 0.35em 0.65em;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
+    }
+
+    .dataTables_length {
+        direction: ltr !important;
+    }
+
+    .font-24 {
+        font-size: 36px;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+
+<div class="page-content">
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (loginclass != null)
+                                {
+                                    if (loginclass.LANG_ID == "bo")
+                                    {
+                                        <div class="row">
+                                            <h5 class="mb-0 text-uppercase col-lg-8">Incident</h5>
+                                            <h5 class="mb-0 text-uppercase col-lg-4">حادث</h5>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <h3 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.incIncident</h3>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="">
+                                <table id="table1" class="table table-bordered">
+                                    @if (loginclass != null)
+                                    {
+                                        switch (loginclass.LANG_ID)
+                                        {
+                                            case "ar":
+                                                <thead>
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.emrIncidentID</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Location</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.emrIncidentCategory</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+
+                                                </thead>
+                                                break;
+                                            case "en":
+                                                <thead>
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.emrIncidentID</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Location</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.emrIncidentCategory</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+                                                </thead>
+                                                break;
+                                            default:
+                                                <thead>
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">Incident ID <span class="pull-right">رقم الحدث</span> </th>
+                                                        <th align="left" valign="middle">Location <span class="pull-right">موقع</span> </th>
+                                                        <th align="left" valign="middle">Incident Category <span class="pull-right">فئة الحوادث</span> </th>
+                                                        <th align="left" valign="middle">Status <span class="pull-right">حالة</span></th>
+                                                        <th align="left" valign="middle">Action <span class="pull-right">عمل</span> </th>
+                                                    </tr>
+                                                </thead>
+                                                break;
+                                        }
+
+                                    }
+                                    <tbody id="GetIncidentList">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="Loader" style="display: none;">
+    <img src="@Url.Content("~/Content/dist/img/loader.gif")" al alt="" />
+</div>
+<script>
+
+
+    $(document).ready(function () {
+        GET_INCIDENT_LIST();
+    });
+
+    function GET_INCIDENT_LIST() {
+        $("#Loaderbck").show();
+        $("#Loader").show();
+        $("#table1").dataTable().fnDestroy();
+        $("#ListView").show();
+        $.post("@Url.Action("_GetEHSAlertEmployee", "Incident")", function (data) {
+            $("#GetIncidentList").html('');
+            $("#GetIncidentList").html(data);
+        }).always(function () {
+            $("#Loaderbck").hide();
+            $("#Loader").hide();
+        });
+    }
+
+    function Incident_Invest_Employee_PDF(INC_ID) {
+        $("#Loaderbck").show();
+        $("#Loader").show();
+        $.post("@Url.Action("EhsAlertEmployee", "Reporter")", { INC_ID: INC_ID, IsEdit: '0' }, function (data) {
+            window.open("../" + data, '_blank');
+        }).always(function () {
+            $("#Loaderbck").hide();
+            $("#Loader").hide();
+        });
+    }
+
+    function Incident_Invest_Employee_AR_PDF(INC_ID) {
+        $("#Loaderbck").show();
+        $("#Loader").show();
+        $.post("@Url.Action("EhsAlertEmployeeAR", "Reporter")", { INC_ID: INC_ID, IsEdit: '0' }, function (data) {
+            window.open("../" + data, '_blank');
+        }).always(function () {
+            $("#Loaderbck").hide();
+            $("#Loader").hide();
+        });
+    }
+
+
+
+    function Incident_Final_PPT(INC_ID) {
+        $("#Loaderbck").show();
+        $("#Loader").show();
+        $.post("@Url.Action("IncPresentationPPT", "Reporter")", { INC_ID: INC_ID, IsEdit: '0' }, function (data) {
+            window.open("../" + data, '_blank');
+        }).always(function () {
+            $("#Loaderbck").hide();
+            $("#Loader").hide();
+        });
+    }
+
+    function Incident_Final_PPT_AR(INC_ID) {
+        $("#Loaderbck").show();
+        $("#Loader").show();
+        $.post("@Url.Action("IncPresentationPPTAR", "Reporter")", { INC_ID: INC_ID, IsEdit: '0' }, function (data) {
+            window.open("../" + data, '_blank');
+        }).always(function () {
+            $("#Loaderbck").hide();
+            $("#Loader").hide();
+        });
+    }
+
+
+</script>

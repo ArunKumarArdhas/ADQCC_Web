@@ -1,0 +1,1978 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    ViewBag.Title = "IncidentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+
+
+<style>
+    .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+        background-color: #cdae7b !important;
+    }
+
+    .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+        background-color: #cdae7b !important;
+    }
+
+    .btn-default {
+        background-color: #ffffff !important;
+    }
+
+    /* .input-group .form-control {
+                    position: relative;
+                    z-index: 2;
+                    float: none !important;
+                    width: 100%;
+                    margin-bottom: 0;
+                }
+
+                .file-drop-zone-title {
+                    color: #aaa;
+                    font-size: 30px !important;
+                    padding: 85px 10px;
+                }
+            */
+    /* .btn-primary {
+                color: #fff !important;
+                background-color: #cdae7b !important;
+                border-color: #cdae7b !important;
+            }*/
+
+    .progress-bar-success {
+        background-color: #896522 !important;
+    }
+
+    .navbar-nav > .user-menu .user-image {
+        padding: 0px !important;
+    }
+</style>
+
+<style>
+    .badge {
+        display: inline-block;
+        padding: 0.35em 0.65em;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
+    }
+
+    .btn-default {
+        background-color: #ffffff !important;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px;
+        margin-left: -15px;
+    }
+
+    .btn-default {
+        background-color: #f5f5f5;
+        color: #000;
+        border-color: #ddd;
+    }
+
+    .btn-success {
+        color: #fff !important;
+        background-color: #cdae7b !important;
+        border-color: #cdae7b !important;
+    }
+
+    /* .btn-primary {
+                    color: #fff !important;
+                    background-color: #cdae7b !important;
+                    border-color: #cdae7b !important;
+                }
+            */
+    .table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+        background-color: #ffffff !important;
+    }
+
+    .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+        border: 1px solid #fff !important;
+    }
+
+    .persDet {
+        border-left: 1px solid #f39c12 !important;
+        border-right: 1px solid #f39c12 !important;
+        border-bottom: 1px solid #f39c12 !important;
+    }
+
+    .file-preview-image {
+        font: 16px Impact, Charcoal, sans-serif !important;
+    }
+    /*.file-caption {
+                    display: none !important;
+                }*/
+
+
+</style>
+
+<style>
+    .dataTables_length {
+        direction: ltr !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+
+@if (loginclass.LANG_ID == "ar")
+{
+    <style>
+        .inccatheadercss {
+            margin-left: 241% !important;
+        }
+
+        .inccatSubcss {
+            margin-left: 233% !important;
+        }
+    </style>
+}
+else
+{
+    <style>
+
+        .inccatheadercss {
+            width: 100% !important;
+        }
+
+        .inccatSubcss {
+            margin-left: 7% !important;
+        }
+    </style>
+}
+
+@if (loginclass.LANG_ID == "ar")
+{
+    <style>
+        table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+            background-repeat: no-repeat;
+            background-position: center left !important;
+        }
+    </style>
+}
+else
+{
+    <style>
+        table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+            background-repeat: no-repeat;
+            background-position: center right !important;
+        }
+    </style>
+}
+
+
+<link href="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/css/classic.css" rel="stylesheet" />
+<link href="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/css/classic.date.css" rel="stylesheet" />
+<link href="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/css/classic.time.css" rel="stylesheet" />
+@*<link href="~/Content/New_MultiSelect/New/css/fileinput.css" rel="stylesheet" />*@
+<link href="@Url.Content("~/Content/MultiSelect/New/css/fileinput.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/FontAwesome_5/fontawesome-free-6.1.1-web/css/all.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Content/MultiSelect/New/js/fileinput.js")"></script>
+@*<script src="~/Content/New_MultiSelect/js/fileinput.js"></script>*@
+<script src="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/js/picker.js"></script>
+<script src="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/js/picker.date.js"></script>
+<script src="~/Content/assets/_New_Dashboard/assets/plugins/datetimepicker/js/picker.time.js"></script>
+
+@* <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+ *@@* <script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script> *@
+
+
+<div class="page-content">
+    <div class="row" id="AddIncident" style="display:none;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (loginclass != null)
+                            {
+                                if (loginclass.LANG_ID == "bo")
+                                {
+                                    <div class="row">
+                                        <h5 class="mb-0 text-uppercase col-lg-8"> ADD INCIDENT</h5>
+                                        <h5 class="mb-0 text-uppercase col-lg-4">
+                                            أضف الحادث
+                                        </h5>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <h5 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.incAddIncident</h5>
+                                }
+                            }
+                            <br />
+                            @if (loginclass.LANG_ID == "ar")
+                            {
+                                <button style="float: right;" class="btn btn-primary btn_back">@ADQCC_New.LocalResource.Resource.Back</button>
+                            }
+                            else
+                            {
+                                <button style="float: left;" class="btn btn-primary btn_back">@ADQCC_New.LocalResource.Resource.Back</button>
+                            }
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="p-4 border rounded">
+                        <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8">
+                            <div class="row">
+                                <div class="col-md-4" style="display:none">
+                                    <label for="incid" class="control-label">@ADQCC_New.LocalResource.Resource.emrIncidentID<span class="red">*</span></label>
+                                    <input type="text" name="incid" value="0" id="incid" class="form-control" disabled="disabled" />
+                                </div>
+                                <div class="col-md-4">
+                                    <b style="font-size: 16px;" for="inccatid" class="control-label">@ADQCC_New.LocalResource.Resource.EMRIncidentDescription<span class="red">*</span></b>
+                                    <div class="select2" id="inccatid" onchange="fnIncidentCategory(this)">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <b for="incdatetime" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.incDateandTimeofIncident<span class="red">*</span></b>
+                                    <input type="text" readonly="readonly" name="" id="incdatetime" class="form-control" autocomplete="off" dropdownMode="scroll" />
+                                </div>
+                                @if (loginclass.LANG_ID == "ar")
+                                {
+                                    <div class="col-md-4">
+                                        <b for="inc_notify" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.incReporterName<span class="red">*</span></b>
+                                        <input type="text" name="inc_notify" value="@loginclass.DISPLAY_NAME_AR" id="inc_notify" class="form-control" disabled="disabled" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-4">
+                                        <b for="inc_notify" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.incReporterName<span class="red">*</span></b>
+                                        <input type="text" name="inc_notify" value="@loginclass.DISPLAY_NAME" id="inc_notify" class="form-control" disabled="disabled" />
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group col-md-12" id="othernamediv" style="display:none;">
+                                        <b for="seclab" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.EMROtherName<span class="red">*</span></b>
+                                        <input type="text" name="" value="" id="othername" class="form-control" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <b for="location" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.Location <span class="red">*</span></b>
+                                    <div class="select2" id="location">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectLocation--</option>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <b for="building" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.BuildingName <span class="red">*</span></b>
+                                    <div name="building" class="select2" id="building">
+                                        @*<option style="color:#D5D5D5;" value="0">--@ADQCC_New.LocalResource.Resource.SelectBuilding--</option>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <b for="sector" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.SectorName <span class="red">*</span></b>
+                                    <div class="select2" id="sector">
+                                        @*<option style="color:#D5D5D5;" value="0">--@ADQCC_New.LocalResource.Resource.SelectSectorName--</option>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <b for="depart" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.DepartmentNew <span class="red">*</span></b>
+                                    <div name="depart" class="select2" id="depart">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectDepartment--</option>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <b for="seclab" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.EMRSection<span class="red">*</span></b>
+                                    <div name="seclab" class="select2" id="seclab">
+                                        @*<option value="0" style="color:#D5D5D5;">--@ADQCC_New.LocalResource.Resource.SelectSection--</option>*@
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" id="tblIncidentType">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <b for="seclab" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.incIncidentType</b>
+                                    </div>
+                                    <div class="col-md-4" style="margin-top: -2%;">
+                                        <br>
+                                        <br>
+                                        <div>
+                                            <div class="col-md-8 inccatheadercss">
+                                                <b style="background-color: #0f67b3; padding: 5px; color: white; font-size: 15px;">@ADQCC_New.LocalResource.Resource.incSafety</b>
+                                            </div>
+
+                                            <br>
+                                            <div class="col-md-8 inccatSubcss">
+
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Safety_Near_Miss">
+                                                <b>@ADQCC_New.LocalResource.Resource.incNearMiss</b>
+                                                <br>
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Safety_Minor_Injury">
+                                                <b>@ADQCC_New.LocalResource.Resource.incMinorInjury</b>
+                                                <br>
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Safety_Major_Injury">
+                                                <b>@ADQCC_New.LocalResource.Resource.incSeriousMajorInjury</b>
+                                                <br>
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Fatality">
+                                                <b>@ADQCC_New.LocalResource.Resource.incFatality</b>
+                                                <br>
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Safety_Fire">
+                                                <b>@ADQCC_New.LocalResource.Resource.incFire</b>
+                                                <br>
+                                                <input class="form-check-input Safety_Property_Damage" type="checkbox" id="inlineCheckbox1" value="Safety_Property_Damage">
+                                                <b>@ADQCC_New.LocalResource.Resource.incPropertyDamage</b>
+                                                <br>
+                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Illness">
+                                                <b>@ADQCC_New.LocalResource.Resource.incIllness</b>
+                                            </div>
+                                            <br />
+
+                                            <div class="form-group col-md-12" id="DivSafetyEquipmentID" style="display:none;">
+                                                <b for="seclab" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.EMREquipmentIDModel<span class="red">*</span></b>
+                                                <input type="text" id="SafetyEquipmentID" class="form-control" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" style="margin-top: -2%;">
+                                        <br>
+                                        <br>
+                                        <b style="background-color: #0f67b3; padding: 5px; color: white; font-size: 15px;">@ADQCC_New.LocalResource.Resource.incEnvironmental</b>
+                                        <br>
+                                        <br>
+                                        <div class="col-md-8">
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Near_Miss">
+                                            <b>@ADQCC_New.LocalResource.Resource.incNearMiss</b>
+                                            <br>
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Minor_Release">
+                                            <b>@ADQCC_New.LocalResource.Resource.incMinorRelease</b>
+                                            <br>
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Moderate_Release">
+                                            <b>@ADQCC_New.LocalResource.Resource.incModerateRelease</b>
+                                            <br>
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Major_Release">
+                                            <b>@ADQCC_New.LocalResource.Resource.incMajorRelease</b>
+                                            <br>
+                                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Fire">
+                                            <b>@ADQCC_New.LocalResource.Resource.incFire</b>
+                                            <br>
+                                            <input class="form-check-input ENProperty_Damage" type="checkbox" id="inlineCheckbox1" value="Property_Damage">
+                                            <b>@ADQCC_New.LocalResource.Resource.incPropertyDamage</b>
+                                        </div>
+                                        <br />
+                                        <br />
+
+                                        <div class="form-group col-md-12" id="DivEnEquipmentID" style="display:none;">
+                                            <b for="seclab" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.EMREquipmentIDModel<span class="red">*</span></b>
+                                            <input type="text" id="EnEquipmentID" class="form-control" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            @*<div class="row">
+                            <div class="col-md-12">
+                            <b for="seclab" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.EMRDescription<span class="red">*</span></b><br />
+                            <textarea class="TextAreaMaxLenth Description" style="width: 100%; height: 100px; resize: none; " id="Description" autocomplete="off" onkeyup="FncharsString('Description')"></textarea>
+                            <span style="color: #b6914a;" class="remainingC">7500</span> <span style="color: #b6914a;">Character(s) Remaining</span>
+                            </div>
+                            </div>
+                            <br />*@
+                            <div class="row">
+                                @if (loginclass.LANG_ID == "ar")
+                                {
+                                    <div class="row col-md-12">
+                                        <div class="form-group col-md-6">
+                                            <b style="font-size: 16px;">@ADQCC_New.LocalResource.Resource.incUploadPhotos</b><span style="color: #c5c5c5"></span>
+                                            <div class="file-loading">
+                                                <input id="input-7051" name="kartik-input-7051[]" type="file" accept="image/*" multiple>
+                                            </div>&nbsp;&nbsp;
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <b style="font-size: 16px;">@ADQCC_New.LocalResource.Resource.incUploadVideo</b><span style="color: #c5c5c5"></span>
+                                            <div class="">
+                                                <input id="input-7061" name="kartik-input-7061[]" type="file" accept="video/*" multiple>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row col-md-12">
+                                        <div class="form-group col-md-6">
+                                            <b style="font-size: 16px;">@ADQCC_New.LocalResource.Resource.incUploadPhotos</b><span style="color: #c5c5c5"></span>
+                                            <div class="file-loading">
+                                                <input id="input-7051" name="kartik-input-7051[]" type="file" accept="image/*" multiple>
+                                            </div>&nbsp;&nbsp;
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <b style="font-size: 16px;">@ADQCC_New.LocalResource.Resource.incUploadVideo</b><span style="color: #c5c5c5"></span>
+                                            <div class="">
+                                                <input id="input-7061" name="kartik-input-7061[]" type="file" accept="video/*" multiple>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-lg-6">
+                                <br />
+                                <div class="col-md-4">
+                                <label for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.incUploadPhotos</label>
+                                <br />
+                                </div>
+                                <div>
+                                <span class="btn btn-default btn-file" id="spnInputfile" style="width: 100%;"></span>
+                                </div>
+                                <br />
+                                </div>
+
+                                <div class="col-lg-6">
+                                <br />
+                                <div class="col-md-4">
+                                <label for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.incUploadVideo</label>
+                                <br />
+                                </div>
+                                <div>
+                                <span class="btn btn-default btn-file" id="spnInputfileVideo" style="width: 100%;"></span>
+                                </div>
+                                <br />
+                                </div>*@
+                                }
+                            </div>
+                            <br />
+                            <div class="row" id="reportable">
+                                <div class="col-lg-12">
+                                    @if (loginclass.LANG_ID == "ar")
+                                    {
+                                        <div class="col-md-12">
+                                            <b for="person1" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.incInjuredCategory<span class="red">*</span></b>
+                                            <br />
+                                            <br />
+                                            <input class="form-check-input" type="checkbox" name="ReportedBy" value="1">
+                                            <b>@ADQCC_New.LocalResource.Resource.incEmployee</b>
+                                            <input class="form-check-input" type="checkbox" name="ReportedBy" value="2">
+                                            <b>@ADQCC_New.LocalResource.Resource.incContractor</b>
+                                            <input class="form-check-input" type="checkbox" name="ReportedBy" value="3">
+                                            <b>@ADQCC_New.LocalResource.Resource.incThirdParty</b>
+                                            <input class="form-check-input" type="checkbox" name="ReportedBy" value="4">
+                                            <b>@ADQCC_New.LocalResource.Resource.EMRNoInjury</b>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-12">
+                                            <b for="person1" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.incInjuredCategory<span class="red">*</span></b>
+                                            <br />
+                                            <br />
+                                            <input class="form-check-input" type="checkbox" name="ReportedBy" value="1">
+                                            <b>@ADQCC_New.LocalResource.Resource.incEmployee</b>
+                                            <input class="form-check-input" type="checkbox" name="ReportedBy" value="2">
+                                            <b>@ADQCC_New.LocalResource.Resource.incContractor</b>
+                                            <input class="form-check-input" type="checkbox" name="ReportedBy" value="3">
+                                            <b>@ADQCC_New.LocalResource.Resource.incThirdParty</b>
+                                            <input class="form-check-input" type="checkbox" name="ReportedBy" value="4">
+                                            <b>@ADQCC_New.LocalResource.Resource.EMRNoInjury</b>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-7">
+                                    <button type="button" class="btn btn-primary" id="btn_AddIncident">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                                <br>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (loginclass != null)
+                                {
+                                    if (loginclass.LANG_ID == "bo")
+                                    {
+                                        <div class="row">
+                                            <h5 class="mb-0 text-uppercase col-lg-8">INCIDENT</h5>
+                                            <h5 class="mb-0 text-uppercase col-lg-8">حادث</h5>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <h5 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.incIncident</h5>
+                                    }
+                                }
+                                <br />
+
+
+                                @if (loginclass.LANG_ID == "ar")
+                                {
+                                    <button style="float: right;" id="addnewincident" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.incAddIncident</button>
+                                }
+                                else
+                                {
+                                    <button style="float: left;" id="addnewincident" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.incAddIncident</button>
+                                }
+
+
+
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="">
+                                <table id="table1" class="table table-bordered">
+                                    @if (loginclass != null)
+                                    {
+                                        switch (loginclass.LANG_ID)
+                                        {
+                                            case "ar":
+                                                <thead>
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.emrIncidentID</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Location</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.emrIncidentCategory</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.IMPCreatedDate</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+
+                                                </thead>
+                                                break;
+                                            case "en":
+                                                <thead>
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.emrIncidentID</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Location</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.emrIncidentCategory</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.IMPCreatedDate</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>
+                                                        <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+                                                </thead>
+                                                break;
+                                        }
+
+                                    }
+                                    <tbody id="GetIncidentList">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" id="PageView" style="display:none;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (loginclass != null)
+                            {
+                                if (loginclass.LANG_ID == "bo")
+                                {
+                                    <div class="row">
+                                        <h5 class="mb-0 text-uppercase col-lg-8"> INCIDENT NOTIFICATION</h5>
+                                        <h5 class="mb-0 text-uppercase col-lg-4">
+                                            حادث
+                                        </h5>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <h5 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.EMRIncidentNotificationlabel</h5>
+                                }
+                            }
+                            <br />
+                            @if (loginclass.LANG_ID == "ar")
+                            {
+                                <button style="float: right;" class="btn btn-primary btn_back">@ADQCC_New.LocalResource.Resource.Back</button>
+                            }
+                            else
+                            {
+                                <button style="float: left;" class="btn btn-primary btn_back">@ADQCC_New.LocalResource.Resource.Back</button>
+                            }
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="p-4 border rounded">
+                        <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8">
+                            <div class="box-body">
+                                <table class="table tab table-hover">
+                                    <tbody id="tblIncidentDetailsViewPage">
+                                        <tr>
+                                            <td class="treatment" style="width: 28%;">
+                                                <b class="font-bold">@ADQCC_New.LocalResource.Resource.EMRInccategory</b>
+                                            </td>
+                                            <td style="width: 1%">
+                                                :
+                                            </td>
+                                            <td id="View_UNIQUE_ID" style="color:darkblue">
+                                            </td>
+                                            <td style="width: 20%">
+                                                <b class="font-bold">@ADQCC_New.LocalResource.Resource.EMRIncid</b>
+                                            </td>
+                                            <td style="width: 1%">
+                                                :
+                                            </td>
+                                            <td id="View_INC_CAT_NAME" style="color:darkblue">
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="width: 20%"><b class="font-bold">@ADQCC_New.LocalResource.Resource.EMRDateandTimeofIncident </b></td>
+                                            <td style="width: 1%">:</td>
+                                            <td id="View_INC_DATE_TIME" style="color:darkblue"></td>
+
+                                            <td style="width: 20%"><b class="font-bold">@ADQCC_New.LocalResource.Resource.EMRNotifyBy</b></td>
+                                            <td style="width: 1%">:</td>
+                                            <td id="View_EMP_FIRSTNAME" style="color:darkblue"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="width: 20%"><b class="font-bold">@ADQCC_New.LocalResource.Resource.Location</b></td>
+                                            <td style="width: 1%">:</td>
+                                            <td id="view_LOC_NAME" style="color:darkblue"></td>
+
+                                            <td style="width: 20%"><b class="font-bold">@ADQCC_New.LocalResource.Resource.Building</b></td>
+                                            <td style="width: 1%">:</td>
+                                            <td id="View_BUIL_NAME" style="color:darkblue"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="width: 20%"><b class="font-bold">@ADQCC_New.LocalResource.Resource.Sector</b></td>
+                                            <td style="width: 1%">:</td>
+                                            <td id="View_SEC_NAME_EN" style="color:darkblue"></td>
+
+                                            <td style="width: 20%"><b class="font-bold">@ADQCC_New.LocalResource.Resource.Department</b></td>
+                                            <td style="width: 1%">:</td>
+                                            <td id="View_DEP_NAME" style="color:darkblue"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="width: 20%"><b class="font-bold">@ADQCC_New.LocalResource.Resource.Section</b></td>
+                                            <td style="width: 1%">:</td>
+                                            <td id="View_SEC_LAB_NAME" style="color:darkblue"></td>
+
+                                            <td style="width: 20%"><b class="font-bold">@ADQCC_New.LocalResource.Resource.incInjuredCategory</b></td>
+                                            <td style="width: 1%">:</td>
+                                            <td id="View_INC_CAT" style="color:darkblue"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row" id="V_tblIncidentType">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label for="seclab" class="control-label">@ADQCC_New.LocalResource.Resource.incIncidentType<span class="red">*</span></label>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: -2%;">
+                                            <br>
+                                            <br>
+                                            <div>
+                                                @if (loginclass.LANG_ID == "ar")
+                                                {
+                                                    <div class="col-md-8 inccatheadercss">
+                                                        <b style="background-color: #0f67b3; padding: 5px; color: white; font-size: 15px;margin-right: 20px;">@ADQCC_New.LocalResource.Resource.incSafety</b>
+                                                    </div>
+
+                                                    <br>
+                                                    <div class="col-md-8 inccatSubcss">
+
+                                                        <input class="form-check-input" type="checkbox" id="Safety_Near_Miss" disabled value="Safety_Near_Miss">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incNearMiss</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Safety_Minor_Injury" disabled value="Safety_Minor_Injury">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incMinorInjury</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Safety_Major_Injury" disabled value="Safety_Major_Injury">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incSeriousMajorInjury</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Fatality" disabled value="Fatality">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incFatality</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Safety_Fire" disabled value="Safety_Fire">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incFire</b>
+                                                        <br>
+                                                        <input class="form-check-input Safety_Property_Damage" type="checkbox" disabled id="Safety_Property_Damage" value="Safety_Property_Damage">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incPropertyDamage</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Illness" disabled value="Illness">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incIllness</b>
+                                                    </div>
+                                                    <br />
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-md-8 inccatheadercss">
+                                                        <b style="background-color: #0f67b3; padding: 5px; color: white; font-size: 15px;">@ADQCC_New.LocalResource.Resource.incSafety</b>
+                                                    </div>
+
+                                                    <br>
+                                                    <div class="col-md-8 inccatSubcss">
+
+                                                        <input class="form-check-input" type="checkbox" id="Safety_Near_Miss" disabled value="Safety_Near_Miss">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incNearMiss</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Safety_Minor_Injury" disabled value="Safety_Minor_Injury">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incMinorInjury</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Safety_Major_Injury" disabled value="Safety_Major_Injury">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incSeriousMajorInjury</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Fatality" disabled value="Fatality">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incFatality</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Safety_Fire" disabled value="Safety_Fire">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incFire</b>
+                                                        <br>
+                                                        <input class="form-check-input Safety_Property_Damage" type="checkbox" disabled id="Safety_Property_Damage" value="Safety_Property_Damage">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incPropertyDamage</b>
+                                                        <br>
+                                                        <input class="form-check-input" type="checkbox" id="Illness" disabled value="Illness">
+                                                        <b>@ADQCC_New.LocalResource.Resource.incIllness</b>
+                                                    </div>
+                                                    <br />
+                                                }
+
+                                                <div class="form-group col-md-12" id="ViewDivSafetyEquipmentID" style="display:none">
+                                                    <b style="font-size: 16px;" for="seclab" class="control-label">@ADQCC_New.LocalResource.Resource.EMREquipmentIDModel<span class="red">*</span></b>
+                                                    <input type="text" id="ViewSafetyEquipmentID" class="form-control" autocomplete="off" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: -2%;">
+                                            <br>
+                                            <br>
+                                            @if (loginclass.LANG_ID == "ar")
+                                            {
+                                                <b style="background-color: #0f67b3; padding: 5px; color: white; font-size: 15px;margin-right: 12px;">@ADQCC_New.LocalResource.Resource.incEnvironmental</b>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <div class="col-md-12">
+                                                    <input class="form-check-input" type="checkbox" id="Near_Miss" disabled value="Near_Miss">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incNearMiss</b>
+                                                    <br>
+                                                    <input class="form-check-input" type="checkbox" id="Minor_Release" disabled value="Minor_Release">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incMinorRelease</b>
+                                                    <br>
+                                                    <input class="form-check-input" type="checkbox" id="Moderate_Release" disabled value="Moderate_Release">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incModerateRelease</b>
+                                                    <br>
+                                                    <input class="form-check-input" type="checkbox" id="Major_Release" disabled value="Major_Release">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incMajorRelease</b>
+                                                    <br>
+                                                    <input class="form-check-input" type="checkbox" id="Fire" disabled value="Fire">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incFire</b>
+                                                    <br>
+                                                    <input class="form-check-input ENProperty_Damage" type="checkbox" disabled id="Property_Damage" value="Property_Damage">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incPropertyDamage</b>
+                                                </div>
+                                                <br />
+                                                <br />
+                                            }
+                                            else
+                                            {
+                                                <b style="background-color: #0f67b3; padding: 5px; color: white; font-size: 15px;">@ADQCC_New.LocalResource.Resource.incEnvironmental</b>
+                                                <br>
+                                                <br>
+                                                <div class="col-md-8">
+                                                    <input class="form-check-input" type="checkbox" id="Near_Miss" disabled value="Near_Miss">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incNearMiss</b>
+                                                    <br>
+                                                    <input class="form-check-input" type="checkbox" id="Minor_Release" disabled value="Minor_Release">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incMinorRelease</b>
+                                                    <br>
+                                                    <input class="form-check-input" type="checkbox" id="Moderate_Release" disabled value="Moderate_Release">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incModerateRelease</b>
+                                                    <br>
+                                                    <input class="form-check-input" type="checkbox" id="Major_Release" disabled value="Major_Release">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incMajorRelease</b>
+                                                    <br>
+                                                    <input class="form-check-input" type="checkbox" id="Fire" disabled value="Fire">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incFire</b>
+                                                    <br>
+                                                    <input class="form-check-input ENProperty_Damage" type="checkbox" id="Property_Damage" disabled value="Property_Damage">
+                                                    <b>@ADQCC_New.LocalResource.Resource.incPropertyDamage</b>
+                                                </div>
+                                                <br />
+                                                <br />
+                                            }
+
+                                            <div class="form-group col-md-12" id="ViewDivEnEquipmentID" style="display:none;">
+                                                <b for="seclab" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.EMREquipmentIDModel<span class="red">*</span></b>
+                                                <input type="text" id="ViewEnEquipmentID" class="form-control" autocomplete="off" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+                                @*<div class="col-lg-12">
+                                <b for="seclab" style="font-size: 16px;" class="control-label">@ADQCC_New.LocalResource.Resource.EMRDescription</b><br /> <br />
+                                <textarea class="V_TextAreaMaxLenth" style="width: 100%; height: 100px; resize: none;" disabled id="V_TextAreaMaxLenth" autocomplete="off"></textarea>
+
+                                </div>*@
+
+                                <div class="form-group col-lg-12" id="DivViewImage">
+                                </div>
+
+                                <br />
+
+                                <div class="form-group col-lg-12" id="DivViewVideo">
+                                </div>
+                                <br />
+                                @if (loginclass.DESI_NAME == "HSSE Manager")
+                                {
+                                    <div id="ReportableOrNot">
+                                        <b for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.EMRReporttheIncident  </b>
+                                        <br />
+                                        <input class="form-check-input" onclick="fnReportable('NonReportable')" type="radio" id="EMRNonRepotableInvestication" name="Repotable_ReportedBy" value="9">
+                                        <b for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.EMRNonReportableInvestication</b>  <span>&nbsp;&nbsp;</span>
+
+                                        <input class="form-check-input" onclick="fnReportable('NonReportable')" type="radio" id="EMRNonRepotable" name="Repotable_ReportedBy" value="2">
+                                        <b>@ADQCC_New.LocalResource.Resource.EMRNonReportable</b> <span>&nbsp;&nbsp;</span>
+
+                                        <input class="form-check-input" onclick="fnReportable('Reportable')" type="radio" id="EMRRepotable" name="Repotable_ReportedBy" value="3">
+                                        <b>@ADQCC_New.LocalResource.Resource.EMRReportable</b>
+
+                                        <input type="hidden" name="name" value="" id="Report_INC_ID" />
+
+                                    </div>
+                                    <br />
+                                    if (loginclass.LANG_ID == "ar")
+                                    {
+                                        <div class="col-md-4" id="DivReportableBy" style="display: none; margin-left: 700px;">
+                                            <b style="font-size: 16px;" for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.EMRReportBy</b>
+                                            <select name="ReportableBy" class="form-control ReportableBy" id="ReportableBy">
+                                            </select>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-4" id="DivReportableBy" style="display:none;">
+                                            <b style="font-size: 16px;" for="person1" class="control-label">@ADQCC_New.LocalResource.Resource.EMRReportBy</b>
+                                            <select name="ReportableBy" class="form-control ReportableBy" id="ReportableBy">
+                                            </select>
+                                        </div>
+                                    }
+
+                                    <br />
+                                    <br />
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-lg-5"></div>
+                                        <div class="col-lg-7">
+                                            <button type="button" class="btn btn-primary btn_UpdateIncident" id="btn_Submit_UpdateIncident">
+                                                @ADQCC_New.LocalResource.Resource.Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var Emp;
+    var Emplogin;
+    var Desiname;
+    $(document).ready(function () {
+
+        var login = '@loginclass.LANG_ID';
+        Emplogin = '@loginclass.EMP_ID';
+        Desiname = '@loginclass.DESI_NAME';
+
+        //alert(Desiname);
+        if (login == "ar") {
+            var d = new Date,
+                dformat = [d.getDate(),
+                d.getMonth() + 1,
+                d.getFullYear()].join('-') + ' ' +
+                    [d.getHours(),
+                    d.getMinutes()].join(':');
+
+            $("#incdatetime").val(dformat);
+        } else {
+            var e = '@DateTime.Now.ToString("dd-MM-yyyy HH:mm")';
+            $("#incdatetime").val(e);
+        }
+
+        $('#incdatetime').pickadate({
+
+            editable: true,
+            selectYears: true,
+            selectMonths: true,
+            format: 'dd/mm/yyyy',
+            max: true
+        });
+
+        //var to_picker = to_$input.pickadate('picker');
+        //// TO Trigger
+        //$("#incdatetime").on("click", function (e) {
+        //    e.preventDefault();
+        //    e.stopPropagation();
+
+        //    // open picker
+        //    to_picker.open();
+
+        //    // Set FROM max = TO selected date
+        //    to_picker.on('set', function (event) {
+        //        if (event.select) {
+        //            to_picker.set('max', to_picker.get('select'))
+        //        }
+        //        else if ('clear' in event) {
+        //            to_picker.set('max', false)
+        //        }
+        //    })
+
+        //});
+        //$("#incdatetime").bootstrapMaterialDatePicker({
+        //    format: 'DD-MM-YYYY HH:mm',
+        //    time: true,
+        //    minDate: new Date(),
+        //});
+        //$("#incdatetime").pickadate({
+        //    selectMonths: true,
+        //    selectYears: 4,
+
+
+        //});
+
+        //$("#incdatetime").pickatime();
+        $(".Safety_Property_Damage").click(function () {
+            ;
+            if ($(this).is(":checked")) {
+                $("#DivSafetyEquipmentID").show();
+
+            } else {
+                $("#DivSafetyEquipmentID").hide();
+            }
+        });
+
+        $(".ENProperty_Damage").click(function () {
+            ;
+            if ($(this).is(":checked")) {
+                $("#DivEnEquipmentID").show();
+            } else {
+                $("#DivEnEquipmentID").hide();
+            }
+        });
+        var $el3 = $("#input-7051");
+        $el3.fileinput({
+            allowedFileExtensions: ['jpg', 'png', 'jpeg', 'bmp'],
+            uploadUrl: '/Emergency/UploadDocumentFiles',
+            uploadAsync: false,
+            deleteUrl: '/Emergency/UploadDocumentFiles',
+            showUpload: false, // hide upload button
+            overwriteInitial: false, // append files to initial preview
+            minFileCount: 1,
+            maxFileCount: 5,
+            browseOnZoneClick: true,
+            initialPreviewAsData: true,
+        }).on("filebatchselected", function (event, files) {
+            $el3.fileinput("upload");
+        });
+
+        var $el4 = $("#input-7061");
+        $el4.fileinput({
+            allowedFileExtensions: ['mp4', 'avi', 'flv'],
+            uploadUrl: '/Incident/UploadVideos',
+            uploadAsync: false,
+            deleteUrl: '/Incident/UploadVideos',
+            showUpload: false, // hide upload button
+            overwriteInitial: false, // append files to initial preview
+            minFileCount: 1,
+            maxFileCount: 3,
+            browseOnZoneClick: true,
+            initialPreviewAsData: true,
+        }).on("filebatchselected", function (event, files) {
+            $el4.fileinput("upload");
+        });
+
+
+
+    @*$("#spnInputfile").html('');
+            $("#spnInputfile").html('<input id="input-2" name="input2[]" type="file"  accept=".png,.jpg,.jpeg"  class="file"  multiple data-show-upload="true" data-show-caption="true">');
+
+            var $input = $('input.file[type=file]');
+
+
+
+            $("#spnInputfileVideo").html('');
+            $("#spnInputfileVideo").html('<input id="input-2" name="input2[]" type="file"  accept=".mp4"  class="file" onclick="return Doctype()" multiple data-show-upload="true" data-show-caption="true">');
+
+            var $inputVideo = $('input.file[type=file]');
+
+
+            var FileCount = 10;
+
+            if ($input.length) {
+            ;
+            $input.fileinput({
+            uploadUrl: '/Emergency/UploadDocumentFiles',
+            uploadAsync: false,
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            maxFileCount: FileCount,
+            }).on('filebatchuploadsuccess', function (event, data) {
+            // alert(data.response);
+            });
+            }
+
+            if ($inputVideo.length) {
+            $inputVideo.fileinput({
+            uploadUrl: '/Emergency/UploadVideos',
+            uploadAsync: false,
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            maxFileCount: FileCount,
+            }).on('filebatchuploadsuccess', function (event, data) {
+            //alert(data.response);
+            toastr.success(data.response, "@ADQCC_New.LocalResource.Resource.Success");
+            });
+            }*@
+
+            //$('.Description').keyup(function () {
+            //    ;
+            //    var txtCharCountLength = $(this).val().replace(/\s+/g, '').length;
+
+            //    if (txtCharCountLength <= 7500) {
+            //        var remainingChar = 7500 - txtCharCountLength;
+            //        $(".remainingC").html(remainingChar);
+
+            //    }
+            //});
+
+
+
+
+            $("#AddIncident").hide();
+        $("#PageView").hide();
+        $("#ListView").show();
+        Get_Incident_Category();
+        GET_LOCATION_LIST();
+        GET_INCIDENT_LIST(Emplogin, Desiname);
+        GET_SECTOR_LIST()
+
+        $(".btn_back").on('click', function () {
+            ClearFileds();
+            $("#AddIncident").hide(100);
+            $("#ListView").show(100);
+            $("#PageView").hide();
+        });
+        $("#btnclear").on('click', function () {
+            ClearFileds();
+        });
+
+        $("#addnewincident").on('click', function () {
+            $("#AddIncident").show(100);
+            $("#ListView").hide(100);
+            $("#PageView").hide();
+            $("#SafetyEquipmentID").val("");
+            $("#EnEquipmentID").val("");
+        });
+
+        $("#location").on('change', function () {
+            //alert($(this).val())
+            GET_BUILDING_LIST($(this).val());
+        });
+        //$("#building").on('change',function () {
+        //    //GET_SECTOR_LIST($(this).val());
+        //});
+        $("#sector").on('change', function () {
+            GET_DEPARTMENT_LIST($(this).val());
+        });
+        $("#depart").on('change', function () {
+            GET_SECTION_LIST($(this).val());
+        });
+
+        $("#btnUploadphoto").on('click', function () {
+            $.post("@Url.Action("Upload", "Incident")", function (data) {
+                //$("#GetIncidentList").html('');
+                //$("#GetIncidentList").html(data);
+            });
+        });
+
+        $("#btn_AddIncident").on('click', function () {
+            ;
+            var INCIDENT_TYPE_CHECKBOXVALUE = [];
+
+            $("#tblIncidentType input[type=checkbox]:checked").each(function () {
+                var IncidentTypeid = $(this).val();
+                var SafetyEquipmentID = $("#SafetyEquipmentID").val();
+                var EnEquipmentID = $("#EnEquipmentID").val();
+                var data = {};
+                data.INCIDENT_TYPE_ID = IncidentTypeid;
+
+                data.SAFETY_EQUIPMENT_ID = SafetyEquipmentID;
+                data.EN_EQUIPMENT_ID = EnEquipmentID;
+
+                INCIDENT_TYPE_CHECKBOXVALUE.push(data);
+                if (varinccatid != "-2") {
+                    ;
+
+                    if ($(".Safety_Property_Damage").is(':checked')) {
+
+                        var varEquipments = $("#SafetyEquipmentID").val();
+                        if (varEquipments == "" || varEquipments == undefined) {
+                            toastr.error("@ADQCC_New.LocalResource.Resource.INCEntertheEquipmentID", "@ADQCC_New.LocalResource.Resource.Error");
+                            //$('[name="ReportedBy"]').focus();
+                            $("#SafetyEquipmentID").focus();
+                            return false;
+                        }
+                    }
+                }
+                if (varinccatid != "-2") {
+                    ;
+                    if ($(".ENProperty_Damage").is(':checked')) {
+                        var varEnvEquipment = $("#EnEquipmentID").val();
+                        if (varEnvEquipment == "" || varEnvEquipment == undefined) {
+                            toastr.error("@ADQCC_New.LocalResource.Resource.ENVEntertheEquipmentID", "@ADQCC_New.LocalResource.Resource.Error");
+                            //$('[name="ReportedBy"]').focus();
+                            $("#EnEquipmentID").focus();
+                            return false;
+                        }
+                    }
+
+
+
+                }
+            });
+
+            var loginid = @loginclass.EMP_ID;
+            var varincid = $("#incid").val();
+            var varinccatid = $("#inccatid").val();
+            var varincdatetime = $("#incdatetime").val();
+            var varinc_notify = loginid;
+            var varlocation = $("#location").val();
+            var varbuilding = $("#building").val();
+            var varsector = $("#sector").val();
+            var vardepart = $("#depart").val();
+            var varseclab = $("#seclab").val();
+            var varperson = $('input[name="person"]:checked').val();
+            var varfatality = $('input[name="fatality"]:checked').val();
+            //var vardescription = $("#description").val();
+            var varreported = $('input[name="ReportedBy"]:checked').val();
+            var varinctype = $('input[name="Incidenttype"]:checked').val();
+            var varDescription = $("#Description").val();
+            var varothername = $("#othername").val();
+
+            if (varinccatid == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.toastIncidentCategory", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#inccatid").focus();
+                return false;
+            }
+
+            if (varinccatid == "-1") {
+                if (varothername == "") {
+                    toastr.error("@ADQCC_New.LocalResource.Resource.EMREntertheOtherName", "@ADQCC_New.LocalResource.Resource.Error");
+                    $("#othername").focus();
+                    return false;
+                }
+                else {
+                    var model = {
+                        INC_CAT_ID: "0",
+                        INC_CAT_NAME: $("#othername").val(),
+                        INC_CAT_NAME_AR: $("#othername").val(),
+                    };
+                    $.ajax({
+                        url: '@Html.Raw(@Url.Action("AddIncidentCategory", "Incident"))',
+                        type: "POST",
+                        cache: false,
+                        data: JSON.stringify(model),
+                        async: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.STATUS_CODE == "200") {
+                                varinccatid = data.UNIQUE_ID;
+                            }
+                            else {
+                                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                            }
+                        }
+
+                    });
+                }
+            }
+
+            if (varincdatetime == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.toastDateandTimeofIncident", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#incdatetime").focus();
+                return false;
+            }
+
+            if (varlocation == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.toastlocation", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#location").focus();
+                return false;
+            }
+            if (varbuilding == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.toastbuilding", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#building").focus();
+                return false;
+            }
+            if (varsector == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.toastsectorname", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#sector").focus();
+                return false;
+            }
+            if (vardepart == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.SelecttheAdministration", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#depart").focus();
+                return false;
+            }
+            if (varseclab == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.EMRSelecttheDepartmentLaboratory", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#seclab").focus();
+                return false;
+            }
+
+            if (varinccatid != "-2") {
+                if (INCIDENT_TYPE_CHECKBOXVALUE.length == "0") {
+                    toastr.error("@ADQCC_New.LocalResource.Resource.Selectincidenttypecheckbox", "@ADQCC_New.LocalResource.Resource.Error");
+                    $("#inlineCheckbox1").focus();
+                    return false;
+                }
+            }
+            /*  $("#tblIncidentType input[type=checkbox]:checked").each(function () {*/
+    @*if (varinccatid != "-2") {
+                ;
+
+                var varEquipments = $("#SafetyEquipmentID").val();
+                if (varEquipments == "" || varEquipments == undefined) {
+                toastr.error("@ADQCC_New.LocalResource.Resource.INCEntertheEquipmentID", "@ADQCC_New.LocalResource.Resource.Error");
+                //$('[name="ReportedBy"]').focus();
+                $("#SafetyEquipmentID").focus();
+                return false;
+                }
+                }*@
+
+
+                /*  $("#tblIncidentType input[type=checkbox]:checked").each(function () {*/
+    @*if (varinccatid != "-2") {
+                ;
+                var varEnvEquipment = $("#EnEquipmentID").val();
+                if (varEnvEquipment == "" || varEnvEquipment == undefined) {
+                toastr.error("@ADQCC_New.LocalResource.Resource.ENVEntertheEquipmentID", "@ADQCC_New.LocalResource.Resource.Error");
+                //$('[name="ReportedBy"]').focus();
+                $("#EnEquipmentID").focus();
+                return false;
+                }
+
+
+
+                }*@
+
+    @*if (varDescription == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.EntertheDescription", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#Description").focus();
+                return false;SafetyEquipmentID
+                }*@
+
+                    if (varinctype != "-2") {
+                if (varreported == "" || varreported == undefined) {
+                    toastr.error("@ADQCC_New.LocalResource.Resource.Selectinjuredcategorycheckbox", "@ADQCC_New.LocalResource.Resource.Error");
+                    //$('[name="ReportedBy"]').focus();
+                    return false;
+                }
+            }
+
+            var model = {
+                INC_ID: varincid,
+                INC_CATEGORY: varinccatid,
+                INC_DATE_TIME: varincdatetime,
+                INC_NOTIFY_BY: varinc_notify,
+                INC_LOC_ID: varlocation,
+                INC_BUIL_ID: varbuilding,
+                INC_SEC_ID: varsector,
+                INC_DEPART_ID: vardepart,
+                INC_SEC_LAB_ID: varseclab,
+                IS_PERSON_INVOLVED: varperson,
+                IS_FATALITY: varfatality,
+                DESCRIPTION: varDescription,
+                REPORTED_BY: varreported,
+                INC_TYPE: varinctype,
+                OTHER_NAME: varothername,
+                INCIDENT_TYPE_DETAILS: INCIDENT_TYPE_CHECKBOXVALUE
+            };
+            debugger;
+            console.log("model value check = " + JSON.stringify(model));
+
+
+            $.post("@Url.Action("AddIncident", "Incident")", model, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                    Emplogin = '@loginclass.EMP_ID';
+                    Desiname = '@loginclass.DESI_NAME';
+                    GET_INCIDENT_LIST(Emplogin, Desiname);
+                    window.location.reload();
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            });
+
+            //   $.ajax({
+            //   url: '@Url.Action("AddIncident", "Incident")',
+            //   type: "POST",
+            //   cache: false,
+            //   data: JSON.stringify(model),
+            //   contentType: "application/json; charset=utf-8",
+            //   dataType: "json",
+
+            //   success: function (data) {
+            //       if (data.STATUS_CODE != "0") {
+            //           Emplogin = '@loginclass.EMP_ID';
+            //           Desiname = '@loginclass.DESI_NAME';
+            //           GET_INCIDENT_LIST(Emplogin, Desiname);
+            //           toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+            //           ClearFileds();
+            //       }
+            //       else {
+            //           toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            //       }
+            //   },
+            // });
+        });
+
+        $("input:checkbox").on('click', function () {
+            // in the handler, 'this' refers to the box clicked on
+            var $box = $(this);
+            if ($box.is(":checked")) {
+                // the name of the box is retrieved using the .attr() method
+                // as it is assumed and expected to be immutable
+                var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                // the checked state of the group/box on the other hand will change
+                // and the current value is retrieved using .prop() method
+                $(group).prop("checked", false);
+                $box.prop("checked", true);
+            } else {
+                $box.prop("checked", false);
+            }
+        });
+    });
+
+    function Get_Incident_Category() {
+        ;
+        $("#inccatid").empty();
+        var Options = [];
+        //var OthersOptions = [];
+        virtual_Select("#inccatid", '--@ADQCC_New.LocalResource.Resource.SelectDescription--');
+    @*$("#inccatid").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectCategory--</option>");*@
+            $.post("@Url.Action("_SelectGetIncidentCategory", "Incident")", function (data) {
+                $(data).each(function (i, e) {
+                    ;
+                    if ('@loginclass.LANG_ID' == "ar") {
+                        var opt = {};
+                        opt["label"] = e.INC_CAT_NAME_AR;
+                        opt["value"] = e.INC_CAT_ID;
+                        Options.push(opt);
+                        //$("#inccatid").append("<option value=" + e.INC_CAT_ID + ">" + e.INC_CAT_NAME_AR + "</option>");
+                    } else {
+                        var opt = {};
+                        opt["label"] = e.INC_CAT_NAME;
+                        opt["value"] = e.INC_CAT_ID;
+                        Options.push(opt);
+                        //$("#inccatid").append("<option value=" + e.INC_CAT_ID + ">" + e.INC_CAT_NAME + "</option>");
+                    }
+                });
+                if ('@loginclass.LANG_ID' == "ar") {
+                    //var opt = {};
+                    //opt["label"] = "قرب-يغيب";
+                    //opt["value"] = '-2';
+                    //Options.push(opt);
+                    var opt = {};
+                    opt["label"] = "أخرى";
+                    opt["value"] = '-1';
+                    Options.push(opt);
+                    //$("#inccatid").append("<option value='-2'>قرب-يغيب</option>");
+                    //$("#inccatid").append("<option value='-1'>أخرى</option>");
+
+                } else {
+                    //var opt = {};
+                    //opt["label"] = "Near-Miss";
+                    //opt["value"] = '-2';
+                    //Options.push(opt);
+                    var opt = {};
+                    opt["label"] = "Others";
+                    opt["value"] = '-1';
+                    Options.push(opt);
+                    //$("#inccatid").append("<option value='-2'>Near-Miss</option>");
+                    //$("#inccatid").append("<option value='-1'>Others</option>");
+                }
+                document.querySelector("#inccatid").setOptions(Options);
+
+            });
+
+    }
+
+    function fnIncidentCategory(val) {
+        ;
+        if (val.value == "-2") {
+            $("#tblIncidentType").hide(100);
+            $("#reportable").hide(100);
+        }
+        else {
+            $("#tblIncidentType").show(100);
+            $("#reportable").show(100);
+        }
+
+        if (val.value == "-1") {
+            $("#othernamediv").show(100);
+        }
+        else {
+            $("#othernamediv").hide(100);
+        }
+    }
+
+    function GET_INCIDENT_LIST(Emplogin, Desiname) {
+        // Hide and show relevant elements
+        $("#AddIncident").hide();
+        $("#ListView").show();
+        $("#PageView").hide();
+        $.ajax({
+            url: "@Url.Action("_GetIncidentList", "Incident")",
+            method: "POST",
+            dataType: "html",
+            success: function (data) {
+                const $incidentList = $("#GetIncidentList");
+                $incidentList.empty(); // Clear the existing content
+                $incidentList.html(data); // Insert the new data
+
+                // Destroy any existing DataTable instance to prevent duplication
+                if ($.fn.DataTable.isDataTable("#table1")) {
+                    $("#table1").DataTable().destroy();
+                }
+
+                // Reinitialize the DataTable after content update
+                //$("#table1").DataTable();
+            },
+            error: function (xhr, status, error) {
+                // Enhanced error handling
+                console.error("Error occurred while fetching data:", error);
+            }
+        });
+    }
+
+    function ClearFileds() {
+
+        location.reload();
+        //$("#inccatid").val("0");
+        //$("#incdatetime").val("");
+        //$("#location").val("0");
+        //$("#building").val("0");
+        //$("#sector").val("0");
+        //$("#depart").val("0");
+        //$("#seclab").val("0");
+        //$("#person").val('');
+        //$("#fatality").val('');
+        //$("#Description").val('');
+        //$("#reported").val('');
+        //$("#inctype").val('');
+        //$("#tblIncidentType input[type=checkbox]").removeAttr('checked');
+
+    }
+
+    function Incident_Delete(ROWID) {
+        $.post("@Url.Action("DeleteIncident", "Incident")", { INCID: ROWID }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                Emplogin = '@loginclass.EMP_ID';
+                Desiname = '@loginclass.DESI_NAME';
+                GET_INCIDENT_LIST(Emplogin, Desiname);
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function Incident_Edit(ROWID) {
+
+        $.post("@Url.Action("EditIncident", "Incident")", { INCID: ROWID }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                $("#AddIncident").show(100);
+                $("#ListView").hide(100);
+
+                $("#incid").val(data.INC_ID);
+                $("#inccatid option:selected").val(data.INC_CATEGORY);
+                $("#incdatetime").val(data.INC_DATE_TIME);
+                $("#inc_notify").val(data.INC_NOTIFY_BY);
+                $("#location option:selected").val(data.INC_LOC_ID);
+                $("#building option:selected").val(data.INC_BUIL_ID);
+                $("#sector option:selected").val(data.INC_SEC_ID);
+                $("#depart option:selected").val(data.INC_DEPART_ID);
+                $("#seclab option:selected").val(data.INC_SEC_LAB_ID);
+                $("#person").val(data.IS_PERSON_INVOLVED);
+                $("#fatality").val(data.IS_FATALITY);
+                $("#description").val(data.DESCRIPTION);
+                $("#reported").val(data.REPORTED_BY);
+                $("#inctype").val(data.INC_TYPE);
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function GET_LOCATION_LIST() {
+        ;
+        var Options = [];
+        virtual_Select("#location", '--@ADQCC_New.LocalResource.Resource.SelectLocation--');
+        $.post("@Url.Action("_GetLocationMasterSelect", "Masters")", function (data) {
+            $(data).each(function (i, e) {
+                if ('@loginclass.LANG_ID' == "ar") {
+                    var opt = {};
+                    opt["label"] = e.LOC_NAME_AR;
+                    opt["value"] = e.LOC_ID;
+                    Options.push(opt);
+                    //$("#location").append("<option value=" + e.LOC_ID + ">" + e.LOC_NAME_AR + "</option>");
+                }
+                else {
+                    var opt = {};
+                    opt["label"] = e.LOC_NAME;
+                    opt["value"] = e.LOC_ID;
+                    Options.push(opt);
+                    //$("#location").append("<option value=" + e.LOC_ID + ">" + e.LOC_NAME + "</option>");
+                }
+
+            });
+            document.querySelector("#location").setOptions(Options);
+        });
+    }
+    function GET_BUILDING_LIST(locid) {
+        ;
+        /* $("#building").empty();*/
+        var Options = [];
+        virtual_Select("#building", '--@ADQCC_New.LocalResource.Resource.SelectBuilding--');
+        $.post("@Url.Action("_GetBuildingMasterSelect", "Masters")", { LOCID: locid }, function (data) {
+
+    @*$("#building").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectBuilding--</option>");*@
+                $(data).each(function (i, e) {
+                    if ('@loginclass.LANG_ID' == "ar") {
+                        var opt = {};
+                        opt["label"] = e.BUIL_NAME_AR;
+                        opt["value"] = e.BUIL_ID;
+                        Options.push(opt);
+                        //$("#building").append("<option value=" + e.BUIL_ID + ">" + e.BUIL_NAME_AR + "</option>");
+                    } else {
+                        var opt = {};
+                        opt["label"] = e.BUIL_NAME;
+                        opt["value"] = e.BUIL_ID;
+                        Options.push(opt);
+                        //$("#building").append("<option value=" + e.BUIL_ID + ">" + e.BUIL_NAME + "</option>");
+
+                    }
+                });
+            document.querySelector("#building").setOptions(Options);
+        });
+    }
+    function GET_SECTOR_LIST() {
+        ;
+        var Options = [];
+
+        $.post("@Url.Action("_GetSectorMasterSelect", "Masters")", { BUILID: "0" }, function (data) {
+            //$("#sector").empty();
+            virtual_Select("#sector", '--@ADQCC_New.LocalResource.Resource.SelectSectorName--');
+    @*$("#sector").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectSectorName--</option>");*@
+                $(data).each(function (i, e) {
+                    if ('@loginclass.LANG_ID' == "ar") {
+                        var opt = {};
+                        opt["label"] = e.SEC_NAME_ARB;
+                        opt["value"] = e.SEC_ID;
+                        Options.push(opt);
+                        //$("#sector").append("<option value=" + e.SEC_ID + ">" + e.SEC_NAME_ARB + "</option>");
+                    } else {
+                        var opt = {};
+                        opt["label"] = e.SEC_NAME_EN;
+                        opt["value"] = e.SEC_ID;
+                        Options.push(opt);
+                        //$("#sector").append("<option value=" + e.SEC_ID + ">" + e.SEC_NAME_EN + "</option>");
+
+                    }
+                });
+            document.querySelector("#sector").setOptions(Options);
+        });
+    }
+    function GET_DEPARTMENT_LIST(secid) {
+        ;
+        //$("#depart").empty();
+        var Options = [];
+
+        $.post("@Url.Action("_GetDepartmentMasterSelect", "Masters")", { SECID: secid }, function (data) {
+
+            virtual_Select("#depart", '--@ADQCC_New.LocalResource.Resource.SelectDepartment--');
+    @*$("#depart").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectDepartment--</option>");*@
+                $(data).each(function (i, e) {
+                    if ('@loginclass.LANG_ID' == "ar") {
+                        var opt = {};
+                        opt["label"] = e.DEP_NAME_AR;
+                        opt["value"] = e.DEP_ID;
+                        Options.push(opt);
+                        //$("#depart").append("<option value=" + e.DEP_ID + ">" + e.DEP_NAME_AR + "</option>");
+                    } else {
+                        var opt = {};
+                        opt["label"] = e.DEP_NAME;
+                        opt["value"] = e.DEP_ID;
+                        Options.push(opt);
+                        //$("#depart").append("<option value=" + e.DEP_ID + ">" + e.DEP_NAME + "</option>");
+                    }
+                });
+            document.querySelector("#depart").setOptions(Options);
+        });
+    }
+
+    function GET_SECTION_LIST(depid) {
+        ;
+        //$("#seclab").empty();
+        var Options = [];
+        virtual_Select("#seclab", '--@ADQCC_New.LocalResource.Resource.SelectSection--');
+        $.post("@Url.Action("_GetSectionMasterSelect", "Masters")", { DEPID: depid }, function (data) {
+
+
+    @*$("#seclab").append("<option value='0'> --@ADQCC_New.LocalResource.Resource.SelectSection--</option>");*@
+                $(data).each(function (i, e) {
+                    if ('@loginclass.LANG_ID' == "ar") {
+                        var opt = {};
+                        opt["label"] = e.SEC_LAB_NAME_AR;
+                        opt["value"] = e.SEC_LAB_ID;
+                        Options.push(opt);
+                        //$("#seclab").append("<option value=" + e.SEC_LAB_ID + ">" + e.SEC_LAB_NAME_AR + "</option>");
+                    } else {
+                        var opt = {};
+                        opt["label"] = e.SEC_LAB_NAME;
+                        opt["value"] = e.SEC_LAB_ID;
+                        Options.push(opt);
+                        //$("#seclab").append("<option value=" + e.SEC_LAB_ID + ">" + e.SEC_LAB_NAME + "</option>");
+                    }
+                });
+            document.querySelector("#seclab").setOptions(Options);
+        });
+    }
+
+    function Incident_View(ROWID, SHOW) {
+        $("#AddIncident").hide();
+        $("#ListView").hide();
+        $("#PageView").show(100);
+        $("#DivViewVideo").html("");
+        $("#DivViewImage").html("");
+        $(".form-check-input").prop('checked', false);
+        if (SHOW == '0') {
+            $("#ReportableOrNot").hide();
+            $("#btn_Submit_UpdateIncident").hide();
+        }
+        else {
+            $("#ReportableOrNot").show();
+            $("#btn_Submit_UpdateIncident").show();
+        }
+        //var obj = {
+        //    INC_ID: ROWID
+        //}
+
+        //TempData["INC_ID"] = ROWID;
+
+        // Post request to fetch incident details
+        $.post("@Url.Action("_ViewIncident", "Incident")", { INC_ID: ROWID }, function (data) {
+            $(data).each(function (item, index) {
+                var loginclas = '@loginclass.LANG_ID';
+                debugger;
+                if (loginclas == "ar") {
+                    // Arabic Language Handling
+                    $(index.VIEW_INCIDENT_DETAILS).each(function (i, e) {
+                        $("#View_UNIQUE_ID").text(e.UNIQUE_ID);
+                        $("#View_INC_CAT_NAME").text(e.INC_CAT_NAME_AR);
+                        $("#View_INC_DATE_TIME").text(e.INC_DATE_TIME);
+                        $("#View_EMP_FIRSTNAME").text(e.EMP_NAME_AR);
+                        $("#view_LOC_NAME").text(e.LOC_NAME_AR);
+                        $("#View_BUIL_NAME").text(e.BUIL_NAME_AR);
+                        $("#View_SEC_NAME_EN").text(e.SEC_NAME_ARB);
+                        $("#View_DEP_NAME").text(e.DEP_NAME_AR);
+                        $("#View_SEC_LAB_NAME").text(e.SEC_LAB_NAME_AR);
+                        $("#Report_INC_ID").val(e.INC_ID);
+
+                        switch (e.REPORTED_BY) {
+                            case "1":
+                                $("#View_INC_CAT").text("@ADQCC_New.LocalResource.Resource.incEmployee");
+                                break;
+                            case "2":
+                                $("#View_INC_CAT").text("@ADQCC_New.LocalResource.Resource.incContractor");
+                                break;
+                            case "3":
+                                $("#View_INC_CAT").text("@ADQCC_New.LocalResource.Resource.incThirdParty");
+                                break;
+                            case "4":
+                                $("#View_INC_CAT").text("@ADQCC_New.LocalResource.Resource.EMRNoInjury");
+                                break;
+                            default:
+                                break;
+                        }
+
+                        handleIncidentStatus(e);
+                    });
+                } else {
+                    // Default Language Handling
+                    $(index.VIEW_INCIDENT_DETAILS).each(function (i, e) {
+                        $("#View_UNIQUE_ID").text(e.UNIQUE_ID);
+                        $("#View_INC_CAT_NAME").text(e.INC_CAT_NAME);
+                        $("#View_INC_DATE_TIME").text(e.INC_DATE_TIME);
+                        $("#View_EMP_FIRSTNAME").text(e.EMP_FIRSTNAME);
+                        $("#view_LOC_NAME").text(e.LOC_NAME);
+                        $("#View_BUIL_NAME").text(e.BUIL_NAME);
+                        $("#View_SEC_NAME_EN").text(e.SEC_NAME_EN);
+                        $("#View_DEP_NAME").text(e.DEP_NAME);
+                        $("#View_SEC_LAB_NAME").text(e.SEC_LAB_NAME);
+                        $("#Report_INC_ID").val(e.INC_ID);
+
+                        switch (e.REPORTED_BY) {
+                            case "1":
+                                $("#View_INC_CAT").text("@ADQCC_New.LocalResource.Resource.incEmployee");
+                                break;
+                            case "2":
+                                $("#View_INC_CAT").text("@ADQCC_New.LocalResource.Resource.incContractor");
+                                break;
+                            case "3":
+                                $("#View_INC_CAT").text("@ADQCC_New.LocalResource.Resource.incThirdParty");
+                                break;
+                            case "4":
+                                $("#View_INC_CAT").text("@ADQCC_New.LocalResource.Resource.EMRNoInjury");
+                                break;
+                            default:
+                                break;
+                        }
+
+                        handleIncidentStatus(e);
+                    });
+                }
+            });
+
+            // Handle Incident Type Details
+            $(data).each(function (Q, P) {
+                $(P.INCIDENT_TYPE_DETAILS).each(function (x, Y) {
+                    $("#" + Y.INCIDENT_TYPE_ID).prop("checked", true);
+                    if (Y.INCIDENT_TYPE_ID == "Safety_Property_Damage") {
+                        $("#ViewDivSafetyEquipmentID").show();
+                        $("#ViewSafetyEquipmentID").val(Y.SAFETY_EQUIPMENT_ID);
+                    }
+                    if (Y.INCIDENT_TYPE_ID == "Property_Damage") {
+                        $("#ViewDivEnEquipmentID").show();
+                        $("#ViewEnEquipmentID").val(Y.EN_EQUIPMENT_ID);
+                    }
+                });
+            });
+
+            // Handle Uploaded Photos
+            $(data).each(function (i, e) {
+                $(e.UPLOAD_PHOTO_LIST).each(function (x, Y) {
+                    $('<img />')
+                        .attr("src", Y.INC_PHOTO_PATH)
+                        .width("250px")
+                        .css("padding", "10px")
+                        .appendTo($("#DivViewImage"));
+                });
+            });
+
+            // Handle Uploaded Videos
+            $(data).each(function (a, b) {
+                $(b.UPLOAD_INC_VIDEO_LIST).each(function (c, d) {
+                    $("#DivViewVideo").append(
+                        `<iframe width="200" height="150" autoplay="false" src="${d.INC_VIDEO_PATH}"></iframe>`
+                    );
+                });
+            });
+
+            $("#UploadedFiles").show();
+            $("#ModalFiles").modal("toggle");
+        });
+
+        // Function to handle incident status
+        function handleIncidentStatus(e) {
+            if (e.INC_STATUS == "2") {
+                $("#EMRNonRepotable").prop("checked", true);
+                $("#btn_Submit_UpdateIncident").hide();
+                $("#DivReportableBy").hide();
+            } else if (e.INC_STATUS == "1") {
+                $("#btn_Submit_UpdateIncident").show();
+                $("input[type='radio']").prop("checked", false);
+                $("#DivReportableBy").hide();
+            } else {
+                $("#EMRRepotable").prop("checked", true);
+                $("#btn_Submit_UpdateIncident").hide();
+                $("#DivReportableBy").show();
+                GET_PERSION_LIST();
+                $("#ReportableBy").val(e.REPORTER_BY);
+            }
+        }
+    }
+
+
+    $('.btn_UpdateIncident').on('click', function () {
+        ;
+        var ROWID = $("#Report_INC_ID").val();
+        var varReportableBy = $("#ReportableBy").val();
+
+        if ($("input[name='Repotable_ReportedBy']").is(':checked')) {
+            var status_id = $('input[name="Repotable_ReportedBy"]:checked').val();
+            if (status_id == "3") {
+                if (varReportableBy == "0") {
+                    toastr.error("@ADQCC_New.LocalResource.Resource.SelecttheEmployee", "@ADQCC_New.LocalResource.Resource.Error");
+                    $("#ReportableBy").focus();
+                    return false;
+                }
+            }
+            $.post("@Url.Action("_UpdateIncidentStatus", "Incident")", { INC_ID: ROWID, INC_STATUS: status_id, REPORTER_BY: varReportableBy }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                    //GET_INCIDENT_LIST();
+
+                    window.location.reload();
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            });
+        }
+        else {
+            toastr.error("@ADQCC_New.LocalResource.Resource.EMRPleaseSelectReporttheIncident", "@ADQCC_New.LocalResource.Resource.Error");
+        }
+    });
+
+
+    function Incident_Invest_PDF(INC_ID) {
+        ;
+        $.post("@Url.Action("InvesticationReport", "Reporter")", { INC_ID: INC_ID, IsEdit: '0' }, function (data) {
+            ;
+            window.open("../" + data, '_blank');
+        });
+    }
+
+    function Incident_Invest_PDF_AR(INC_ID) {
+        ;
+        $.post("@Url.Action("InvesticationReportAR", "Reporter")", { INC_ID: INC_ID, IsEdit: '0' }, function (data) {
+            ;
+            window.open("../" + data, '_blank');
+        });
+    }
+
+    function fnReportable(ReportStatus) {
+        ;
+        if (ReportStatus == 'Reportable') {
+            $("#DivReportableBy").show();
+            GET_PERSION_LIST();
+        }
+        else {
+            $("#DivReportableBy").hide();
+        }
+    }
+
+    function GET_PERSION_LIST() {
+        ;
+        $("#ReportableBy").empty();
+        $("#ReportableBy").append("<option value='0'> -- @ADQCC_New.LocalResource.Resource.EMRReporterBy --</option>");
+        $.post("@Url.Action("GetReporterBy", "Incident")", function (data) {
+            $(data).each(function (i, e) {
+                if ('@loginclass.LANG_ID' == "ar") {
+                    $("#ReportableBy").append("<option value=" + e.REPORTER_BY + ">" + e.EMP_NAME_AR + "</option>");
+                }
+                else {
+                    $("#ReportableBy").append("<option value=" + e.REPORTER_BY + ">" + e.EMPLOYEE_NAME + "</option>");
+                }
+
+            });
+        });
+    }
+
+    function FunctionHelp() {
+        window.open('@Url.Action("IncidentNotificationHelpDoc", "Incident")');
+    }
+
+    function virtual_Select(id, placeholder) {
+        VirtualSelect.init({
+            ele: id,
+            placeholder: placeholder,
+            search: true,
+
+        });
+    }
+
+    function FncharsString(val) {
+        ;
+
+        var cls = "." + val;
+        var txtCharCountLength = $(cls).val().replace(/\s+/g, '').length;
+
+        if (txtCharCountLength <= 7500) {
+            var remainingChar = 7500 - txtCharCountLength;
+            $(".remainingC").html(remainingChar);
+
+        }
+    }
+
+</script>

@@ -1,0 +1,133 @@
+FI.script.requireAndDefine('jquery', 'json2', 'mustache').requires('jquery', 'json2', 'mustache', 'cookie', 'fi.util').define('fi.bookmarks', function () {
+    !(function (fi, $, _) {
+        'use strict';
+
+        if (typeof fi.widgets === 'undefined') {
+            fi.widgets = {};
+        }
+
+        fi.widgets.Bookmarks = function (element, options) {
+            this.$element = $(element);
+            this.$page = $('article.page, div.page');
+            this.options = $.extend(true, {}, options);
+            this.$element.find('.remove-bookmarks').click($.proxy(this._removeBookmark, this));
+
+            // add bookmark
+            //if ($('span.welcome-member') != undefined && $('span.welcome-member').length > 0) {
+            //    this.$page.find('h1.main-title').append($('<a style="display:none;" href="#" data-itemid class="add-bookmark" title="Add to your bookmark"></a>'));
+            //    this.addressBook = this.$page.find('.add-bookmark').click($.proxy(this._addBookmark, this));
+            //    this._init();
+            //}
+
+            this.$page.find('h1.main-title, div.main-title').append($('<a href="javascript:;" data-itemid class="add-bookmark" title="Add to your bookmark"></a>'));
+            this.addressBook = this.$page.find('.add-bookmark').click($.proxy(this._addBookmark, this));
+            this._init();
+        };
+
+        fi.widgets.Bookmarks.prototype = {
+            constructor: fi.widgets.Bookmarks,
+            _init: function () {
+                var slug = this.$page.attr('data-url-slug');
+                if (slug == undefined) {
+                    slug = '';
+                }
+
+                fi.DS.getData('ExistBookmark', {
+                    slug: slug
+                }, $.proxy(this._existBookmarkHandler, this));
+
+            },
+            _existBookmarkHandler: function (r) {
+                if (r && r.code === 200) {
+                    if (r.status == 'F') {
+                        this.addressBook.addClass('marked');
+                        this.addressBook.attr('data-itemid', r.itemId);
+                        this.addressBook.attr('title', 'Remove from your bookmark');
+                    }
+                }
+            },
+            _addBookmark: function (ev) {
+                ev.preventDefault();
+                this.addressBook.addClass('loading');
+
+                var el = $(ev.currentTarget);
+                if (el.hasClass('disabled')) { return false; }
+                $(el).addClass('marked');
+                var slug = this.$page.attr('data-url-slug');
+                var title = $(this.$page.find('.service-title')).length == 0 ? this.$page.find('.main-title') : this.$page.find('.service-title');
+                var itemType = this.$page.attr('data-item-type');
+
+                fi.DS.getData('AddBookmark', {
+                    languageId: FI.languageId,
+                    languageCode: FI.languageCode,
+                    title: title.text().trim(),
+                    slug: slug,
+                    itemType: itemType
+                }, $.proxy(this._addSuccessHandler, this, el));
+            },
+            _addSuccessHandler: function (el, r) {
+                if (r && r.code === 200) {
+                    if (r.action == 'C') {
+                        $(el).addClass('marked');
+                        $(el).attr('data-itemid', r.id);
+                        $(el).attr('title', 'Remove from your bookmark');
+
+                        $('.user-login-bookmark').html(r.items);
+                        $('.user-login-bookmark').find('.remove-bookmarks').click($.proxy(this._removeBookmark, this));
+                    } else {
+                        $('div.bookmarks div.user-login-bookmark ul li[data-itemid=' + r.id + ']').remove();
+                        $(el).removeClass('marked');
+                        $(el).attr('data-itemid', '');
+                        $(el).attr('title', 'Add to your bookmark');
+                    }
+                    this.addressBook.removeClass('loading');
+                }
+            },
+            _removeBookmark: function (ev) {
+                ev.preventDefault();
+                var el = $(ev.currentTarget);
+                if (el.hasClass('disabled')) { return false; }
+                var bookmarkId = el.data('bookmarkid');
+                fi.DS.getData('RemoveBookmark', {
+                    bookmarkId: bookmarkId
+                }, $.proxy(this._removeSuccessHandler, el));
+
+            },
+            _removeSuccessHandler: function (r) {
+                if (r && r.code === 200) {
+                    $(this).parent().remove();
+
+                    var rmItem = $('.add-bookmark[data-itemid=' + r.id + ']');
+                    rmItem.removeClass('marked');
+                    rmItem.attr('data-itemid', '');
+                    rmItem.attr('title', 'Add to your bookmark');
+                }
+            },
+            _disable: function (el) {
+                el.addClass('disabled');
+            },
+        };
+
+        $.fn.bookmarks = function (options) {
+            return this.each(function () {
+                var el = $(this),
+                    data = el.data('bookmarks'),
+                optApi = {
+                    cookieName: '',
+                    refid: '',
+                    reftype: el.data('reftype'),
+                    showlabel: el.data('showlabel'),
+                    currentTarget: undefined
+                };
+
+                data = new fi.widgets.Bookmarks(el, $.extend(true, options, optApi));
+                el.data('bookmarks', data);
+            });
+        };
+
+        $(function () {
+            $('[data-toggle="bookmarks"]').bookmarks();
+        });
+
+    }(FI, jQuery, Mustache));
+});

@@ -1,0 +1,386 @@
+﻿@model IReadOnlyCollection<ADQCC_New.Models.Masters.DESIGNATION_MASTER>;
+@{
+    ViewData["Title"] = "Designation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+<div class="page-content">
+    <div class="row" id="AddDesignation" style="display:none;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            @if (Model != null)
+                            {
+                                @* if (loginclass.LANG_ID == "bo")
+                                {
+                                    <div class="row">
+                                        <h6 class="mb-0 text-uppercase col-lg-9 ">ADD DESIGNATION</h6>
+                                        <h6 class="mb-0 text-uppercase col-lg-3">أضف التوصيف</h6>
+                                    </div>
+
+                                }
+                                else
+                                { *@
+                                    <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.ADDDESIGNATION</h6>
+                                @* } *@
+                            }
+                        </div>
+                        <div class="col-lg-3">
+                            <button style="float: right;" id="back_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="p-4 border rounded">
+                        <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8">
+                            <div class="row">
+                                <div class="form-group col-md-4" style="display:none;">
+                                    <input type="hidden" id="DesignationId" value="" />
+                                    <label>@ADQCC_New.LocalResource.Resource.DesignationID <span class="red">*</span></label>
+                                    <input type="text" id="View_DesignationId" name="View_desi_id" value="" class="form-control" disabled="" style="background-color:#eee;">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>@ADQCC_New.LocalResource.Resource.DesignationName <span class="red">*</span></label>
+                                    <input type="text" id="DesignationName_EN" minlen="1" maxlength="1000" data-toggle="tooltip" title="Alphabets Only" name="desi_name_en" value="" class="form-control alpha" autocomplete="off">
+                                </div>
+                                <div class="form-group col-md-6" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.DesignationNameAR <span class="red">*</span></label>
+                                    <input type="text" id="DesignationName_ARB" name="desi_name_arb" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="button" id="Add_Designation" class="btn btn-primary">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+                <br />
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (loginclass.LANG_ID == "bo")
+                                    {
+                                        <div class="row">
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-9">Designation </h5>
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-3">تعيين</h5>
+                                        </div>
+
+                                    }
+                                    else
+                                    { *@
+                                        <h3 class="d-flex align-items-center mb-3">@ADQCC_New.LocalResource.Resource.Designation</h3>
+                                    @* } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="Add_btn" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.ADDDESIGNATION</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="Designationtable" class="table table-striped table-bordered">
+                                    <thead>
+                                        @if (Model != null)
+                                        {
+                                                @* switch (loginclass.LANG_ID)
+                                            {
+                                                case "ar":
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle" style="width: 249.5px;" class="sorting_desc" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-sort="descending" aria-label="Location ID: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.DesignationID</th>
+                                                        <th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Location Name: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.DesignationNameAR</th>
+                                                        <th align="left" valign="middle" style="width: 275.016px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.Date</th>
+                                                        <th align="left" valign="middle" style="width: 173.266px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+                                                    break;
+                                                case "en":
+                                                    <tr style="background: #916d2a; color: white;">
+                                                        <th align="left" valign="middle" style="width: 249.5px;" class="sorting_desc" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-sort="descending" aria-label="Location ID: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.DesignationID</th>
+                                                        <th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Location Name: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.DesignationName </th>
+                                                        <th align="left" valign="middle" style="width: 275.016px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.Date</th>
+                                                        <th align="left" valign="middle" style="width: 173.266px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">@ADQCC_New.LocalResource.Resource.Action</th>
+                                                    </tr>
+                                                    break;
+                                                default: *@
+                                                <tr style="background: #916d2a; color: white;">
+                                                    <th align="left" valign="middle" style="width: 249.5px;" class="sorting_desc" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-sort="descending" aria-label="Location ID: activate to sort column ascending">ID<span class="pull-right">هوية شخصية</span></th>
+                                                    <th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Location Name: activate to sort column ascending">Designation Name <span class="pull-right">اسم التعيين</span></th>
+                                                    <th align="left" valign="middle" style="width: 310.219px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Location Name: activate to sort column ascending">Designation Name AR<span class="pull-right">اسم التعيين عربي</span></th>
+                                                    <th align="left" valign="middle" style="width: 275.016px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Created Date: activate to sort column ascending">Date<span class="pull-right">تاريخ</span></th>
+                                                    <th align="left" valign="middle" style="width: 173.266px;" class="sorting" tabindex="0" aria-controls="table1" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending">Action<span class="pull-right">عمل</span></th>
+                                                </tr>
+                                                @* break;
+                                            } *@
+                                        }
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td onclick="return View_Designation(@item.DESI_ID)">@item.UNIQUE_ID </td>
+                                                    <td onclick="return View_Designation(@item.DESI_ID)">@item.DESI_NAME_EN </td>
+                                                    <td onclick="return View_Designation(@item.DESI_ID)">@item.DESI_NAME_ARB </td>
+                                                    <td onclick="return View_Designation(@item.DESI_ID)">@item.CREATED_DATE </td>
+                                                    <td>
+                                                        <a id="Edit_Designation" onclick="return Edit_Designation(@item.DESI_ID)" title="Edit"><img src="~/Content/assets/img/gridicons/edit.png" /></a>
+                                                        <a id="View_Designation" onclick="return View_Designation(@item.DESI_ID)" title="View"><img src="~/Content/assets/img/gridicons/view.png" /> </a>
+                                                        <a id="Delete_Designation" onclick="return Delete_Designation(@item.DESI_ID)" title="Delete"><img src="~/Content/assets/img/gridicons/delete.png" /></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#AddDesignation").hide();
+        $("#ListView").show();
+        GET_DESIGNATION_LIST();
+
+        $("#back_btn").on('click', function () {
+            $("#AddDesignation").hide(100);
+            $("#ListView").show(100);
+
+            $("#DesignationId").val("");
+            $("#DesignationName_EN").val("");
+            $("#DesignationName_ARB").val("");
+            $("#View_DesignationId").val("");
+
+            $("#DesignationName_EN").removeAttr('disabled', 'disabled');
+            $("#DesignationName_ARB").removeAttr('disabled', 'disabled');
+
+        });
+
+        $("#btnclear").on('click', function () {
+            ClearFileds();
+
+
+        });
+
+        $("#Add_Designation").on('click', function () {
+            Add_Designation();
+
+        });
+
+        $("#Add_btn").on('click', function () {
+            $("#Add_Designation").show();
+            $("#ListView").hide(100);
+            $("#AddDesignation").show(100);
+            ClearFileds();
+        });
+    });
+
+    function GET_DESIGNATION_LIST() {
+        $("#Designationtable").dataTable().fnDestroy();
+        $("#AddDesignation").hide();
+        $("#ListView").show();
+        $.post("@Url.Action("_GetDesignation", "Masters")", function (data) {
+            $("#GetDesignationList").html('');
+            $("#GetDesignationList").html(data);
+        });
+
+    }
+
+    function Add_Designation() {
+        ;
+        var vardesiid = $("#DesignationId").val();
+        var vardesiNameEN = $("#DesignationName_EN").val();
+        var vardesiNameARB = $("#DesignationName_ARB").val();
+
+        if (vardesiNameEN == "") {
+            toastr.error("@ADQCC_New.LocalResource.Resource.toastenterdesignationname", "@ADQCC_New.LocalResource.Resource.Error");
+            $("#DesignationName_EN").focus();
+            return false;
+        }
+        if (vardesiNameARB == "") {
+            toastr.error("@ADQCC_New.LocalResource.Resource.toastenterdesignationnamearb", "@ADQCC_New.LocalResource.Resource.Error");
+            $("#DesignationName_ARB").focus();
+            return false;
+        }
+        if (vardesiid == "") {
+            vardesiid = "0";
+        }
+        var model = {
+            DESI_ID: vardesiid,
+            DESI_NAME_EN: vardesiNameEN,
+            DESI_NAME_ARB: vardesiNameARB
+        };
+
+        $.ajax({
+            url: '@Html.Raw(@Url.Action("AddDesignation", "Masters"))',
+            type: "POST",
+            cache: false,
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                    GET_DESIGNATION_LIST();
+                    clearfields();
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            }
+            // error: ajaxErrHandler
+        });
+    }
+
+    function clearfields() {
+        $("#DesignationId").val("");
+        $("#DesignationName_EN").val("");
+        $("#DesignationName_ARB").val("");
+    }
+    function Delete_Designation(DESIID) {
+        var DELETE = confirm("Are you sure you want to delete");
+        if (DELETE == true) {
+            $.post("@Url.Action("DeleteDesignation", "Masters")", { DESIID: DESIID }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                } else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+                GET_DESIGNATION_LIST();
+            });
+        }
+    }
+    function Edit_Designation(DESIID) {
+        ;
+        $("#Add_Designation").show();
+        $.post("@Url.Action("EditDesignation", "Masters")", { DESIID: DESIID }, function (data) {
+            ;
+            if (data.STATUS_CODE == "200") {
+
+                $("#AddDesignation").show(100);
+                $("#ListView").hide(100);
+                $("#DesignationId").val(data.DESI_ID);
+                $("#View_DesignationId").val(data.UNIQUE_ID);
+                $("#DesignationName_EN").val(data.DESI_NAME_EN);
+                $("#DesignationName_ARB").val(data.DESI_NAME_ARB);
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function View_Designation(DESIID) {
+        $("#Add_Designation").hide();
+        $.post("@Url.Action("EditDesignation", "Masters")", { DESIID: DESIID }, function (data) {
+            if (data.STATUS_CODE == "200") {
+
+                $("#AddDesignation").show(100);
+                $("#ListView").hide(100);
+
+                $("#View_DesignationId").val(data.UNIQUE_ID)
+                $("#DesignationName_EN").val(data.DESI_NAME_EN).attr('disabled', 'disabled');
+                $("#DesignationName_ARB").val(data.DESI_NAME_ARB).attr('disabled', 'disabled');
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function ClearFileds() {
+        $("#DesignationId").val("");
+        $("#DesignationName_EN").val("");
+        $("#DesignationName_ARB").val("");
+        $("#View_DesignationId").val("");
+    }
+    function FunctionHelp() {
+        ;
+        window.open('@Url.Action("DesignationHelpDoc", "Masters")');
+    }
+    function CheckArabicOnly(field) {
+        var sNewVal = "";
+        var sFieldVal = field.value;
+
+        for (var i = 0; i < sFieldVal.length; i++) {
+            var ch = sFieldVal.charAt(i),
+                c = ch.charCodeAt(0);
+
+            if (field.keyCode = '38') {
+            }
+            else if (field.keyCode = '40') {
+                // down arrow
+            }
+            else if (field.keyCode = '37') {
+            }
+            else if (field.keyCode = '39') {
+                // right arrow
+            }
+
+            if (c < 1536 || c > 1791) {
+                // Discard
+            }
+            else {
+                sNewVal += ch;
+            }
+        }
+        field.value = sNewVal;
+    }
+</script>
+
+

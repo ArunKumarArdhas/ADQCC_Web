@@ -1,0 +1,1029 @@
+﻿@using ADQCC_New.Models;
+@using Microsoft.AspNetCore.Http;
+@using System.Globalization
+@using System.Threading;
+@using Newtonsoft.Json;
+@using static ADQCC_New.Common.CommonClass;
+@inject IHttpContextAccessor HttpContextAccessor;
+@* @{
+    ViewBag.Title = "_PartialMenu_Arabic";
+    Layout = null;
+    var loginclass = (GET_USER_DETAILS)Session["objloginClass"];
+} *@
+@{
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("Login");
+    string Des = Decrypt(str!);
+    GET_USER_DETAILS loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+
+@*<style>
+        .pull-right-container {
+            position: absolute !important;
+            right: 218px !important;
+            top: 0% !important;
+            margin-top: -7px !important;
+        }
+    </style>*@
+
+
+<style>
+    .sidebar-wrapper .metismenu a {
+        color: #efc733 !important;
+    }
+</style>
+
+@if (loginclass != null)
+{
+<ul class="metismenu" id="menu">
+    <!-- #region [DASHBOARD] -->
+    @if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN" || loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Director" || loginclass.DESI_NAME == "Section Head")
+    {
+
+        <li>
+            <a href="@Url.Action("AdminDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                <div class="parent-icon">
+                    <i class='bx bx-home'></i>
+                </div>
+                <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Dashboard</div>
+            </a>
+        </li>
+    }
+    else
+    {
+        if (loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "Organizer")
+        {
+            <li>
+                <a href="@Url.Action("TrainingEmployeeDashboard", "TrainingManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-home'></i>
+                    </div>
+                    <div class="menu-title">@ADQCC_New.LocalResource.Resource.Dashboard</div>
+                </a>
+            </li>
+        }
+    }
+    <!-- #endregion -->
+    <!-- #region [MASTERS] -->
+    @if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN")
+    {
+        <li class="menu-label">@ADQCC_New.LocalResource.Resource.OperatingManagment</li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon">
+                    <i class='bx bx-grid-alt'></i>
+                </div>
+                <div class="menu-title">@ADQCC_New.LocalResource.Resource.Masters</div>
+            </a>
+            <ul>
+                <li><a href="@Url.Action("LocationMaster", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.LocationNew</a></li>
+                <li><a href="@Url.Action("BuildingMaster", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.BuildingNew</a></li>
+                <li><a href="@Url.Action("SectorType", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.SectorTypeNew</a></li>
+                <li><a href="@Url.Action("Sector", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.Sectormenu</a></li>
+                <li><a href="@Url.Action("DepartmentMaster", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.DepartmentNew</a></li>
+                <li><a href="@Url.Action("SectionLabMaster", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.SectionLabNew</a></li>
+                <li><a href="@Url.Action("Designation", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.Designation</a></li>
+                <li><a href="@Url.Action("EmergencyTypeMaster", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.MasEmergencyTypeMenu</a></li>
+                <li><a href="@Url.Action("Barometer", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.SetTarget</a></li>
+                <li><a href="@Url.Action("LTFR_CALCULATION", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.LTFRCalculation</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon">
+                    <i class='bx bx-user-circle'></i>
+                </div>
+                <div class="menu-title">Employee Details</div>
+            </a>
+            <ul>
+                <li>
+                    <a href="@Url.Action("Index", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>Add / Edit Employee </a>
+                </li>
+
+            </ul>
+        </li>
+        @*<li>
+            <a href="@Url.Action("CovidMailNotification", "Masters", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                <div class="parent-icon">
+                    <i class='bx bx-mail-send'></i>
+                </div>
+                <div class="menu-title">Mail Template</div>
+            </a>
+        </li>*@
+    }
+    <!-- #endregion -->
+    <!--#region [INCIDENT MANAGEMENT]-->
+    @if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "Director" || loginclass.DESI_NAME == "Employee")
+    {
+        <li class="menu-label" style="font-size: 25px;">@ADQCC_New.LocalResource.Resource.EMRIncidentManagement</li>
+        <li>
+            <a class="" href="@Url.Action("IncidentDetails", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                <div class="parent-icon">
+                    <i class='bx bx-notification'></i>
+                </div>
+                <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.incNotification</div>
+            </a>
+        </li>
+        if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "Director")
+        {
+            @*<li>
+                    <a class="" href="@Url.Action("IncidentDetails", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-notification'></i>
+                        </div>
+                        <div class="menu-title">@ADQCC_New.LocalResource.Resource.incNotification</div>
+                    </a>
+                </li>*@
+            <li>
+                <a class="" href="@Url.Action("IncidentIvestigation", "Investigation", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-infinite'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.incIncidentInvestigation</div>
+                </a>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "EHS Manager" || loginclass.DESI_NAME == "HSSE Manager")
+        {
+            if (loginclass.DESI_NAME == "Employee")
+            {
+                @*<li>
+                        <a class="" href="@Url.Action("IncidentDetails", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                            <div class="parent-icon">
+                                <i class='bx bx-notification'></i>
+                            </div>
+                            <div class="menu-title">@ADQCC_New.LocalResource.Resource.incNotification</div>
+                        </a>
+                    </li>*@
+                <li>
+                    <a class="" href="@Url.Action("IncidentIvestigation", "Investigation", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-infinite'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.incIncidentInvestigation</div>
+                    </a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("EHSAlertEmployee", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-bell'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.EMRIncidentAlertmenu</div>
+                    </a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("CorrectiveActionInvest", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-folder-plus'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.EMRPreventiveAction</div>
+                    </a>
+                </li>
+            }
+        }
+    }
+    <!--#endregion-->
+    <!-- #region [EMERGENCY MANAGEMENT] -->
+    @if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Director" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "Department Manager")
+    {
+        <li class="menu-label" style="font-size: 25px;">@ADQCC_New.LocalResource.Resource.EmergencyManagement</li>
+        if (loginclass.DESI_NAME != "Employee" || loginclass.DESI_NAME == "ADMIN")
+        {
+            <li>
+                <a class="" href="@Url.Action("EmergencyDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-hourglass'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Dashboard</div>
+                </a>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "ADMIN")
+        {
+            <li>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon">
+                        <i class="bx bx-grid-alt"></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Masters</div>
+                </a>
+                <ul>
+                    <li><a href="@Url.Action("EMRICActMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.ImmediateCause</a></li>
+                    <li><a href="@Url.Action("EMRICUCMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.ICunsafeConditions</a></li>
+                    <li><a href="@Url.Action("EMRRCPFMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RootCausesPersonalfactor</a></li>
+                    <li><a href="@Url.Action("EMRRCSFMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RootCauseSystemfactor</a></li>
+                    <li><a href="@Url.Action("EMR_RC_METHOD", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.EMRRootCauseMethodmenu</a></li>
+                    <li><a href="@Url.Action("EMRRCENVironmentMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.EMRRootCauseEnvironmentmenu</a></li>
+                    <li><a href="@Url.Action("EMRRCMaterialMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.EMRRootCauseMaterialmenu</a></li>
+                    <li><a href="@Url.Action("EMRNIIMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.NatureofInjuryIllness</a></li>
+                    <li><a href="@Url.Action("EMRMIIMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.MechanismInjuryIllness</a></li>
+                    <li><a href="@Url.Action("EMRAIIMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.emrAgencySourceInjuryIllness</a></li>
+                    <li><a href="@Url.Action("EMRINCDTCAMaster", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.emrIncidentCauseAnalysis</a></li>
+                    <li><a href="@Url.Action("IncidentCategory", "Emergency",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.emrIncidentCategory</a></li>
+                    <li><a href="@Url.Action("DrillManagement", "DrillManagement", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.DRDrillTypelabel</a></li>
+                    <li><a href="@Url.Action("DrillManagementChecklist", "DrillManagement", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.DRDrillTypeChecklistmenu</a></li>
+                    <li><a href="@Url.Action("DisasterType", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.EMRDisasterTypeMenu</a></li>
+
+                </ul>
+            </li>
+        }
+
+        if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN")
+        {
+            <li>
+                <a class="" href="@Url.Action("EmergencyTeam", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-user-voice'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.EMREmergencyTeam</div>
+                </a>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "Department Manager")
+        {
+            <li>
+                <a class="" href="@Url.Action("EmergencyTeamActivate", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-album'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.EMREmergencyTeamActivate</div>
+                </a>
+            </li>
+        }
+
+        if (loginclass.DESI_NAME == "Employee")
+        {
+            <li>
+                <a class="" href="@Url.Action("EmergencyTeamMembers", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class=' bx bx-duplicate'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.DREmergencyMembermenu</div>
+                </a>
+            </li>
+            <li>
+                <a class="" href="@Url.Action("EMR_ADD_TASK", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-columns'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.DREmergencyMemAdditionalTask</div>
+                </a>
+            </li>
+            <li>
+                <a class="" href="@Url.Action("Drill_Assigned_Task", "DrillManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-book'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.DRDrillTaskmenu</div>
+                </a>
+            </li>
+
+        }
+
+        if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "Department Manager")
+        {
+
+            <li>
+                <a class="" href="@Url.Action("DrillManagementIndex", "DrillManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-detail'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.DRDrillPlan</div>
+                </a>
+            </li>
+
+        }
+        @*if (loginclass.DESI_NAME == "Employee")
+            {
+                <li>
+                    <a class="" href="@Url.Action("Drill_Assigned_Task", "DrillManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title">@ADQCC_New.LocalResource.Resource.DRDrillTaskmenu</div>
+                    </a>
+                </li>
+            }*@
+
+        @*if (loginclass.DESI_NAME == "Employee")
+            {
+                <li>
+                    <a class="" href="@Url.Action("Drill_Assigned_Task", "DrillManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title">@ADQCC_New.LocalResource.Resource.DRDrillTaskmenu</div>
+                    </a>
+                </li>
+            }*@
+    }
+
+    <!-- #endregion -->
+     #region [TRAINING MANAGEMENT]
+    <li class="menu-label" style="font-size: 25px;">@ADQCC_New.LocalResource.Resource.TMTrainingManagement</li>
+        @if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "HSSE Team")
+        {
+            <li>
+                    <a href="@Url.Action("TrainingDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-home'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.TMTrainingDashboard</div>
+                    </a>
+                </li>
+            <li>
+                <a href="@Url.Action("TrainingDashboardNew", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-home'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.TMTrainingDashboard</div>
+                </a>
+            </li>
+        }
+        @if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "HSSE Team")
+        {
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-grid-alt'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Masters</div>
+                </a>
+                <ul>
+                    @if (loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "HSSE Manager")
+                    {
+                        <li><a href="@Url.Action("TrainingCreation", "TrainingManagement", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.TMTrainingCreation</a></li>
+                    }
+                    @if (loginclass.DESI_NAME == "HSSE Team")
+                    {
+                        <li><a href="@Url.Action("TrainingMatrix", "TrainingManagement", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.TMmenuTrainingToDesignation</a></li>
+                    }
+                </ul>
+            </li>
+        }
+        @if (loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Organizer" || loginclass.DESI_NAME == "Employee")
+        {
+
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-grid-alt'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.TMAssign</div>
+                </a>
+                <ul>
+                    <li>
+                        <a href="@Url.Action("AssignTrainingToEmployee", "TrainingManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                            <div class="parent-icon">
+                                <i class='bx bx-user-check'></i>
+                            </div>
+                            <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.TMTrainingToEmployee</div>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </li>
+        }
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon">
+                    <i class='bx bx-grid-alt'></i>
+                </div>
+                <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.TMEvaluationFormmenu</div>
+            </a>
+            <ul>
+                <li>
+                    <a href="@Url.Action("EmployeeEvaluation", "TrainingManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-paste'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.TMEvaluationFormmenu</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+     #endregion 
+    <!-- #region  [DOCUMENT MANAGEMENT] -->
+    @*@if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN" || loginclass.DESI_NAME == "HSSE Manager")
+        {
+            <li class="menu-label">@ADQCC_New.LocalResource.Resource.DocDocumentManagement</li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-grid-alt'></i>
+                    </div>
+                    <div class="menu-title">@ADQCC_New.LocalResource.Resource.Masters</div>
+                </a>
+                <ul>
+                    <li><a href="@Url.Action("DocumentCategoryMaster", "IMSCommonDocuments", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.DCMDocumentCategoryMaster</a></li>
+                    <li><a href="@Url.Action("IMS_COMMON_DOCUMENT", "IMSCommonDocuments", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.DCDocumentControl</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-dock-right'></i>
+                    </div>
+                    <div class="menu-title">@ADQCC_New.LocalResource.Resource.IMSDocuments</div>
+                </a>
+                <ul>
+                    <li><a href="@Url.Action("DocumentControl", "Document", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.DocmenuIMSDocument</a></li>
+                    <li><a href="@Url.Action("ServiceDocument", "Document", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.DocmenuServiceDocument</a></li>
+                    <li><a href="@Url.Action("Index", "Participation", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.CommunicationParticipation</a></li>
+                    <li><a href="@Url.Action("Index", "Policy", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.IMSPolicy</a></li>
+                    <li><a href="@Url.Action("IMS_Targets_Objectives", "Document", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.IMSObjectives</a></li>
+                    <li><a href="@Url.Action("WasteManagement", "ImsProcedure", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>Waste Management</a></li>
+
+                </ul>
+            </li>
+        }*@
+    <!-- #endregion -->
+    <!-- #region [AUDIT MANAGEMENT] -->
+    @if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN" || loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Line Manger" || loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "Section Head")
+    {
+        <li class="menu-label" style="font-size: 25px;">@ADQCC_New.LocalResource.Resource.AMAuditmanagementmenu</li>
+
+
+        if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN")
+        {
+            @*<li id="AuditMenuSubmenu2" class="Remove"><a href="@Url.Action("AuditDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i> @ADQCC_New.LocalResource.Resource.AMAuditDashboard </a></li>*@
+            <li>
+                <a href="@Url.Action("AuditDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-home'></i>
+                    </div>
+                    <div class="menu-title" style="font-size:16PX;">@ADQCC_New.LocalResource.Resource.AMAuditDashboard</div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-grid-alt'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Masters</div>
+                </a>
+                <ul>
+                    <li><a href="@Url.Action("AuditType", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.AMAuditTypemenu</a></li>
+                    <li><a href="@Url.Action("StandardAudit", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.AuditStandardmenu</a></li>
+                    <li><a href="@Url.Action("StandardClause", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.AMStandardSubChecklistTypemenu</a></li>
+                    <li><a href="@Url.Action("StandardChecklist_DataType", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.AMAuditChecklists</a></li>
+                </ul>
+            </li>
+
+
+        }
+        if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "EHS Manager" || loginclass.DESI_NAME == "Line Manger" || loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "Section Head")
+        {
+            @*<li class="treeview Remove" id="AuditMenuSubmenu9">
+                <a href="#"><i class="fa fa-circle-o"></i><span><span>@ADQCC_New.LocalResource.Resource.AMAudit</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></span></a>
+                <ul class="sub treeview-menu Remove" id="AuditMenuSubmenu10">*@
+
+            if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "HSSE Team")
+            {
+                <li>
+                    <a class="" href="@Url.Action("AuditDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-detail'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMAuditDashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("AuditPlanList", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMAuditPlan</div>
+                    </a>
+                </li>
+                @*<li id="AuditMenuSubmenu2" class="Remove"><a href="@Url.Action("AuditDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i> @ADQCC_New.LocalResource.Resource.AMAuditDashboard </a></li>
+                    <li class="Remove" id="AuditMenuSubmenu11"><a href="@Url.Action("AuditPlanList", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i> @ADQCC_New.LocalResource.Resource.AMAuditPlan</a></li>*@
+
+            }
+
+
+            if (loginclass.DESI_NAME == "HSSE Manager")
+            {
+                <li>
+                    <a class="" href="@Url.Action("AuditReport", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMAuditReport</div>
+                    </a>
+                </li>
+                @*<li class="Remove" id="AuditMenuSubmenu12"><a href="@Url.Action("AuditReport", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i>@ADQCC_New.LocalResource.Resource.AMAuditReport</a></li>*@
+            }
+            if (loginclass.DESI_NAME == "Employee")
+            {
+                <li>
+                    <a class="" href="@Url.Action("AuditorAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMAuditList</div>
+                    </a>
+                </li>
+                <li>
+                    <a class="" href="@Url.Action("CorrectiveAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMCorrectiveActionmenu</div>
+                    </a>
+                </li>
+
+
+                @*<li id="AuditMenuSubmenu14" class="Remove"><a href="@Url.Action("AuditorAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i>@ADQCC_New.LocalResource.Resource.AMAuditList</a></li>*@
+                @*<li id="AuditMenuSubmenu13" class="Remove"><a href="@Url.Action("CorrectiveAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i>@ADQCC_New.LocalResource.Resource.AMCorrectiveActionmenu</a></li>*@
+
+            }
+            if (loginclass.DESI_NAME == "Section Head")
+            {
+                <li>
+                    <a class="" href="@Url.Action("AuditeeAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMAuditeeAction</div>
+                    </a>
+                </li>
+
+                @*<li class="Remove" id="AuditMenuSubmenu12"><a href="@Url.Action("AuditeeAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i>@ADQCC_New.LocalResource.Resource.AMAuditeeAction</a></li>*@
+                @*<li id="AuditMenuSubmenu15" class="Remove"><a href="@Url.Action("CorrectiveAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i>@ADQCC_New.LocalResource.Resource.AMCorrectiveActionmenu</a></li>*@
+                @*<li id="Submenulink3"><a href="@Url.Action("AuditPlanList", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i>@ADQCC_New.LocalResource.Resource.AMAuditPlanApprovalmenu</a></li>*@
+            }
+            @*</ul>
+                </li>*@
+
+            if (loginclass.DESI_NAME == "Line Manger")
+            {
+                <li>
+                    <a class="" href="@Url.Action("AuditRequest", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMAuditRequest</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="" href="@Url.Action("CorrectiveAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-book'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMCorrectiveActionmenu</div>
+                    </a>
+                </li>
+
+
+                @*<li id="AuditMenuSubmenu16" class="Remove"><a href="@Url.Action("AuditRequest", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i>Audit Request</a></li>
+                    <li id="AuditMenuSubmenu15" class="Remove"><a href="@Url.Action("CorrectiveAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="fa fa-circle-o"></i>@ADQCC_New.LocalResource.Resource.AMCorrectiveActionmenu</a></li>*@
+            }
+        }
+
+        @*</li>*@
+    }
+
+    <!-- #endregion -->
+    <!-- #region [INSPECTION MANAGEMENT] -->
+    @if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Section Head" || loginclass.DESI_NAME == "Director" || loginclass.DESI_NAME == "Department Manager")
+    {
+        <li class="menu-label" style="font-size: 25px;">@ADQCC_New.LocalResource.Resource.INSPInspectionManagementmenus</li>
+        <li>
+            <a href="@Url.Action("InspectionDashboard", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                <div class="parent-icon">
+                    <i class='bx bx-home'></i>
+                </div>
+                <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionDashboardmenus</div>
+            </a>
+        </li>
+
+        if (loginclass.DESI_NAME == "ADMIN")
+        {
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-grid-alt'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Masters</div>
+                </a>
+                <ul>
+                    <li><a href="@Url.Action("ChecklistType", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.INSPChecklistTypemenus</a></li>
+                    <li><a href="@Url.Action("ChecklistSubType", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.INSPChecklistSubTypemenus</a></li>
+                    <li><a href="@Url.Action("ChecklistSubTypeData", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.INSPChecklistSubDataTypeMenu</a></li>
+                </ul>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "HSSE Team")
+        {
+            <li>
+                <a href="@Url.Action("InspectionPlan", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-select-multiple'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionPlanmenus</div>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("InspectionReport", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-timer'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPPreInspectionReportmenus</div>
+                </a>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "Employee")
+        {
+            <li>
+                <a href="@Url.Action("InspectionPlan", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-select-multiple'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionPlanmenus</div>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("InspectionPlanReport", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-paperclip'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPUpcomingInspectionReportmenus</div>
+                </a>
+            </li>
+
+            <li>
+                <a href="@Url.Action("InspectionFindingCorrection", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-task'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionCorrectiveActionmenus</div>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("FinalInspectionReport", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-selection'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionReportmenus</div>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("WalkingInspectionPlan", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-paperclip'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPWalkingInspection</div>
+                </a>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "HSSE Manager")
+        {
+            <li>
+                <a href="@Url.Action("InspectionPlan", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-select-multiple'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionPlanmenus</div>
+                </a>
+            </li>
+            @*<li>
+                    <a href="@Url.Action("InspectionReport", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-timer'></i>
+                        </div>
+                        <div class="menu-title">@ADQCC_New.LocalResource.Resource.INSPPreInspectionReportmenus</div>
+                    </a>
+                </li>*@
+            <li>
+                <a href="@Url.Action("InspEHSCorrection", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-task'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionCorrectiveActionmenus</div>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("FinalInspectionReport", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-selection'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionReportmenus</div>
+                </a>
+            </li>
+            @*<li>
+                    <a href="@Url.Action("ActionTracking", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-task'></i>
+                        </div>
+                        <div class="menu-title">@ADQCC_New.LocalResource.Resource.InspActionTracking</div>
+                    </a>
+                </li>*@
+        }
+        if (loginclass.DESI_NAME == "Section Head" || loginclass.DESI_NAME == "Director" || loginclass.DESI_NAME == "Department Manager")
+        {
+            <li>
+                <a href="@Url.Action("FinalInspectionReport", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-selection'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionReportmenus</div>
+                </a>
+            </li>
+        }
+    }
+    <!-- #endregion -->
+    <!-- #region [RISK MANAGEMENT] -->
+    @if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN" || loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "EHS Manager" || loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "HSSE Team")
+    {
+        <li class="menu-label" style="font-size: 25px;">@ADQCC_New.LocalResource.Resource.RMRiskManagement</li>
+
+        if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "EHS Manager" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "ADMIN")
+        {
+            <li>
+                <a class="" href="@Url.Action("RiskDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-hourglass'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Dashboard</div>
+                </a>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "SUPER ADMIN")
+        {
+            <li>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon">
+                        <i class="bx bx-grid-alt"></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Masters</div>
+                </a>
+                <ul>
+                    <li><a href="@Url.Action("RMHAZARDMASTER", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMHazardMaster</a></li>
+                    <li><a href="@Url.Action("RMRISKOTHERRISK", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMRisksandOtherRisks</a></li>
+                    <li><a href="@Url.Action("PersonsGroupsExposed", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMPersonsGroupsExposed</a></li>
+                    <li><a href="@Url.Action("DetailsExistingControls", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMDetailsExistingControls</a></li>
+                    <li><a href="@Url.Action("AdditionalControlMeasures", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMAdditionalControlMeasures</a></li>
+                    <li><a href="@Url.Action("Opportunities", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMOpportunitiesandotheropportunities</a></li>
+                    <li><a href="@Url.Action("RMCRITHAZARDMASTER", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMCriticalhazardsMaster</a></li>
+                    <li><a href="@Url.Action("RMNONCRITHAZARDMASTER", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMNonCriticalhazardsMaster</a></li>
+                    <li><a href="@Url.Action("RMNONROUTEMERGMASTER", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMNonRoutineandEmergencies</a></li>
+                    <li><a href="@Url.Action("RMEXISTINGCMIHMASTER", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> @ADQCC_New.LocalResource.Resource.RMControlMeasuresofHazard</a></li>
+                    <li><a href="@Url.Action("RiskCategory", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> Risk Category BCM</a></li>
+                    <li><a href="@Url.Action("RiskCover", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> Risk Cover BCM</a></li>
+                    <li><a href="@Url.Action("RiskProcess_Activity", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> Risk Process Activity</a></li>
+                    <li><a href="@Url.Action("ExistBCMMasters", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i> Existing Control BCM </a></li>
+                    <li><a href="@Url.Action("TreatmentBCMMasters", "RiskManagement",new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>Risk Treatment </a></li>
+                </ul>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "HSSE Manager")
+        {
+            <li>
+                <a class="" href="@Url.Action("RiskPlan", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-spreadsheet'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.RMCreateRequestmenu</div>
+                </a>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "Employee")
+        {
+            <li>
+                <a class="" href="@Url.Action("RiskPreventive", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-aperture'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.EMRPreventiveAction</div>
+                </a>
+            </li>
+        }
+
+        if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "EHS Manager" || loginclass.DESI_NAME == "HSSE Team")
+        {
+            <li>
+                <a class="" href="@Url.Action("RiskAssessment", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-aperture'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.RMRiskAssessment</div>
+                </a>
+            </li>
+
+            @*<li>
+                    <a class="" href="@Url.Action("OnsiteRiskAssessment", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-paste'></i>
+                        </div>
+                        <div class="menu-title">@ADQCC_New.LocalResource.Resource.RMOnsiteRiskAssessment</div>
+                    </a>
+                </li>*@
+
+            @*<li>
+                    <a class="" href="@Url.Action("RiskManageDCM", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-package'></i>
+                        </div>
+                        <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.RMRiskAssessmentBCMmenu</div>
+                    </a>
+                </li>*@
+
+        }
+
+    }
+
+
+    <!-- #endregion -->
+    <!-- #region [BCM RISK ASSESSMENT]-->
+    @if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "HSSE Team")
+    {
+        <li class="menu-label" style="font-size: 18px;">@ADQCC_New.LocalResource.Resource.RMRiskAssessmentBCMmenu</li>
+        if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "EHS Manager" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "ADMIN")
+        {
+            <li>
+                <a class="" href="@Url.Action("BCMRiskDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-hourglass'></i>
+                    </div>
+                    <div class="menu-title" style="font-size:16PX;">@ADQCC_New.LocalResource.Resource.Dashboard</div>
+                </a>
+            </li>
+        }
+
+        <li>
+            <a class="" href="@Url.Action("RiskBCM", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                <div class="parent-icon">
+                    <i class='bx bx-package'></i>
+                </div>
+                <div class="menu-title" style="font-size:16PX;">@ADQCC_New.LocalResource.Resource.RMRiskAssessmentBCMmenu</div>
+            </a>
+        </li>
+        if (loginclass.DESI_NAME == "Employee")
+        {
+            <li>
+                <a class="" href="@Url.Action("RiskBCMPreventive", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-aperture'></i>
+                    </div>
+                    <div class="menu-title" style="font-size:16PX;">@ADQCC_New.LocalResource.Resource.EMRPreventiveAction</div>
+                </a>
+            </li>
+        }
+    }
+
+    <!-- #endregion -->
+    <!-- #region [COVID MANAGEMENT] -->
+    @*@if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "Department Manager" || loginclass.DESI_NAME == "Section Head" || loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "Director" || loginclass.DESI_NAME == "Organizer")
+    {
+        <li class="menu-label" style="font-size: 25px;">@ADQCC_New.LocalResource.Resource.CovidManagementmenu</li>*@
+
+        <!--if (loginclass.DESI_NAME == "ADMIN" || loginclass.DESI_NAME == "Department Manager" || loginclass.DESI_NAME == "Section Head")
+        {
+            <li>
+                <a href="@Url.Action("CovidDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-home'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Dashboard</div>
+                </a>
+            </li>
+        }
+
+        if (loginclass.DESI_NAME == "ADMIN")
+        {
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon">
+                        <i class='bx bx-grid-alt'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Masters</div>
+                </a>
+                <ul>
+                    <li><a href="@Url.Action("VaccineMaster", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>Vaccine Master</a></li>
+                    <li><a href="@Url.Action("Covid_Expired_Date", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.CovidTestSchedulemenu</a></li>
+                    <li><a href="@Url.Action("ViolationsMaster", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.ViolationMaster</a></li>
+                    <li><a href="@Url.Action("SymptomsMaster", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.SymptomsMasterMenu</a></li>
+                    <li><a href="@Url.Action("Employee_Covid_Checklist", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })"><i class="bx bx-right-arrow-alt"></i>@ADQCC_New.LocalResource.Resource.CovidCheckListmenu</a></li>
+                </ul>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "HSSE Manager")
+        {
+            <li>
+                <a href="@Url.Action("CovidDashboard", "Dashboard", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-band-aid'></i>
+                    </div> <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.Dashboard</div>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Approve_Vaccine_Details", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-band-aid'></i>
+                    </div> <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.ApproveVaccinemenu</div>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Covid_Inspection", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-clinic'></i>
+                    </div> <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.CovidInspection</div>
+                </a>
+            </li>
+        }
+        if (loginclass.DESI_NAME == "HSSE Team" || loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Director" || loginclass.DESI_NAME == "Employee" || loginclass.DESI_NAME == "Organizer" || loginclass.DESI_NAME == "Section Head")
+        {
+            <li>
+                <a href="@Url.Action("Vaccine_Details", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-band-aid'></i>
+                    </div> <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.VaccineDetailsmenu</div>
+                </a>
+            </li>-->
+            @*<li>
+                    <a href="@Url.Action("Employee_Checklist", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                        <div class="parent-icon">
+                            <i class='bx bx-hive'></i>
+                        </div><div class="menu-title">@ADQCC_New.LocalResource.Resource.TestResultDetailsmenu</div>
+                    </a>
+                </li>*@
+            <!--<li>
+                <a href="@Url.Action("Covid_Passtive_Register", "EmployeeDetails", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-shekel'></i>
+                    </div><div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.ReportingCovidCasemenu</div>
+                </a>
+            </li>
+        }-->
+    @*}*@
+    <!-- #endregion -->
+    <!-- #region [ACTION TRACKING] -->
+    @if (loginclass.DESI_NAME == "HSSE Manager" || loginclass.DESI_NAME == "Line Manger")
+    {
+        <li class="menu-label" style="font-size: 25px;">@ADQCC_New.LocalResource.Resource.ActionTracking</li>
+        if (loginclass.DESI_NAME == "HSSE Manager")
+        {
+            <li>
+                <a class="" href="@Url.Action("RiskPreventive", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-spreadsheet'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.RMRiskManagement</div>
+                </a>
+            </li>
+
+            <li>
+                <a class="" href="@Url.Action("RiskBCMPreventive", "RiskManagement", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-aperture'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.RMRiskAssessmentBCMmenu</div>
+                </a>
+            </li>
+            <li>
+                <a class="" href="@Url.Action("CorrectiveActionInvest", "Emergency", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-folder-plus'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.EmergencyManagement</div>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("ActionTracking", "Insepection", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-task'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.INSPInspectionManagementmenus</div>
+                </a>
+            </li>
+
+        }
+
+        if (loginclass.DESI_NAME == "Line Manger")
+        {
+            <li>
+                <a class="" href="@Url.Action("AuditAction", "Audit", new { LanguageAbbrevation = loginclass.LANG_ID })">
+                    <div class="parent-icon">
+                        <i class='bx bx-book'></i>
+                    </div>
+                    <div class="menu-title" style="font-size: 18PX;">@ADQCC_New.LocalResource.Resource.AMAuditmanagementmenu</div>
+                </a>
+            </li>
+        }
+    }
+
+    <li class="menu-label" style="font-size: 17px;">@ADQCC_New.LocalResource.Resource.Settings</li>
+    <li>
+        <a class="" href="@Url.Action("ChangePassword", "Account", new { LanguageAbbrevation = loginclass.LANG_ID })">
+            <div class="parent-icon">
+                <i class='bx bx-spreadsheet'></i>
+            </div>
+            <div class="menu-title" style="font-size:16PX;">@ADQCC_New.LocalResource.Resource.Changepassword</div>
+        </a>
+    </li>
+    <!-- #endregion -->
+</ul>
+}

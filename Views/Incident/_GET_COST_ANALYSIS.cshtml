@@ -1,0 +1,89 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    Layout = null;
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+}
+
+@* <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+ *@
+@if (Model != null)
+{
+    var Sno = 1;
+
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <label>
+                    @Sno
+                </label>
+            </td>
+            <td>
+                <input class="form-check-input costan" type="checkbox" id="inlineCheckbox1" value="@item.INCDT_CAS_ID">
+                @if (loginclass.LANG_ID == "ar")
+                {
+                    <label style="margin-left: 10px;">
+                        @item.INCDT_CAS_NAME_AR
+                    </label>
+                }
+                else
+                {
+                    <label style="margin-left: 10px;">
+                        @item.INCDT_CAS_NAME
+                    </label>
+                }
+
+            </td>
+            <td>
+                <input type="text"  minlen="1" maxlength="6" data-toggle="tooltip" title="Dot and Numeric only"  name="costATM" class="form-control expenses numbersWithDot" autocomplete="off">
+            </td>
+        </tr>
+        Sno++;
+    }
+    <tr>
+        <td>
+        </td>
+        <td>
+            @if (loginclass.LANG_ID == "ar")
+            {
+                <label>
+                    التكلفة الإجمالية
+                </label>
+            }
+            else
+            {
+                <label>
+                    Total Cost
+                </label>
+            }
+
+        </td>
+        <td>
+            <b><span id="total_sum_value"></span></b>
+        </td>
+    </tr>
+}
+
+<script>
+    $(document).ready(function() {
+        $(".numbersWithDot").keypress(function (e) {
+            ;
+            if (e.which != 8 && e.which != 0 && e.which != 46 && e.which != 32 && (e.which < 48 || e.which > 57) && e.which != 9 && (e.which < 39 || e.which > 39)) {
+                $(this).tooltip('show');
+                return false;
+            }
+            else {
+                $(this).tooltip('hide');
+                return true;
+            }
+        });
+    })
+</script>
+

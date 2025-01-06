@@ -1,0 +1,689 @@
+﻿@using ADQCC_New.Models;
+@using static ADQCC_New.Common.CommonClass;
+@using Newtonsoft.Json;
+
+@inject IHttpContextAccessor HttpContextAccessor;
+
+@{
+    ViewBag.Title = "CORRECTIVE ACTION INVESTICATION";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var str = HttpContextAccessor.HttpContext!.Session.GetString("LoginAccount");
+    string Des = Decrypt(str!);
+    var loginclass = JsonConvert.DeserializeObject<GET_USER_DETAILS>(Des!)!;
+
+}
+
+@* <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+ *@
+
+<style>
+    .badge {
+        display: inline-block;
+        padding: 0.35em 0.65em;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
+    }
+
+    .dataTables_length {
+        direction: ltr !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {
+        color: red
+    }
+</style>
+
+<div class="page-content">
+    <div class="row" id="AddCorrection" style="display:none">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h5 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.EMRPreventiveAction</h5>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="col-lg-3">
+                        @if (loginclass.LANG_ID == "ar")
+                        {
+                            <button style="float: right;" id="Inspectionback" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                        }
+                        else
+                        {
+                            <button style="float: left;" id="Inspectionback" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                        }
+                    </div>
+                    <br />
+                    <br />
+                    <hr />
+                    <div class="p-4 border rounded">
+                        <form action="" class="form-horizontal" method="get" id="actionformsearch" accept-charset="utf-8">
+                            @if (loginclass.DESI_NAME == "Employee")
+                            {
+                                <div class="" id="View_onReject_hdn">
+                                    <div class="col-lg-9">
+                                        <h6 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.RMRejectReason</h6>
+                                    </div>
+                                    <hr />
+                                    <table class="table table-bordered table-striped dataTable">
+                                        <thead>
+                                            <tr>
+                                                <th align="left" valign="middle" style="background-color: #cdae7b;">@ADQCC_New.LocalResource.Resource.DCRejectedID</th>
+                                                <th align="left" valign="middle" style="background-color: #cdae7b;">@ADQCC_New.LocalResource.Resource.DCRejectedBy</th>
+                                                <th align="left" valign="middle" style="background-color: #cdae7b;">@ADQCC_New.LocalResource.Resource.DCRejectedReason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="View_Reject_Reason">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            }
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table tab table-hover">
+                                        <tbody id="tblViewIncidentDetails">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="" id="CorrectionDetails">
+
+
+                                <div class="col-md-12">
+
+                                    <h6 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.INSPCorrectionDetails</h6>
+                                    <hr />
+                                </div>
+                                <div class="row">
+                                    <input type="hidden" id="COR_INC_ID" class="COR_INC_ID" />
+                                    <input type="hidden" id="hdnOnCorrectiveActionID" />
+                                    <div class="col-md-8">
+                                        <b style="font-size: 16px;">@ADQCC_New.LocalResource.Resource.EMRActionName<span class="red">*</span></b>
+                                        <input type="text" class="form-control ActionName" id="ActionName" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <b style="font-size: 16px;">@ADQCC_New.LocalResource.Resource.EMRTargetDate</b>
+                                        <input type="text" class="form-control TargetDate" id="TargetDate" />
+                                    </div>
+                                    <br />
+                                    <br />
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <b style="font-size: 16px;">@ADQCC_New.LocalResource.Resource.INSPDescription<span class="red">*</span></b>
+                                        <input type="text" name="Description" id="Description" class="form-control Description" autocomplete="off" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <b style="font-size: 16px;">@ADQCC_New.LocalResource.Resource.INSPUploadImage<span class="red">*</span></b>
+                                        <br />
+                                        <img style="width:100%;height:100%;" id="imgsrc" display="none" src="" target="_blank" />
+                                        @*<img style="width:350px;height:200px;display:none;" id="ViewImage" src="" target="_blank" />*@
+                                        <input type="hidden" id="hdncls_Documentfile" class="hdncls_Documentfile hdncls_Documentfile" />
+                                        <input id="Documentfile_Viewhide" class="Documentfile" onchange="fnfile(this,'hdncls_Documentfile')" type="file" accept=".jpg,.jpeg,.png" />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                @if (loginclass.DESI_NAME != "HSSE Manager")
+                                {
+                                    <div class="col-lg-5"></div>
+                                    <div class="col-lg-7" id="DivBtnSubmit">
+                                        <button type="button" class="btn btn-primary" id="btnsubmit">
+                                            @ADQCC_New.LocalResource.Resource.Submit
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="col-lg-5"></div>
+                                    <div class="col-lg-7" id="DivBtnSubmit">
+                                        <button type="button" class="btn btn-primary" id="CorrApprove">
+                                            @ADQCC_New.LocalResource.Resource.AMApprove
+                                        </button>
+                                        <div class="btn btn-primary" @*id="CorrReject"*@ style="width: 100px; background-color: #916d2a;" data-bs-toggle="modal" data-bs-target="#myModal">
+                                            @ADQCC_New.LocalResource.Resource.AMReject
+                                        </div>
+                                    </div>
+                                }
+                                <br>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*----------------------------------------------New Modle Toggle-------------------------------------------*@
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">@ADQCC_New.LocalResource.Resource.DCRejectForm</h5>
+                    <button type="button" id="Reject_Resion_Close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <label for="empTypemas" class="control-label">@ADQCC_New.LocalResource.Resource.EMRIncid<span class="red">*</span></label>
+                    <input type="text" class="form-control" id="MView_OnCorrectiveid" disabled value="">
+                    <input type="hidden" name="" value="Corrective Action" id="hdnOnCorrectiveName" />
+                    <input type="hidden" name="" value="" id="hdnRejectReasonID" />
+                    <input type="hidden" name="" value="" id="CorrReject" />
+                    <br />
+                    <p>@ADQCC_New.LocalResource.Resource.DCEnteryourrejectreason</p>
+                    <textarea style="width: 100%; height: 100px; resize: none;" id="txtDescription"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">@ADQCC_New.LocalResource.Resource.DCCancel</button>
+                    <button type="button" class="btn btn-primary" onclick="RejectOnCorrective()">@ADQCC_New.LocalResource.Resource.Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (loginclass != null)
+                                {
+                                    if (loginclass.LANG_ID == "bo")
+                                    {
+                                        <div class="row">
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-8">CORRECTIVE ACTION INVESTICATION</h5>
+                                            <h5 class="d-flex align-items-center mb-3 col-lg-4"> التحقيق في الإجراءات التصحيحية</h5>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                        <h5 class="mb-0 text-uppercase col-lg-8">@ADQCC_New.LocalResource.Resource.EMRPreventiveAction</h5>
+                                    }
+                                }
+                            </div>
+                            @*<div class="col-lg-3">
+                            <button style="float: right;" id="addnewInccat" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.emrAddIncidentCategory</button>
+                            </div>*@
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="">
+                                <table id="table1" class="table table-bordered">
+                                    @if (loginclass != null)
+                                    {
+
+                                        <thead>
+                                            <tr style="background: #916d2a; color: white;">
+                                                <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.InciIncidentID</th>
+                                                @if (loginclass.DESI_NAME == "HSSE Manager")
+                                                {
+                                                    <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Name</th>
+                                                }
+                                                <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Location</th>
+                                                <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.InciIncidentCategory</th>
+                                                <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.DRTargetDate</th>
+                                                <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.EMRCompletionDate</th>
+                                                <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Status</th>
+                                                <th align="left" valign="middle">@ADQCC_New.LocalResource.Resource.Action</th>
+                                            </tr>
+
+                                        </thead>
+
+                                    }
+                                    <tbody id="GetCorrectiveAction">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        var varLoginid = '@loginclass.EMP_ID'
+        var varDesigName = '@loginclass.DESI_NAME'
+        GET_CORRECTIVE_ACTION(varLoginid, varDesigName);
+
+        $("#Inspectionback").on('click', function () {
+            $("#AddCorrection").hide(100);
+            $("#ListView").show(100);
+        });
+
+        $("#btnsubmit").on('click', function () {
+            var varCOR_INC_ID = $("#COR_INC_ID").val();
+            var varDocumentfile = $("#hdncls_Documentfile").val();
+            var varDescription = $("#Description").val();
+
+            if (varDescription == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.EntertheDescription", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#Description").focus();
+                return false;
+            }
+
+            if (varDocumentfile == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.EMRPleaseuploadthecorrectiveactionimage", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#hdncls_Documentfile").focus();
+                return false;
+            }
+
+
+
+            var varCREATED_BY = '@loginclass.EMP_ID'
+
+            var model = {
+                COR_INC_ID: varCOR_INC_ID,
+                CORR_IMAGE_PATH: varDocumentfile,
+                CORR_DESCRIPTION: varDescription,
+                CORR_UPDATED_BY: varCREATED_BY,
+                STATUS: '4'
+
+            };
+
+            $.ajax({
+                url: '@Html.Raw(@Url.Action("AddCorrectiveInvest", "Emergency"))',
+                type: "POST",
+                cache: false,
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (data) {
+                    if (data.STATUS_CODE == "200") {
+                        toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                        var varLoginid = '@loginclass.EMP_ID'
+                        var varDesigName = '@loginclass.DESI_NAME'
+                        GET_CORRECTIVE_ACTION(varLoginid, varDesigName);
+                    }
+                    else {
+                        toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                    }
+                },
+            });
+        });
+
+        $("#CorrApprove").on('click', function () {
+            var varCOR_INC_ID = $("#COR_INC_ID").val();
+            var varAppStatus = '3';
+
+            var model = {
+                COR_INC_ID: varCOR_INC_ID,
+                APP_STATUS: varAppStatus
+            };
+
+            $.ajax({
+                url: '@Html.Raw(@Url.Action("UpdateCorrectiveStatus", "Emergency"))',
+                type: "POST",
+                cache: false,
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (data) {
+                    if (data.STATUS_CODE == "200") {
+                        toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                        var varLoginid = '@loginclass.EMP_ID'
+                        var varDesigName = '@loginclass.DESI_NAME'
+                        GET_CORRECTIVE_ACTION(varLoginid, varDesigName);
+                    }
+                    else {
+                        toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                    }
+                },
+            });
+        });
+    });
+
+    function RejectOnCorrective() {
+
+        var incid_update = $("#CorrReject").val();
+        var description = $("#txtDescription").val();
+        if (description == "") {
+            toastr.error("@ADQCC_New.LocalResource.Resource.EntertheDescription", "@ADQCC_New.LocalResource.Resource.Error");
+            $("#txtDescription").focus();
+            return false;
+        }
+        var Obj = {
+            REJECT_ID: "0",
+            REJECT_NAME: $("#hdnOnCorrectiveName").val(),
+            REJECT_DESCRIPTION: description,
+            REJECT_REASON_ID: $("#CorrReject").val(),
+            REJECT_UNIQUE_ID: $("#MView_OnCorrectiveid").val(),
+            CREATED_BY: @loginclass.EMP_ID,
+            UPDATED_BY: @loginclass.EMP_ID,
+        };
+        $.post("@Url.Action("AddRejectReason", "Emergency")", { _REJECT_REASON_CORRECTIVE_ACTION: Obj }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                ;
+                //toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                fnBtnApproveReject('2', incid_update);
+                $('#myModal').modal('toggle');
+                $('#txtDescription').val('');
+            }
+
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function fnBtnApproveReject(statusId, OnrejectID) {
+        //alert(statusId);
+        //var OnsiteID = $("#hdnOnCorrectiveActionID").val();
+        ;
+        $.post("@Url.Action("UpdateOnRejectReason", "Emergency")", { ONREJECT_STATUS_ID: statusId, INC_ID: OnrejectID }, function (data) {
+            if (data.STATUS_CODE == "200") {
+                toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                window.location.reload();
+                //ClearFileds();
+                GET_CORRECTIVE_ACTION();
+            }
+            else {
+                toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+            }
+        });
+    }
+
+    function GetRejectReason(RowID) {
+        //alert("ii");
+        ;
+        var Obj = {
+            REJECT_REASON_ID: RowID,
+        };
+        $.post("@Url.Action("_GetRejectReason", "Emergency")", { _REJECT_REASON_MASTER: Obj }, function (data) {
+            $("#View_Reject_Reason").empty();
+            //var tr2;
+            //$(data).each(function (i, e) {
+            //    tr2 = $('<tr/>');
+            //    tr2.append("<td>" + e.REJECT_UNIQUE_ID + "</td>");
+            //    tr2.append("<td>" + e.REJECT_NAME + "</td>");
+            //    tr2.append("<td>" + e.REJECT_DESCRIPTION + "</td>");
+            //    $('#View_Reject_Reason_Details').append(tr2);
+            //});
+            $(data).each(function (x, Y) {
+                $("#View_onReject_hdn").show();
+                $('#View_Reject_Reason').append([
+                    '<tr>',
+                    '<td>' + '<lable>' + Y.REJECT_UNIQUE_ID + ' </lable>' + '</td>',
+                    '<td>' + '<lable>' + Y.REJECT_NAME + ' </lable>' + '</td>',
+                    '<td>' + '<lable>' + Y.REJECT_DESCRIPTION + ' </lable>' + '</td>',
+                    '</tr>'
+                ].join(''));
+            });
+        });
+    }
+
+    function GET_CORRECTIVE_ACTION(varLoginid, varDesigName) {
+        $("#table1").dataTable().fnDestroy();
+        $("#AddCorrection").hide();
+        $("#ListView").show();
+        $.post("@Url.Action("_GetCorrectiveInvestList", "Incident")", function (data) {
+            $("#GetCorrectiveAction").html('');
+            $("#GetCorrectiveAction").html(data);
+
+        });
+    }
+
+
+
+
+    @*function INVE_CORR_EDIT(ROWID) {
+        $("#btnsubmit").show();
+        $("#ViewImage").hide();
+        $("#hdncls_Documentfile").show();
+        $("#Documentfile_Viewhide").show();
+        $("#Description").val('').removeAttr("disabled");
+        $("#hdncls_Documentfile").val('');
+        $("#ListView").hide();
+        $("#AddCorrection").show();
+        $("#COR_INC_ID").val(ROWID);
+        $.post("@Url.Action("_ViewInvestigationIncident", "Emergency")", { INCID: ROWID }, function (data) {
+        $("#tblViewIncidentDetails").html('');
+        $("#tblViewIncidentDetails").html(data);
+        });
+
+        $.post("@Url.Action("ViewCorrectiveInvest", "Emergency")", { INCID: ROWID, PERSON_RESPONSIBLE: '@loginclass.EMP_ID' }, function (data) {
+        $("#ActionName").val(data.ACTION).prop("disabled", true);
+        $("#TargetDate").val(data.TARGET_DATE).prop("disabled", true);
+        });
+
+        }*@
+
+        function INVE_CORR_EDIT(ROWID) {
+            GetRejectReason(ROWID);
+            $("#btnsubmit").show();
+            $("#ViewImage").hide();
+            $("#hdncls_Documentfile").show();
+            $("#Documentfile_Viewhide").show();
+            $("#Description").val('').removeAttr("disabled");
+            $("#hdncls_Documentfile").val('');
+            $("#ListView").hide();
+            $("#AddCorrection").show();
+            $("#COR_INC_ID").val(ROWID);
+
+            $.post("@Url.Action("_ViewInvestigationIncident", "Emergency")", { INCID: ROWID }, function (data) {
+                $("#tblViewIncidentDetails").html('');
+                $("#tblViewIncidentDetails").html(data);
+            });
+
+            $.post("@Url.Action("ViewCorrectiveInvest", "Emergency")", { INCID: ROWID, PERSON_RESPONSIBLE: '@loginclass.EMP_ID' }, function (data1) {
+                $("#ActionName").val(data1.ACTION).prop("disabled", true);
+                $("#TargetDate").val(data1.TARGET_DATE).prop("disabled", true);
+                $("#Description").val(data1.CORR_DESCRIPTION).prop("disabled", false);
+                $("#imgsrc").attr("src", data1.CORR_IMAGE_PATH);
+                $("#hdnOnCorrectiveActionID").val(data1.INCID);
+
+            });
+
+        }
+
+    @*function INVE_CORR_VIEW(ROWID, PERSON_RES,sh) {
+        ;
+        $("#Description").val('');
+        $("#hdncls_Documentfile").val('');
+        $("#ListView").hide();
+        $("#AddCorrection").show();
+        $("#ViewImage").show();
+        $("#hdncls_Documentfile").hide();
+        $("#Documentfile_Viewhide").hide();
+        $("#COR_INC_ID").val(ROWID);
+        $("#btnsubmit").hide();
+        $.post("@Url.Action("_ViewInvestigationIncident", "Emergency")", { INCID: ROWID }, function (data) {
+        ;
+        $("#tblViewIncidentDetails").html('');
+        $("#tblViewIncidentDetails").html(data);
+        });
+
+        $.post("@Url.Action("ViewCorrectiveInvest", "Emergency")", { INCID: ROWID, PERSON_RESPONSIBLE: PERSON_RES }, function (data) {
+        ;
+        $("#ActionName").val(data.ACTION).prop("disabled", true);
+        $("#TargetDate").val(data.TARGET_DATE).prop("disabled", true);
+        $("#Description").val(data.CORR_DESCRIPTION).prop("disabled", true);
+        $("#ViewImage").attr("src", data.CORR_IMAGE_PATH);
+        });
+        if (sh != 0) {
+        $("#DivBtnSubmit").show();
+        }
+        else {
+        $("#DivBtnSubmit").hide();
+        }
+        }*@
+
+        function INVE_CORR_VIEW(ROWID, PERSON_RES, sh) {
+            ;
+            var loginclass = '@loginclass.LANG_ID'
+            if (loginclass == 'ar') {
+                $("#Description").val('');
+                $("#hdncls_Documentfile").val('');
+                $("#ListView").hide();
+                $("#AddCorrection").show();
+                $("#imgsrc").show();
+                $("#hdncls_Documentfile").hide();
+                $("#Documentfile_Viewhide").hide();
+                $("#COR_INC_ID").val(ROWID);
+                $("#CorrReject").val(ROWID);
+                $("#btnsubmit").hide();
+
+
+                $.post("@Url.Action("_ViewInvestigationIncident", "Emergency")", { INCID: ROWID }, function (data) {
+                    ;
+                    $("#tblViewIncidentDetails").html('');
+                    $("#tblViewIncidentDetails").html(data);
+                });
+
+                $.post("@Url.Action("ViewCorrectiveInvest", "Emergency")", { INCID: ROWID, PERSON_RESPONSIBLE: PERSON_RES }, function (data) {
+                    ;
+                    $("#ActionName").val(data.ACTION).prop("disabled", true);
+                    $("#TargetDate").val(data.TARGET_DATE).prop("disabled", true);
+                    $("#Description").val(data.CORR_DESCRIPTION).prop("disabled", true);
+                    $("#imgsrc").attr("src", data.CORR_IMAGE_PATH);
+                    $("#MView_OnCorrectiveid").val(data.UNIQUE_ID);
+                    $("#hdnOnCorrectiveActionID").val(data.INCID);
+
+
+                });
+                if (sh != 0) {
+                    $("#DivBtnSubmit").show();
+                }
+                else {
+                    $("#DivBtnSubmit").hide();
+                }
+            }
+            else {
+                ;
+                $("#Description").val('');
+                $("#hdncls_Documentfile").val('');
+                $("#ListView").hide();
+                $("#AddCorrection").show();
+                $("#imgsrc").show();
+                $("#hdncls_Documentfile").hide();
+                $("#Documentfile_Viewhide").hide();
+                $("#COR_INC_ID").val(ROWID);
+                $("#CorrReject").val(ROWID);
+                $("#btnsubmit").hide();
+
+
+                $.post("@Url.Action("_ViewInvestigationIncident", "Emergency")", { INCID: ROWID }, function (data) {
+                    ;
+                    $("#tblViewIncidentDetails").html('');
+                    $("#tblViewIncidentDetails").html(data);
+                });
+
+                $.post("@Url.Action("ViewCorrectiveInvest", "Emergency")", { INCID: ROWID, PERSON_RESPONSIBLE: PERSON_RES }, function (data) {
+                    ;
+                    $("#ActionName").val(data.ACTION).prop("disabled", true);
+                    $("#TargetDate").val(data.TARGET_DATE).prop("disabled", true);
+                    $("#Description").val(data.CORR_DESCRIPTION).prop("disabled", true);
+                    $("#imgsrc").attr("src", data.CORR_IMAGE_PATH);
+                    $("#MView_OnCorrectiveid").val(data.UNIQUE_ID);
+                    $("#hdnOnCorrectiveActionID").val(data.INCID);
+
+
+                });
+                if (sh != 0) {
+                    $("#DivBtnSubmit").show();
+                }
+                else {
+                    $("#DivBtnSubmit").hide();
+                }
+            }
+        }
+
+    function INVE_CORR_ACTIVE_PENDING_EDIT(ROWID) {
+        ;
+        $("#btnsubmit").show();
+        $("#ViewImage").hide();
+        $("#hdncls_Documentfile").show();
+        $("#Documentfile_Viewhide").show();
+        $("#Description").val('').removeAttr("disabled");
+        $("#hdncls_Documentfile").val('');
+        $("#ListView").hide();
+        $("#AddCorrection").show();
+        $("#COR_INC_ID").val(ROWID);
+        $("#imgsrc").hide();
+        $("#View_onReject_hdn").hide();
+        $.post("@Url.Action("_ViewInvestigationIncident", "Emergency")", { INCID: ROWID }, function (data) {
+            $("#tblViewIncidentDetails").html('');
+            $("#tblViewIncidentDetails").html(data);
+        });
+
+        $.post("@Url.Action("ViewCorrectiveInvest", "Emergency")", { INCID: ROWID, PERSON_RESPONSIBLE: '@loginclass.EMP_ID' }, function (data1) {
+            $("#ActionName").val(data1.ACTION).prop("disabled", true);
+            $("#TargetDate").val(data1.TARGET_DATE).prop("disabled", true);
+            $("#Description").val(data1.CORR_DESCRIPTION).prop("disabled", false);
+
+        });
+
+    }
+    function fnfile(val, clsname, DivViewAPPENDIX) {
+
+        readImage(val, clsname, DivViewAPPENDIX);
+    }
+
+
+    function readImage(input, clsname, DivViewAPPENDIX) {
+
+        if (input.files && input.files[0]) {
+            var FR = new FileReader();
+            FR.onload = function (e) {
+                $.post("@Url.Action("FiletoData", "Incident")", { FileData: e.target.result }, function (data) {
+                    var cls = "." + clsname;
+                    var DivViewAPPEN = "#" + DivViewAPPENDIX;
+                    $(cls).val(data);
+                    $(DivViewAPPEN).empty();
+                    $(DivViewAPPEN).show();
+                    $(imgsrc).hide();
+                });
+
+            };
+            FR.readAsDataURL(input.files[0]);
+        }
+    }
+
+</script>
+

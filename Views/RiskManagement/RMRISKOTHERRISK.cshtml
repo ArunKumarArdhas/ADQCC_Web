@@ -1,0 +1,419 @@
+﻿@model IReadOnlyCollection<ADQCC_New.Models.RiskManagement.RiskManagementModel.GET_RM_RISKS_OTHER_RISKS>;
+@{
+    ViewData["Title"] = "GETRMRISKOTHERRISK";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        float: right !important;
+        margin-top: -62px !important;
+        padding: 32px !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right;
+        margin-top: -28px !important;
+    }
+
+    .btn-group, .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .red {addnewRisk
+        color: red
+    }
+</style>
+<div class="page-content">
+    <div class="row " id="AddRisk" style="display:none">
+        <form id="AddModule_div" asp-controller="RiskManagement" asp-action="ADDRMRISKOTHERRISK" method="post">
+            <div class="col-md-12 ">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (Model.LANG_ID == "bo")
+                                { *@
+                                    <div class="row">
+                                        <h6 class="mb-0 text-uppercase col-lg-9 ">ADD RISK OTHER RISK</h6>
+                                        <h6 class="mb-0 text-uppercase col-lg-3"> إضافة مخاطرة أخرى </h6>
+                                    </div>
+                                    @* } *@
+                                    @* else
+                                {
+                                <h6 class="box-title main-heading ">@ADQCC_New.LocalResource.Resource.ADDLOCATION</h6>
+                                } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="bckRisk" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.Back</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="p-4 border rounded">
+                            <div class="row">
+                                <div class="form-group col-md-4" hidden>
+                                    <label>@ADQCC_New.LocalResource.Resource.RMRisksandOtherRisksID <span class="red">*</span></label>
+                                    <input type="text" name="RISKS_OTHER_RISKS_ID" value="0" id="v_RISKS_OTHER_RISKS_ID" class="form-control" disabled style="background-color:none;" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>@ADQCC_New.LocalResource.Resource.RMHazardName <span class="red">*</span></label>
+                                    <select name="RISKS_HAZARD_MAS_ID" class=form-control id="RISKS_HAZARD_MAS_ID">
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>@ADQCC_New.LocalResource.Resource.RMRisksandOtherRisksName <span class="red">*</span></label>
+                                    <input type="text" name="RISKS_OTHER_RISKS_NAME" id="RISKS_OTHER_RISKS_NAME" value="" class="form-control" autocomplete="off" />
+                                </div>
+                                <div class="form-group col-md-4" dir="rtl">
+                                    <label>@ADQCC_New.LocalResource.Resource.RMRisksandOtherRisksNameAR <span class="red">*</span></label>
+                                    <input type="text" name="RISKS_OTHER_RISKS_NAME_AR" id="RISKS_OTHER_RISKS_NAME_AR" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-lg-5"></div>
+                                <div class="col-lg-7">
+                                    <button type="submit" class="btn btn-primary" id="btn_AddRisk">
+                                        @ADQCC_New.LocalResource.Resource.Submit
+                                    </button>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row" id="ListView">
+        <div class="col-md-12">
+            <label style="float: right;color:blue;" onclick="FunctionHelp()">@ADQCC_New.LocalResource.Resource.Help</label>
+            <br />
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="row">
+                            <div class="col-lg-9">
+                                @if (Model != null)
+                                {
+                                    @* if (Model.LANG_ID == "bo")
+                                { 
+                                    <div class="row">
+                                        <h5 class="d-flex align-items-center mb-3 col-lg-9">Risk other risk </h5>
+                                        <h5 class="d-flex align-items-center mb-3 col-lg-3">إضافة مخاطرة</h5>
+                                    </div>
+
+                                     }
+                                else
+                                {*@
+                                <h3 class="d-flex align-items-center mb-3 col-lg-9">@ADQCC_New.LocalResource.Resource.RMAddRisksandOtherRisks</h3>
+                                    @* } *@
+                                }
+                            </div>
+                            <div class="col-lg-3">
+                                <button style="float: right;" id="addnewRisk" class="btn btn-primary">@ADQCC_New.LocalResource.Resource.ADRisk</button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table id="table1" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+
+                                        <tr style="background: #916d2a; color: white;">
+                                            <th align="left" valign="middle" id="hazardID">ID <span class="pull-right">هوية شخصية</span></th>
+                                            <th align="left" valign="middle">Hazard Name <span class="pull-right">اسم الخطر</span></th>
+                                            <th align="left" valign="middle">Risks Name <span class="pull-right"> اسم المخاطر</span></th>
+                                            <th align="left" valign="middle">Created Date <span class="pull-right">تاريخ الإنشاء</span></th>
+                                            <th align="left" valign="middle">Action <span class="pull-right">عمل</span></th>
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="OtherRiskBody">
+                                    </tbody>
+                                    @* <tbody id="GetLocationMaster">
+                                    </tbody> *@
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="Loader" style="display: none;">
+    <img src="@Url.Content("~/Content/dist/img/loader.gif")" al alt="" />
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="@Url.Content("~/dist/js/jquery-3.6.0.min.js")"></script>
+<script src="@Url.Content("~/dist/js/toastr.min.js")"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/assets/js/form-validation.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(function () {
+        alert("Risk");
+        $("#AddRisk").hide();
+        $("#ListView").show();
+        GET_RISK_LIST();
+        //SELECT_RISK_MASTER();
+        // SELECT_HAZARD_MASTER("1");
+        GET_LOCATION_MASTER();
+
+        // $("#addnewBuilding").on('click', function () {
+        //     alert("Location 2");
+        //     $("#AddBuilding").show(100);
+        //     $("#ListView").hide(100);
+        //     $("#btn_AddBuilding").show();
+        //     ClearFileds();
+        // });
+
+        $("#addnewRisk").on('click', function () {
+            ClearFileds();
+            $("#AddRisk").show(100);
+            $("#ListView").hide(100);
+            $("#btn_AddRisk").show();
+        });
+
+        $("#bckRisk").on('click', function () {
+            $("#Loaderbck").show();
+            $("#Loader").show();
+            $("#AddRisk").hide(100);
+            $("#ListView").show(100);
+            // $('#RISKS_OTHER_RISKS_ID').val('0');
+            // $('#RISK_CAT_MAS_ID').val('0');
+            // $('#RISKS_HAZARD_MAS_ID').val('0');
+            // $('#RISKS_OTHER_RISKS_NAME').val('');
+            // $('#RISKS_OTHER_RISKS_NAME_AR').val('');
+
+            $("#RISK_CAT_MAS_ID").removeAttr("disabled");
+            $("#RISKS_HAZARD_MAS_ID").removeAttr("disabled");
+            $("#RISKS_OTHER_RISKS_NAME").removeAttr("disabled");
+            $("#RISKS_OTHER_RISKS_NAME_AR").removeAttr("disabled");
+            ClearFileds();
+        });
+        $("#back").on('click', function () {
+            $("#AddRisk").hide(100);
+            $("#ListView").show(100);
+            $("#HelpView").hide(100);
+        });
+
+        $("#btnclear").on('click', function () {
+            ClearFileds();
+        });    
+
+        $("#btn_AddRisk").on('click', function () {
+
+            var varRISKS_OTHER_RISKS_ID = $("#RISKS_OTHER_RISKS_ID").val();
+            var varRISK_CAT_MAS_ID = $("#RISK_CAT_MAS_ID").val();
+            var varRISK_CAT_MAS_ID = "1";
+            var varRISKS_HAZARD_MAS_ID = $("#RISKS_HAZARD_MAS_ID").val();
+            var varRISKS_OTHER_RISKS_NAME = $("#RISKS_OTHER_RISKS_NAME").val();
+            var varRISKS_OTHER_RISKS_NAME_AR = $("#RISKS_OTHER_RISKS_NAME_AR").val();
+
+            if (varRISK_CAT_MAS_ID == "0") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.RMtoastRiskCategoryNameSelect", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#RISK_CAT_MAS_ID").focus();
+                return false;
+            }
+
+            if (varRISKS_HAZARD_MAS_ID == "0") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.Rmtoastselectthehazardname", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#RISKS_HAZARD_MAS_ID").focus();
+                return false;
+            }
+
+            if (varRISKS_OTHER_RISKS_NAME == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.RMtoastRisksandOtherRisksName", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#RISKS_OTHER_RISKS_NAME").focus();
+                return false;
+            }
+
+            if (varRISKS_OTHER_RISKS_NAME_AR == "") {
+                toastr.error("@ADQCC_New.LocalResource.Resource.RMtoastRisksandOtherRisksNameAR", "@ADQCC_New.LocalResource.Resource.Error");
+                $("#RISKS_OTHER_RISKS_NAME_AR").focus();
+                return false;
+            }
+
+            var model = {
+                RISKS_OTHER_RISKS_ID: varRISKS_OTHER_RISKS_ID,
+                RISK_CAT_MAS_ID: "1",
+                RISKS_HAZARD_MAS_ID: varRISKS_HAZARD_MAS_ID,
+                RISKS_OTHER_RISKS_NAME: varRISKS_OTHER_RISKS_NAME,
+                RISKS_OTHER_RISKS_NAME_AR: varRISKS_OTHER_RISKS_NAME_AR,
+                STATUS: '1',
+            }
+            $.ajax({
+                url: '@Html.Raw(@Url.Action("ADDRMRISKOTHERRISK", "RiskManagement"))',
+                type: "POST",
+                cache: false,
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (data) {
+                    if (data.STATUS_CODE == "200") {
+                        toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                        ClearFileds();
+                        GET_RISK_LIST();
+                    }
+                    else {
+                        toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                    }
+                },
+            });
+        });
+    });
+
+    function GET_RISK_LIST() {
+        alert("GridView");
+        $("#Loaderbck").show();
+        $("#Loader").show();
+        $("#table1").dataTable().fnDestroy();
+        $("#AddRisk").hide();
+        $("#ListView").show();
+        $.post("@Url.Action("GETRMRISKOTHERRISK", "RiskManagement")", function (data) {
+            let html = "";
+            debugger;
+            if (data != null) {
+                $(data).each(function (i, e) {
+                    debugger;
+                    html += '<tr>';
+                    html += "<td>" + e.UNIQUE_ID + "</td>";
+                    html += "<td>" + e.RISK_CAT_MAS_NAME + "</td>";
+                    html += "<td>" + e.RISKS_OTHER_RISKS_NAME + "</td>";
+                    html += "<td>" + e.CREATED_DATE + "</td>";
+                    html += "<td>" + e.STATUS + "</td>";
+                    html += "</tr>";
+                });
+            }
+            $("#OtherRiskBody").append(html);
+
+            // $("#GETHAZARDSELECTREPO").html('');
+            // $("#GETHAZARDSELECTREPO").html(data);
+        }).always(function () {
+            $("#Loaderbck").hide();
+            $("#Loader").hide();
+        });
+    }
+    function GET_LOCATION_MASTER() {
+        $.post("@Url.Action("GETRISKDROPDOWN", "RiskManagement")", function (data) {
+            $(data).each(function (i, e) {
+                $("#RISKS_OTHER_RISKS_ID").append("<option value=" + e.RISK_CAT_MAS_ID + ">" + e.RISK_CAT_MAS_NAME + "</option>");
+            });
+        });
+    }
+
+    function ClearFileds() {
+        $("#v_RISKS_OTHER_RISKS_ID").val('');
+        $("#RISKS_HAZARD_MAS_ID").val("0");
+        $("#RISKS_OTHER_RISKS_NAME").val('');
+        $("#RISKS_OTHER_RISKS_NAME_AR").val('');
+        $("#Loaderbck").hide();
+        $("#Loader").hide();
+    }
+
+    function LOC_VIEWEDITDELETE(RISKS_OTHER_RISKS_ID, viewedit) {
+        ;
+        if (viewedit == 'view') {
+            $.post("@Url.Action("EDITRMRISKOTHERRISK", "RiskManagement")", { RISKS_OTHER_RISKS_ID: RISKS_OTHER_RISKS_ID }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    EDITVIEW_BIND_HAZARD_MASTER(data.RISK_CAT_MAS_ID, "#RISKS_HAZARD_MAS_ID", data.RISKS_HAZARD_MAS_ID);
+                    $("#AddRisk").show(100);
+                    $("#ListView").hide(100);
+                    $("#btn_AddRisk").hide(100);
+                    $("#RISKS_HAZARD_MAS_ID").prop("disabled", true);
+                    $("#RISKS_OTHER_RISKS_ID").val(data.RISKS_OTHER_RISKS_ID)
+                    $("#RISK_CAT_MAS_ID").val(data.RISK_CAT_MAS_ID).prop("disabled", true);
+                    $("#RISKS_OTHER_RISKS_NAME").val(data.RISKS_OTHER_RISKS_NAME).prop("disabled", true);
+                    $("#RISKS_OTHER_RISKS_NAME_AR").val(data.RISKS_OTHER_RISKS_NAME_AR).prop("disabled", true);
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            });
+
+        } else if (viewedit == 'edit') {
+            $.post("@Url.Action("EDITRMRISKOTHERRISK", "RiskManagement")", { RISKS_OTHER_RISKS_ID: RISKS_OTHER_RISKS_ID }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    EDITVIEW_BIND_HAZARD_MASTER(data.RISK_CAT_MAS_ID, "#RISKS_HAZARD_MAS_ID", data.RISKS_HAZARD_MAS_ID);
+                    $("#AddRisk").show(100);
+                    $(".btnaddclear").show(100);
+                    $("#ListView").hide(100);
+                    $("#btn_AddRisk").show(100);
+                    $("#RISKS_HAZARD_MAS_ID").removeAttr("disabled");
+                    $("#RISKS_OTHER_RISKS_ID").val(data.RISKS_OTHER_RISKS_ID).removeAttr("disabled");
+                    $("#RISK_CAT_MAS_ID").val(data.RISK_CAT_MAS_ID).removeAttr("disabled");
+                    $("#RISKS_OTHER_RISKS_NAME").val(data.RISKS_OTHER_RISKS_NAME).removeAttr("disabled");
+                    $("#RISKS_OTHER_RISKS_NAME_AR").val(data.RISKS_OTHER_RISKS_NAME_AR).removeAttr("disabled");
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            });
+
+        } else {
+            $.post("@Url.Action("DELETERMRISKOTHERRISK", "RiskManagement")", { RISKS_OTHER_RISKS_ID: RISKS_OTHER_RISKS_ID }, function (data) {
+                if (data.STATUS_CODE == "200") {
+                    toastr.success(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Success");
+                    GET_RiSK_LIST();
+                }
+                else {
+                    toastr.error(data.MESSAGE, "@ADQCC_New.LocalResource.Resource.Error");
+                }
+            });
+
+        }
+
+
+    }
+
+    function FunctionHelp() {
+        ;
+        window.open('@Url.Action("RiskOtherRiskHelpDoc", "Masters")');
+    }
+
+    function CheckArabicOnly(field) {
+        var sNewVal = "";
+        var sFieldVal = field.value;
+
+        for (var i = 0; i < sFieldVal.length; i++) {
+            var ch = sFieldVal.charAt(i),
+                c = ch.charCodeAt(0);
+
+            if (field.keyCode = '38') {
+            }
+            else if (field.keyCode = '40') {
+                // down arrow
+            }
+            else if (field.keyCode = '37') {
+            }
+            else if (field.keyCode = '39') {
+                // right arrow
+            }
+
+            if (c < 1536 || c > 1791) {
+                // Discard
+            }
+            else {
+                sNewVal += ch;
+            }
+        }
+        field.value = sNewVal;
+    }
+</script>
