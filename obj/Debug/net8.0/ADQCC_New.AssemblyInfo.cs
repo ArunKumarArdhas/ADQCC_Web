@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ADQCC_New")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7cda2a7285737713ab3d6246b15d5866bcc58996")]
 [assembly: System.Reflection.AssemblyProductAttribute("ADQCC_New")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ADQCC_New")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
